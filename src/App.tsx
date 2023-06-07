@@ -6,11 +6,12 @@ import LoginPage from './views/Login/LoginPage.tsx'
 import HomePage from './views/Home/HomePage.tsx'
 import firebaseConfig from './firebaseConfig.tsx'
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 
 
 function App() {
   
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
 
   return (
     <>

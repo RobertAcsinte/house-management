@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } f
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import { getDatabase, ref, set } from "firebase/database";
 
 interface RegisterFormState {
   email: string,
@@ -17,6 +18,8 @@ interface RegisterFormState {
 function RegisterPage() {
 
   const auth = getAuth();
+  const database = getDatabase();
+
   const navigate = useNavigate();
   const [registerForm, setRegisterForm] = useState<RegisterFormState>({
     email: "",
@@ -45,7 +48,11 @@ function RegisterPage() {
   const register = () => {
     setLoading(true)
     createUserWithEmailAndPassword(auth, registerForm.email, registerForm.password)
-    .then(() => {
+    .then((userCredential) => {
+      set(ref(database, 'users/' + userCredential.user.uid), {
+        email: registerForm.email,
+        name: registerForm.name,
+      });
       //login automatically after register
        login()
     })
@@ -66,6 +73,15 @@ function RegisterPage() {
         setError(mapFirebaseErrorMessages(error.code))
       })
   }
+
+  // function writeUserData(userId: string, name: , email, imageUrl) {
+  //   const db = getDatabase();
+  //   set(ref(db, 'users/' + userId), {
+  //     username: name,
+  //     email: email,
+  //     profile_picture : imageUrl
+  //   });
+  // }
 
   return (
       <>
