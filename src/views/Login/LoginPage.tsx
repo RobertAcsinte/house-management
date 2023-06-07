@@ -52,13 +52,21 @@ function LoginPage() {
     <>
     <div className='center-wrapper'>
       <div className='box-container'>
-        <div className='large-title-form'>Create Account</div>
+        <div className='large-title-form'>Login</div>
         <form onSubmit={event => onSubmit(event)}>
           <input type="text" placeholder='Email' value={registerForm.email} onChange={e => setRegisterForm({...registerForm, email: e.target.value})}/>
           <input type="password" placeholder='Password'value={registerForm.password} onChange={e => setRegisterForm({...registerForm, password: e.target.value})}/>
+          <div className={style['login-extra-container']}>
+            <div className={style['checkbox-container']}>
+              <input type="checkbox" id="checkbox-remember"className={style.checkbox}/>
+              <label htmlFor="checkbox-remember">Remember me</label>
+            </div>
+            <button className={style['button-forgot-password']}>Forgot your password?</button>
+          </div>
           {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Login" className='full-button' />}
         </form>
         <div className='error-text'>{error}</div>
+        <button className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
       </div>
     </div>
     </>   
