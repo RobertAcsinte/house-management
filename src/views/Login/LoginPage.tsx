@@ -3,7 +3,11 @@ import style from './LoginPage.module.css'
 
 function LoginPage() {
   return (
-    <div>LoginPage</div>
+    <>
+      <div className='center-wrapper'>
+        test
+      </div>
+    </>
   )
 }
 

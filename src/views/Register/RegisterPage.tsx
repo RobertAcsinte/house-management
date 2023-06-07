@@ -1,4 +1,3 @@
-import style from './RegisterPage.module.css'
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
@@ -85,17 +84,17 @@ function RegisterPage() {
 
   return (
       <>
-      <div className={style.wrapper}>
-        <div className={style["box-container"]}>
-          <div className={style.title}>Create Account</div>
+      <div className='center-wrapper'>
+        <div className='box-container'>
+          <div className='large-title-form'>Create Account</div>
           <form onSubmit={event => onSubmit(event)}>
             <input type="text" placeholder='Email' value={registerForm.email} onChange={e => setRegisterForm({...registerForm, email: e.target.value})}/>
             <input type="text" placeholder='Name'value={registerForm.name} onChange={e => setRegisterForm({...registerForm, name: e.target.value})}/>
             <input type="password" placeholder='Password'value={registerForm.password} onChange={e => setRegisterForm({...registerForm, password: e.target.value})}/>
             <input type="password" placeholder='Repeat Password'value={registerForm.repeatPassword} onChange={e => setRegisterForm({...registerForm, repeatPassword: e.target.value})}/>
-            {loading ? <span><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </span>: <input type="submit" value="Register" className={style.button} />}
+            {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Register" className='full-button' />}
           </form>
-          <div className={style.error}>{error}</div>
+          <div className='error-text'>{error}</div>
         </div>
       </div>
       </>    
