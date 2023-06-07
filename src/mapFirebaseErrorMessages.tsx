@@ -9,6 +9,9 @@ function mapFirebaseErrorMessages(authCode: string) {
     case "auth/invalid-email":
       return "The provided email doesn't have a valid format."
 
+    case "auth/user-not-found":
+      return "No account found with the provided credentials."
+
     default:
       return "Unexpected error"
   }
