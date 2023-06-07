@@ -1,0 +1,7 @@
+:root {
+  --background-color: rgb(245, 245, 245);
+  --box-background: rgb(243, 243, 243);
+  --input-background: rgb(243, 243, 243);
+  --button-background: rgb(176, 186, 193);
+  --button-hover-background: rgb(155, 167, 177);
+}
