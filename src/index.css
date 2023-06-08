@@ -27,8 +27,8 @@ body, html {
   box-sizing: border-box;
   width: 700px;
   margin: 0px 5%;
-  padding: 100px 5%;
-  height: 750px;
+  padding: 80px 5%;
+
   background-color: var(--box-background);
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
   border-radius: 15px;

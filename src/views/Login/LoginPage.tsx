@@ -48,12 +48,12 @@ function LoginPage() {
               <input type="checkbox" id="checkbox-remember"className={style.checkbox}/>
               <label htmlFor="checkbox-remember">Remember me</label>
             </div>
-            <button className={style['button-forgot-password']}>Forgot your password?</button>
+            <button type='button' className={style['button-forgot-password']} onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
           </div>
           {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Login" className='full-button' />}
         </form>
         <div className='error-text'>{error}</div>
-        <button className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
+        <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
       </div>
     </div>
     </>   

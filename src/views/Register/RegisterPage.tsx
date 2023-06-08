@@ -6,8 +6,6 @@ import { useAuthContext } from '../../context/authContext';
 
 
 function RegisterPage() {
-  // const auth = getAuth();
-  // const database = getDatabase();
 
   const context = useAuthContext()
   const navigate = useNavigate()
