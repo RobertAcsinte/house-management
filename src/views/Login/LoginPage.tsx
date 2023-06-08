@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import style from './LoginPage.module.css'
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
@@ -7,37 +7,27 @@ import { useState } from 'react';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 
 
-interface LoginFormState {
-  email: string,
-  password: string,
-  [key: string]: string;
-}
-
 function LoginPage() {
   const auth = getAuth();
   const navigate = useNavigate();
-
-  const [registerForm, setRegisterForm] = useState<LoginFormState>({
-    email: "",
-    password: "",
-  })
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    for(const key in registerForm) {
-      if(registerForm[key] === "") {
-        setError("Please fill out all the fields.")
-        return
-      }
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+    if(email === "" || password === "") {
+      setError("Please fill out all the fields.")
+      return
     }
-    login()
+    login(email, password)
   }
 
-  const login = () => {
+  const login = (email: string, password: string) => {
     setLoading(true)
-    signInWithEmailAndPassword(auth, registerForm.email, registerForm.password)
+    signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setLoading(false)
         navigate("/")
@@ -54,8 +44,8 @@ function LoginPage() {
       <div className='box-container'>
         <div className='large-title-form'>Login</div>
         <form onSubmit={event => onSubmit(event)}>
-          <input type="text" placeholder='Email' value={registerForm.email} onChange={e => setRegisterForm({...registerForm, email: e.target.value})}/>
-          <input type="password" placeholder='Password'value={registerForm.password} onChange={e => setRegisterForm({...registerForm, password: e.target.value})}/>
+          <input type="text" placeholder='Email' name='email'/>
+          <input type="password" placeholder='Password' name='password'/>
           <div className={style['login-extra-container']}>
             <div className={style['checkbox-container']}>
               <input type="checkbox" id="checkbox-remember"className={style.checkbox}/>

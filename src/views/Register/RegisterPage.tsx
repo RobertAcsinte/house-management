@@ -5,55 +5,45 @@ import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { getDatabase, ref, set } from "firebase/database";
 
-interface RegisterFormState {
-  email: string,
-  name: string,
-  password: string,
-  repeatPassword: string,
-  [key: string]: string;
-}
 
 
 function RegisterPage() {
 
   const auth = getAuth();
   const database = getDatabase();
-
   const navigate = useNavigate();
-  const [registerForm, setRegisterForm] = useState<RegisterFormState>({
-    email: "",
-    name: "",
-    password: "",
-    repeatPassword: ""
-  })
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    for(const key in registerForm) {
-      if(registerForm[key] === "") {
-        setError("Please fill out all the fields.")
-        return
-      }
-    }
-    if(registerForm.password !== registerForm.repeatPassword) {
-      setError("Passwords don't match!")
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string
+    const name = formData.get("name") as string
+    const password = formData.get("password") as string
+    const repeatPassword = formData.get("repeatPassword") as string
+
+    if(email === "" || name === "" || password === "" || repeatPassword === "") {
+      setError("Please fill out all the fields.")
       return
     }
-    register()
+    if(repeatPassword !== password) {
+      setError("Passwords don't match.")
+      return
+    }
+    register(email, name, password)
   }
 
-  const register = () => {
+  const register = (email: string, name: string, password: string) => {
     setLoading(true)
-    createUserWithEmailAndPassword(auth, registerForm.email, registerForm.password)
+    createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       set(ref(database, 'users/' + userCredential.user.uid), {
-        email: registerForm.email,
-        name: registerForm.name,
+        email: email,
+        name: name,
       });
       //login automatically after register
-       login()
+       login(email, password)
     })
     .catch((error) => {
       setLoading(false)
@@ -61,8 +51,8 @@ function RegisterPage() {
     })
   }
 
-  const login = () => {
-    signInWithEmailAndPassword(auth, registerForm.email, registerForm.password)
+  const login = (email: string, password: string) => {
+    signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setLoading(false)
         navigate("/")
@@ -73,25 +63,16 @@ function RegisterPage() {
       })
   }
 
-  // function writeUserData(userId: string, name: , email, imageUrl) {
-  //   const db = getDatabase();
-  //   set(ref(db, 'users/' + userId), {
-  //     username: name,
-  //     email: email,
-  //     profile_picture : imageUrl
-  //   });
-  // }
-
   return (
       <>
       <div className='center-wrapper'>
         <div className='box-container'>
           <div className='large-title-form'>Create Account</div>
           <form onSubmit={event => onSubmit(event)}>
-            <input type="text" placeholder='Email' value={registerForm.email} onChange={e => setRegisterForm({...registerForm, email: e.target.value})}/>
-            <input type="text" placeholder='Name'value={registerForm.name} onChange={e => setRegisterForm({...registerForm, name: e.target.value})}/>
-            <input type="password" placeholder='Password'value={registerForm.password} onChange={e => setRegisterForm({...registerForm, password: e.target.value})}/>
-            <input type="password" placeholder='Repeat Password'value={registerForm.repeatPassword} onChange={e => setRegisterForm({...registerForm, repeatPassword: e.target.value})}/>
+            <input type="text" placeholder='Email' name='email'/>
+            <input type="text" placeholder='Name' name='name'/>
+            <input type="password" placeholder='Password' name='password'/>
+            <input type="password" placeholder='Repeat Password' name='repeatPassword'/>
             {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Register" className='full-button' />}
           </form>
           <div className='error-text'>{error}</div>
@@ -102,21 +83,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
-
-
-// function useFirebaseAuth() {
-//   const login = (email:string, password:string) => {
-//     signInWithEmailAndPassword(auth, email, password)
-//       .then(() => {
-//         navigate("/")
-//       })
-//       .catch((error) => {
-//         const errorCode = error.code;
-//         const errorMessage = error.message;
-//       });
-//   }
-
-//   return {
-//     login
-//   }
-// }
