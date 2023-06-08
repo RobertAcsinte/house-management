@@ -1,18 +1,12 @@
-import { useState } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import RegisterPage from './views/Register/RegisterPage.tsx'
 import LoginPage from './views/Login/LoginPage.tsx'
 import HomePage from './views/Home/HomePage.tsx'
-import firebaseConfig from './firebaseConfig.tsx'
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
 
 
 function App() {
   
-  const app = initializeApp(firebaseConfig);
-
   return (
     <>
     <Routes>
@@ -20,7 +14,6 @@ function App() {
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/login" element={<LoginPage/>}/>
     </Routes>
-      {/* <RegisterPage></RegisterPage> */}
     </>
   )
 }

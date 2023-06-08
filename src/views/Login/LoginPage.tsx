@@ -1,41 +1,38 @@
-import React, { useRef } from 'react'
 import style from './LoginPage.module.css'
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import { useState } from 'react';
+import { useAuthContext } from '../../context/authContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 
 
 function LoginPage() {
-  const auth = getAuth();
-  const navigate = useNavigate();
+  const context = useAuthContext()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement)
     const email = formData.get("email") as string
     const password = formData.get("password") as string
+
     if(email === "" || password === "") {
       setError("Please fill out all the fields.")
       return
     }
-    login(email, password)
-  }
 
-  const login = (email: string, password: string) => {
     setLoading(true)
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setLoading(false)
-        navigate("/")
-      })
-      .catch((error) => {
-        setLoading(false)
-        setError(mapFirebaseErrorMessages(error.code))
-      })
+    context?.login(email, password).then(() => {
+      setLoading(false)
+      navigate("/")
+    })
+    .catch((error) => {
+      setLoading(false)
+      setError(mapFirebaseErrorMessages(error.code))
+    })
   }
 
   return (

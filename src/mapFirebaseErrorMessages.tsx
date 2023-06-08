@@ -10,7 +10,13 @@ function mapFirebaseErrorMessages(authCode: string) {
       return "The provided email doesn't have a valid format."
 
     case "auth/user-not-found":
-      return "No account found with the provided credentials."
+      return "Email or password incorrect."
+
+    case "auth/wrong-password":
+      return "Email or password incorrect."
+
+    case "auth/too-many-requests":
+      return "Too many requests, please try again later."
 
     default:
       return "Unexpected error"

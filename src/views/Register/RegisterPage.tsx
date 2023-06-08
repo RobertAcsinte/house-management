@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
-import { getDatabase, ref, set } from "firebase/database";
-
+import { useAuthContext } from '../../context/authContext';
 
 
 function RegisterPage() {
+  // const auth = getAuth();
+  // const database = getDatabase();
 
-  const auth = getAuth();
-  const database = getDatabase();
-  const navigate = useNavigate();
+  const context = useAuthContext()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -31,35 +30,31 @@ function RegisterPage() {
       setError("Passwords don't match.")
       return
     }
-    register(email, name, password)
-  }
 
-  const register = (email: string, name: string, password: string) => {
     setLoading(true)
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      set(ref(database, 'users/' + userCredential.user.uid), {
-        email: email,
-        name: name,
-      });
-      //login automatically after register
-       login(email, password)
-    })
-    .catch((error) => {
-      setLoading(false)
-      setError(mapFirebaseErrorMessages(error.code))
-    })
-  }
-
-  const login = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setLoading(false)
-        navigate("/")
+    context.register(email, password)
+      .then((userCredential) => {
+        context.saveUserDb(userCredential.user.uid, email, name)
+          .then(() => {
+            //login automatically after register
+            context.login(email, password)
+              .then(() => {
+                setLoading(false)
+                navigate("/")
+              })
+              .catch((loginError) => {
+                setLoading(false)
+                setError(mapFirebaseErrorMessages(loginError.code))
+              })
+          })
+          .catch((dbError) => {
+            setLoading(false)
+            setError(mapFirebaseErrorMessages(dbError.code))
+          })
       })
-      .catch((error) => {
+      .catch((registerError) => {
         setLoading(false)
-        setError(mapFirebaseErrorMessages(error.code))
+        setError(mapFirebaseErrorMessages(registerError.code))
       })
   }
 

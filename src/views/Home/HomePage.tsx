@@ -1,30 +1,12 @@
-import React from 'react'
-import { useEffect } from 'react';
-import style from './HomePage.module.css'
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { useAuthContext } from '../../context/authContext';
 
 function HomePage() {
-
-  let uid = "ham"
-  const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          uid = user.uid;
-          // ...
-          console.log("uid", uid)
-        } else {
-          // User is signed out
-          // ...
-          console.log("user is logged out")
-        }
-      });
-     
-
-
+  const context = useAuthContext();
+  
+  const { currentUser } = context;
+  
   return (
-    <div>HomePage {uid}</div>
+    <div>{currentUser?.email}</div>
   )
 }
 
