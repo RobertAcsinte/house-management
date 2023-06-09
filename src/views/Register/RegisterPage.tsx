@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 function RegisterPage() {

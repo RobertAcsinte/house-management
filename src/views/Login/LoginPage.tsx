@@ -2,7 +2,7 @@ import style from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import { useState } from 'react';
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 
 
@@ -18,6 +18,8 @@ function LoginPage() {
     const formData = new FormData(e.currentTarget as HTMLFormElement)
     const email = formData.get("email") as string
     const password = formData.get("password") as string
+    const rememberCheck = formData.get("checkboxRemember") === "on";
+
 
     if(email === "" || password === "") {
       setError("Please fill out all the fields.")
@@ -25,7 +27,7 @@ function LoginPage() {
     }
 
     setLoading(true)
-    context?.login(email, password).then(() => {
+    context?.login(email, password, rememberCheck).then(() => {
       setLoading(false)
       navigate("/")
     })
@@ -45,7 +47,7 @@ function LoginPage() {
           <input type="password" placeholder='Password' name='password'/>
           <div className={style['login-extra-container']}>
             <div className={style['checkbox-container']}>
-              <input type="checkbox" id="checkbox-remember"className={style.checkbox}/>
+              <input type="checkbox" id="checkbox-remember" className={style.checkbox} name='checkboxRemember'/>
               <label htmlFor="checkbox-remember">Remember me</label>
             </div>
             <button type='button' className={style['button-forgot-password']} onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react"
 import { auth, db } from "../firebaseConfig"
-import { User, UserCredential } from "firebase/auth"
+import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
 import { ref, set } from "firebase/database";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence } from "firebase/auth";
 
 interface AuthContextValue {
   currentUser: User | null
-  login: (email: string, password: string) => Promise<UserCredential>
+  login: (email: string, password: string, stayLogged: boolean) => Promise<UserCredential>
   register: (email: string, password: string) => Promise<UserCredential>
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
@@ -35,7 +35,13 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
-  function login(email: string, password: string) {
+  function login(email: string, password: string, stayLogged: boolean) {
+    if(stayLogged) {
+      setPersistence(auth, browserLocalPersistence)
+    }
+    else {
+      setPersistence(auth, browserSessionPersistence)
+    }
     return signInWithEmailAndPassword(auth, email, password)
   }
 
