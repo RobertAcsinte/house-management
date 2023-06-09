@@ -22,15 +22,6 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
-    
-    return unsubscribe
-  }, [])
-
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
@@ -63,6 +54,15 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     saveUserDb,
     resetPassword
   }
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setCurrentUser(user)
+      setLoading(false)
+    })
+    
+    return unsubscribe
+  }, [])
 
   return (
     <AuthContext.Provider value={value}>

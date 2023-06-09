@@ -26,15 +26,15 @@ body, html {
   align-items: center;
   box-sizing: border-box;
   width: 700px;
-  margin: 0px 5%;
-  padding: 80px 5%;
+  margin: 0px 20px;
+  padding: 80px 20px;
   background-color: var(--box-background);
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
   border-radius: 15px;
 }
 
 .large-title-form {
-  font-size: 36px;
+  font-size: 3rem;
   font-weight: 500;
   margin-bottom: 70px;
 }
@@ -58,7 +58,7 @@ input {
   padding: 20px 20px;
   box-sizing: border-box;
   width: 100%;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 200;
   background-color: var(--input-background);
 }
@@ -67,7 +67,7 @@ input {
   background-color: var(--button-background);
   font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color .3s ease-in-out;
   margin-top: 40px;
   border: none;
   padding: 20px 20px;

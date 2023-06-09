@@ -20,7 +20,7 @@
 .button-forgot-password {
   border: none;
   background-color: inherit;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   text-decoration: underline;
   color: var(--button-text-only-color);
@@ -29,10 +29,10 @@
 
 .button-create-account {
   position: absolute;
-  bottom: 7%;
+  bottom: 20px;
   border: none;
   background-color: inherit;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
   margin-top: 50px;
