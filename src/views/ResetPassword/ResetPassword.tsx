@@ -1,33 +1,29 @@
 import { BeatLoader } from 'react-spinners';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import Modal from '../../components/Modal/Modal';
-import { useNavigate } from 'react-router-dom'
 
 function ResetPassword() {
   const context = useAuthContext()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formData = new FormData(e.currentTarget as HTMLFormElement)
+    const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
 
-    if(email === "") {
+    if(!email) {
       setError("Please fill out the email field.")
       return
     }
 
     setLoading(true)
     context.resetPassword(email)
-    .then(() => {
-      setShowModal(true)
-    })
+    .then(() => void setShowModal(true))
     .catch((forgotPasswordError) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(forgotPasswordError.code))

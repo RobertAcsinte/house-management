@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
 import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
@@ -8,11 +7,10 @@ import { useAuthContext } from '../../context/AuthContext';
 function RegisterPage() {
 
   const context = useAuthContext()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get("email") as string
@@ -20,58 +18,50 @@ function RegisterPage() {
     const password = formData.get("password") as string
     const repeatPassword = formData.get("repeatPassword") as string
 
-    if(email === "" || name === "" || password === "" || repeatPassword === "") {
+    if (!email || !name || !password || !repeatPassword) {
       setError("Please fill out all the fields.")
       return
     }
-    if(repeatPassword !== password) {
+    if (repeatPassword !== password) {
       setError("Passwords don't match.")
       return
     }
 
     setLoading(true)
-    context.register(email, password)
-      .then((userCredential) => {
-        context.saveUserDb(userCredential.user.uid, email, name)
-          .then(() => {
-            //login automatically after register
-            context.login(email, password, true)
-              .then(() => {
-                setLoading(false)
-                navigate("/")
-              })
-              .catch((loginError) => {
-                setLoading(false)
-                setError(mapFirebaseErrorMessages(loginError.code))
-              })
-          })
-          .catch((dbError) => {
-            setLoading(false)
-            setError(mapFirebaseErrorMessages(dbError.code))
-          })
-      })
-      .catch((registerError) => {
+    const userCredential = await context.register(email, password).catch((registerError) => {
+      setLoading(false)
+      setError(mapFirebaseErrorMessages(registerError.code))
+    })
+
+    if (userCredential) {
+      context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
         setError(mapFirebaseErrorMessages(registerError.code))
       })
+
+      context.login(email, password, true).catch((loginError) => {
+        setLoading(false)
+        setError(mapFirebaseErrorMessages(loginError.code))
+      })
+    }
   }
 
   return (
-      <>
+    <>
       <div className='center-wrapper'>
         <div className='box-container'>
           <div className='large-title-form'>Create Account</div>
           <form onSubmit={event => onSubmit(event)}>
-            <input type="text" placeholder='Email' name='email'/>
-            <input type="text" placeholder='Name' name='name'/>
-            <input type="password" placeholder='Password' name='password'/>
-            <input type="password" placeholder='Repeat Password' name='repeatPassword'/>
-            {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Register" className='full-button' />}
+            <input type="text" placeholder='Email' name='email' />
+            <input type="text" placeholder='Name' name='name' />
+            <input type="password" placeholder='Password' name='password' />
+            <input type="password" placeholder='Repeat Password' name='repeatPassword' />
+            {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div> : <input type="submit" value="Register" className='full-button' />}
           </form>
           <div className='error-text'>{error}</div>
         </div>
       </div>
-      </>    
+    </>
   )
 }
 
