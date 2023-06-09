@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
@@ -35,7 +35,7 @@ function RegisterPage() {
         context.saveUserDb(userCredential.user.uid, email, name)
           .then(() => {
             //login automatically after register
-            context.login(email, password)
+            context.login(email, password, true)
               .then(() => {
                 setLoading(false)
                 navigate("/")

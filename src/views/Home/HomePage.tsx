@@ -1,4 +1,4 @@
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../context/AuthContext';
 
 function HomePage() {
   const context = useAuthContext();

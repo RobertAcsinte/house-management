@@ -1,11 +1,13 @@
 import { BeatLoader } from 'react-spinners';
-import { useState } from 'react';
-import { useAuthContext } from '../../context/authContext';
+import { useState, useEffect } from 'react';
+import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import Modal from '../../components/Modal/Modal';
+import { useNavigate } from 'react-router-dom'
 
 function ResetPassword() {
   const context = useAuthContext()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
