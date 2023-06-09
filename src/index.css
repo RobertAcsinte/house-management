@@ -28,7 +28,6 @@ body, html {
   width: 700px;
   margin: 0px 5%;
   padding: 80px 5%;
-
   background-color: var(--box-background);
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
   border-radius: 15px;
@@ -70,6 +69,9 @@ input {
   cursor: pointer;
   transition: 0.3s;
   margin-top: 40px;
+  border: none;
+  padding: 20px 20px;
+  border-radius: 20px;
 }
 
 .full-button:hover {

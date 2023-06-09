@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/authContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import Modal from '../../components/Modal/Modal';
 
 function ResetPassword() {
   const context = useAuthContext()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const [showModal, setShowModal] = useState(false)
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,17 +24,17 @@ function ResetPassword() {
     setLoading(true)
     context.resetPassword(email)
     .then(() => {
-      navigate("/")
+      setShowModal(true)
     })
     .catch((forgotPasswordError) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(forgotPasswordError.code))
     })
-
   }
 
   return (
     <>
+    
     <div className='center-wrapper'>
       <div className='box-container'>
         <div className='large-title-form'>Reset Password</div>
@@ -45,6 +45,7 @@ function ResetPassword() {
         <div className='error-text'>{error}</div>
       </div>
     </div>
+    {showModal && <Modal navigateRoute={'/'} title={'Confirmation sent, please check your email.'} setShowModal={setShowModal}></Modal>}
     </>   
   )
 }
