@@ -12,6 +12,20 @@ body, html {
   height: 100%;
 }
 
+.wrapper-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+}
+
+@media only screen and (max-width: 780px) {
+  .wrapper-content {
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
 .center-wrapper {
   height: 100%;
   display: flex;

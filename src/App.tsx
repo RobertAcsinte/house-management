@@ -6,6 +6,7 @@ import HomePage from './views/Home/HomePage.tsx'
 import ResetPassword from './views/ResetPassword/ResetPassword.tsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx'
 import { ProtectedRouteProps } from './components/ProtectedRoute/ProtectedRoute.tsx'
+import AccountPage from './views/Account/AccountPage.tsx'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/register" element={<ProtectedRoute {...authProtectedRouteProps} component={<RegisterPage />} />} />
       <Route path="/login" element={<ProtectedRoute {...authProtectedRouteProps} component={<LoginPage />} />} />
       <Route path="/resetpassword" element={<ProtectedRoute {...authProtectedRouteProps} component={<ResetPassword />} />} />
+      <Route path="/account" element={<ProtectedRoute {...defaultProtectedRouteProps} component={<AccountPage />} />} />
     </Routes>
     </>
   )

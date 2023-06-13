@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import style from './Navbar.module.css'
-import UserIcon from '../../assets/user_icon.png';
-import HamburgerMenu from '../../assets/hamburger_menu.png'
+import UserIcon from '../../assets/user_icon.svg';
+import HamburgerMenu from '../../assets/hamburger_menu.svg'
 import { useState, useEffect } from 'react';
 
 type NavbarProps =  {
@@ -11,7 +11,7 @@ type NavbarProps =  {
 function Navbar({userName}: NavbarProps) {
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [, setIsMobile] = useState<boolean>(false)
 
 
   const display = window.innerWidth > 780 ? "flex" : showMenu ? "flex" : "none"
@@ -78,18 +78,15 @@ function Navbar({userName}: NavbarProps) {
           </NavLink>
         </div>
 
-        {/* <div className={style.accountContainer}> */}
         <NavLink
           to="/account" 
           className={({ isActive }) =>
           isActive ? style.active : style.inactive}>
             <div className={style.accountImageContainer}>
               <img className={style.userIcon} src={UserIcon} alt="logo" />
-              {/* {userName} */}
-              Pulan Sloboz
+              {userName}
             </div>
           </NavLink>
-        {/* </div> */}
       </div>
     </>
   )

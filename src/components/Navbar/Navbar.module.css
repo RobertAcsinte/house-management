@@ -1,5 +1,6 @@
 .hamburgerMenu {
-  position: fixed;
+  display: none;
+  text-align: end;
   top: 20px;
   right: 20px;
   display: none;
@@ -13,7 +14,7 @@
 
 .navbarContainer {
   display: flex;
-  position: fixed;
+
   flex-direction: row;
   left: 0;
   right: 0;
@@ -58,7 +59,7 @@ a:hover {
 
 .active {
   background-color: var(--button-background);
-  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
 }
 
 @media only screen and (max-width: 1630px) {
@@ -83,9 +84,12 @@ a:hover {
 
 @media only screen and (max-width: 780px) {
   .hamburgerMenu {
-    display: inline-block;
+    display: block;
+    padding-top: 20px;
+    margin-right: 20px;
+
   }
-  
+
 
   .navbarContainer {
     flex-direction: column;

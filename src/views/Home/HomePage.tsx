@@ -4,14 +4,12 @@ import Navbar from '../../components/Navbar/Navbar';
 function HomePage() {
   const context = useAuthContext();
   
-  const { currentUser } = context;
-  
-  console.log(currentUser)
+  const { currentUserDataDb } = context;
 
   return (
     <>
-      <Navbar userName={currentUser!!.displayName}/>
-      <div>{currentUser?.email}</div>
+      <Navbar userName={currentUserDataDb?.name}/>
+      <div>{currentUserDataDb?.email}</div>
     </>
   )
 }
