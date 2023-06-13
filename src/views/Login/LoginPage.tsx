@@ -1,7 +1,7 @@
 import style from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 

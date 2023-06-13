@@ -3,6 +3,7 @@
   --box-background: rgb(243, 243, 243);
   --input-background: rgb(243, 243, 243);
   --button-background: rgb(176, 186, 193);
+  --button-background-faded: rgba(176, 186, 193, 0.85);
   --button-hover-background: rgb(155, 167, 177);
   --button-text-only-color: rgb(116, 128, 136);
 }

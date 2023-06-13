@@ -1,0 +1,107 @@
+.hamburgerMenu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: none;
+  z-index: 999;
+}
+
+.hambuerMenuIcon {
+  width: 30px;
+  height: 30px;
+}
+
+.navbarContainer {
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  left: 0;
+  right: 0;
+  padding-left: 150px;
+  padding-right: 150px;
+  font-size: 1.5rem;
+  height: 100px;
+  align-items: center;
+}
+
+.linksContainer {
+  flex: 5;
+
+}
+
+.accountImageContainer {
+  display: flex;
+  align-items: center;
+}
+
+.userIcon {
+  width: 35px;
+  height: 35px;
+  padding-right: 10px;
+}
+
+a {
+  cursor: pointer;
+  margin-left: 20px;
+  color: black;
+  text-decoration: none;
+  padding: 20px 50px;
+  transition: background-color .3s ease-in-out;
+  border-radius: 20px;
+
+}
+
+a:hover {
+  background-color: var(--button-background-faded);
+  
+}
+
+.active {
+  background-color: var(--button-background);
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);;
+}
+
+@media only screen and (max-width: 1630px) {
+  a {
+    margin-left: 10px;
+    padding: 20px 25px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .navbarContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  a {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    padding: 20px 10px;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .hamburgerMenu {
+    display: inline-block;
+  }
+  
+
+  .navbarContainer {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .linksContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    margin-left: 0;
+    text-align: center;
+  }
+}
