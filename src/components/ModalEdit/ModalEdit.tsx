@@ -1,26 +1,54 @@
 import React from 'react'
 import style from './ModalEdit.module.css'
 import { useRef, useState } from 'react'
+import { UserCredential } from 'firebase/auth'
+import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 
 type ModalProps =  {
   fieldTitle: string,
   fieldHint: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  reAuth: ((password: string) => Promise<UserCredential>) | null,
+  // repeatPasswordField: boolean,
   updateFunction: (value: string) => Promise<any>
 }
 
-function ModalEdit({fieldTitle, fieldHint, setShowModal, updateFunction}: ModalProps) {
+function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}: ModalProps) {
 
-  const inputElement = useRef<HTMLInputElement>(null);
+  const inputElementEdit = useRef<HTMLInputElement>(null);
+  const inputElementPassword = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null)
 
-  const handleButtonClick = () => {
-    if(inputElement.current?.value) {
-      updateFunction(inputElement.current?.value)
-      setShowModal(false)
+  const handleButtonClick = async () => {
+    if(inputElementEdit.current?.value) {
+      if(reAuth) {
+        if(inputElementPassword.current?.value) {
+          const successLogin = await reAuth(inputElementPassword.current.value).catch((error) => {
+            setError(mapFirebaseErrorMessages(error.code))
+          })
+          if(successLogin) {
+            await updateFunction(inputElementEdit.current.value).catch((error) => {
+              setError(mapFirebaseErrorMessages(error.code))
+            })
+            setShowModal(false)
+          } else {
+            return
+          }
+        } else {
+          setError("Password field cannot be empty!")
+          return
+        }
+      } else {
+        const successFunction = await updateFunction(inputElementEdit.current.value).catch((error) => {
+          setError(error.code)
+        })
+        if(successFunction) {
+          setShowModal(false)
+        }
+      }
     }
     else {
-      setError("The field cannot  be empty!")
+      setError(`The ${fieldTitle.toLocaleLowerCase()} field cannot be empty!`)
     }
   }
 
@@ -34,7 +62,8 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, updateFunction}: ModalP
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>
-          <input defaultValue={fieldHint} ref={inputElement}/>
+          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle}/>
+          {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
             <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>

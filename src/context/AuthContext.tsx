@@ -14,7 +14,7 @@ interface AuthContextValue {
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
   getUserData: (uid: string) => void,
-  reauthenticateUser(email: string, password: string): Promise<UserCredential>
+  reauthenticateUser(password: string): Promise<UserCredential>
   updateName: (name: string) => Promise<void>
 }
 
@@ -72,8 +72,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     );
   }
 
-  function reauthenticateUser(email: string, password: string) {
-    return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(email, password))
+  function reauthenticateUser(password: string) {
+    return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
   }
 
   const value: AuthContextValue = {
@@ -99,7 +99,6 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   return (
     <AuthContext.Provider value={value}>
-      {/* {!loading && children} */}
       { loading ? 
       <>
         <div className='center-wrapper'>

@@ -13,7 +13,7 @@ function mapFirebaseErrorMessages(authCode: string) {
       return "No user found."
 
     case "auth/wrong-password":
-      return "Email or password incorrect."
+      return "Incorrect password."
 
     case "auth/too-many-requests":
       return "Too many requests, please try again later."
