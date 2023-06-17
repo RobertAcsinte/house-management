@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
+import { ClipLoader } from 'react-spinners';
 import { auth, db } from "../firebaseConfig"
 import { AuthCredential, User, UserCredential, browserLocalPersistence } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
@@ -13,6 +14,7 @@ interface AuthContextValue {
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
   getUserData: (uid: string) => void,
+  reauthenticateUser(email: string, password: string): Promise<UserCredential>
   updateName: (name: string) => Promise<void>
 }
 
@@ -70,8 +72,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     );
   }
 
-  function reAuth() {
-    reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential("fdsf", "Fdsf"))
+  function reauthenticateUser(email: string, password: string) {
+    return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(email, password))
   }
 
   const value: AuthContextValue = {
@@ -82,6 +84,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     saveUserDb,
     resetPassword,
     getUserData,
+    reauthenticateUser,
     updateName
   }
 
@@ -96,7 +99,16 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {/* {!loading && children} */}
+      { loading ? 
+      <>
+        <div className='center-wrapper'>
+          <ClipLoader color="var(--orange)" size="200px" /> 
+          </div>
+      </>
+
+      : children }
+
     </AuthContext.Provider>
   )
 
