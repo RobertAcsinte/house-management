@@ -24,7 +24,12 @@ function ResetPassword() {
 
     setLoading(true)
     context.resetPassword(email)
-    .then(() => void setShowModal(true))
+    .then(() =>  
+      {
+        setLoading(false)
+        void setShowModal(true)
+      })
+
     .catch((forgotPasswordError) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(forgotPasswordError.code))
