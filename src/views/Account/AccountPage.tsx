@@ -1,13 +1,35 @@
-import React from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import { useAuthContext } from '../../context/AuthContext';
 import style from "./AccountPage.module.css"
-import EditIcon from '../../assets/edit_icon.svg';
+import Modal from '../../components/ModalEdit/ModalEdit';
+import { useState, useRef } from 'react';
+import { Edit } from '@mui/icons-material';
 
 function AccountPage() {
   const context = useAuthContext();
   
   const { currentUserDataDb } = context;
+  const [showModal, setShowModal] = useState(false)
+
+  const modal = useRef<JSX.Element | null>(null)
+
+  const onEdit = (editType: string) => {
+    setShowModal(true)
+    switch(editType) {
+      case 'name': {
+        modal.current = <Modal fieldTitle={'Name'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} updateFunction={context.updateName}></Modal>
+        break
+      }
+      case 'email': {
+        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} updateFunction={context.updateName}></Modal>
+        break
+      }
+      case 'password': {
+        modal.current = <Modal fieldTitle={'Password'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} updateFunction={context.updateName}></Modal>
+        break
+      }
+    }
+  }
 
   return (
     <>
@@ -20,7 +42,7 @@ function AccountPage() {
         <div className={style.container}>
           <div className={style.editContainer}>
               <div className={style.label}>Name</div>
-              <img className={style.editIcon} src={EditIcon} alt="logo" />
+              <Edit onClick={() => {onEdit("name")}}/>
           </div>
             <p>{currentUserDataDb.name}</p>
         </div>  
@@ -28,7 +50,7 @@ function AccountPage() {
         <div className={style.container}>
           <div className={style.editContainer}>
               <div className={style.label}>Email</div>
-              <img className={style.editIcon} src={EditIcon} alt="logo" />
+              <Edit onClick={() => {onEdit("email")}}/>
           </div>
             <p>{currentUserDataDb.email}</p>
         </div>  
@@ -36,12 +58,13 @@ function AccountPage() {
         <div className={style.container}>
           <div className={style.editContainer}>
               <div className={style.label}>Password</div>
-              <img className={style.editIcon} src={EditIcon} alt="logo" />
+              <Edit onClick={() => {onEdit("password")}}/>
           </div>
             <p>********</p>
         </div> 
 
       </div>
+      {showModal && modal.current}
     </div>
     </>
   )

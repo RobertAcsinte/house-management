@@ -16,8 +16,8 @@
   box-sizing: border-box;
   margin: 0px 20px;
   padding: 50px 20px;
-  background-color: var(--box-background);
-  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+  background-color: var(--white);
+  box-shadow: 0px 0px 50px var(--black-shadow);
   border-radius: 15px;
 }
 

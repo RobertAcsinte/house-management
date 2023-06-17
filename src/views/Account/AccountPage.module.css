@@ -1,3 +1,5 @@
+
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -25,12 +27,20 @@
 .label {
   font-size: 1.5rem;
   flex: 1;
-  color: gray
+  color: var(--orange);
 }
 
-.editIcon {
-  width: 35px;
-  height: 35px;
+.editContainer svg {
+  color: var(--black);
+  padding: 5px 5px;
+  border-radius: 50px;
+  transform: scale(1.5);
+  cursor: pointer;
+  transition: color .3s ease-in-out;
+}
+
+.editContainer svg:hover {
+  color: var(--orange);
 }
 
 p {

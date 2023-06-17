@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { BeatLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
+import Logo from '../../assets/logo.png';
 
 
 function RegisterPage() {
@@ -50,13 +51,13 @@ function RegisterPage() {
     <>
       <div className='center-wrapper'>
         <div className='box-container'>
-          <div className='large-title-form'>Create Account</div>
+          <img className='logo-form' src={Logo} alt="logo" />
           <form onSubmit={event => onSubmit(event)}>
             <input type="text" placeholder='Email' name='email' />
             <input type="text" placeholder='Name' name='name' />
             <input type="password" placeholder='Password' name='password' />
             <input type="password" placeholder='Repeat Password' name='repeatPassword' />
-            {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div> : <input type="submit" value="Register" className='full-button' />}
+            {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div> : <button type="submit" className='full-button'>Register</button>}
           </form>
           <div className='error-text'>{error}</div>
         </div>

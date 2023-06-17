@@ -1,5 +1,5 @@
 import React from 'react'
-import style from './Modal.module.css'
+import style from './ModalConfirm.module.css'
 import { useNavigate } from 'react-router-dom'
 
 type ModalProps =  {
@@ -8,7 +8,7 @@ type ModalProps =  {
   navigateRoute: string
 }
 
-function Modal({title, setShowModal, navigateRoute}: ModalProps) {
+function ModalConfirm({title, setShowModal, navigateRoute}: ModalProps) {
   const navigate = useNavigate()
 
   const handleButtonClick = () => {
@@ -28,4 +28,4 @@ function Modal({title, setShowModal, navigateRoute}: ModalProps) {
   )
 }
 
-export default Modal
+export default ModalConfirm

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
 import { auth, db } from "../firebaseConfig"
-import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
+import { AuthCredential, User, UserCredential, browserLocalPersistence } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential } from "firebase/auth";
+import { EmailAuthProvider } from "firebase/auth/cordova";
 
 interface AuthContextValue {
   currentUser: User | null,
@@ -11,7 +12,8 @@ interface AuthContextValue {
   register: (email: string, password: string) => Promise<UserCredential>
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
-  getUserData: (uid: string) => void
+  getUserData: (uid: string) => void,
+  updateName: (name: string) => Promise<void>
 }
 
 export function useAuthContext() {
@@ -57,7 +59,19 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       setCurrentUserDataDb(data)
       setLoading(false)
     });
+  }
 
+  function updateName(name: string) {
+    return set(ref(db, 'users/' + currentUser?.uid), 
+      {
+        ...currentUserDataDb,
+        name: name
+      }
+    );
+  }
+
+  function reAuth() {
+    reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential("fdsf", "Fdsf"))
   }
 
   const value: AuthContextValue = {
@@ -67,7 +81,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     register,
     saveUserDb,
     resetPassword,
-    getUserData
+    getUserData,
+    updateName
   }
 
   useEffect(() => {

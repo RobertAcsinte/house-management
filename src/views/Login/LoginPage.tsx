@@ -1,9 +1,10 @@
 import style from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom'
-import { BeatLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import Logo from '../../assets/logo.png';
 
 
  function LoginPage() {
@@ -40,7 +41,7 @@ import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
     <>
     <div className='center-wrapper'>
       <div className='box-container'>
-        <div className='large-title-form'>Login</div>
+        <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={onSubmit}>
           <input type="text" placeholder='Email' name='email'/>
           <input type="password" placeholder='Password' name='password'/>
@@ -51,7 +52,7 @@ import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
             </div>
             <button type='button' className={style['button-forgot-password']} onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
           </div>
-          {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Login" className='full-button' />}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
         </form>
         <div className='error-text'>{error}</div>
         <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>

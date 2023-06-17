@@ -1,8 +1,9 @@
-import { BeatLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/ModalConfirm/ModalConfirm';
+import Logo from '../../assets/logo.png';
 
 function ResetPassword() {
   const context = useAuthContext()
@@ -35,10 +36,10 @@ function ResetPassword() {
     
     <div className='center-wrapper'>
       <div className='box-container'>
-        <div className='large-title-form'>Reset Password</div>
+      <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={event => onSubmit(event)}>
           <input type="text" placeholder='Email' name='email'/>
-          {loading ? <div className='spinner-button'><BeatLoader color="rgb(155, 167, 177)" size="30px" /> </div>: <input type="submit" value="Send" className='full-button' />}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button type="submit" className='full-button'>Send reset link</button>} 
         </form>
         <div className='error-text'>{error}</div>
       </div>

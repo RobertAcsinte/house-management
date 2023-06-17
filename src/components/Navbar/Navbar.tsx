@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom'
 import style from './Navbar.module.css'
-import UserIcon from '../../assets/user_icon.svg';
-import HamburgerMenu from '../../assets/hamburger_menu.svg'
 import { useState, useEffect } from 'react';
+import Logo from '../../assets/logo-low.png';
+import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
 
 type NavbarProps =  {
   userName: string | null
@@ -12,12 +13,14 @@ function Navbar({userName}: NavbarProps) {
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [, setIsMobile] = useState<boolean>(false)
-
-
-  const display = window.innerWidth > 780 ? "flex" : showMenu ? "flex" : "none"
+  const navigate = useNavigate()
 
   const showMenuStyle = {
-    display: display
+    display: window.innerWidth > 885 ? "flex" : showMenu ? "flex" : "none"
+  }
+
+  const hamburgerMenuColor = {
+    color: showMenu ? "var(--orange)" : "var(--black)"
   }
 
   const handleHamburgerClick = () => {
@@ -25,7 +28,7 @@ function Navbar({userName}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth < 780) {
+    if(window.innerWidth < 885) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -38,8 +41,9 @@ function Navbar({userName}: NavbarProps) {
 
   return (
     <>
-      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}><img className={style.hambuerMenuIcon} src={HamburgerMenu} alt="logo" /></div>
+      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}><MenuIcon style={hamburgerMenuColor}></MenuIcon></div>
       <div className={style.navbarContainer} style={showMenuStyle}>
+      <img className={style.logo} src={Logo} alt="logo" onClick={() => {navigate("/")}}/>
         <div className={style.linksContainer}>
 
           <NavLink
@@ -82,10 +86,7 @@ function Navbar({userName}: NavbarProps) {
           to="/account" 
           className={({ isActive }) =>
           isActive ? style.active : style.inactive}>
-            <div className={style.accountImageContainer}>
-              <img className={style.userIcon} src={UserIcon} alt="logo" />
-              {userName}
-            </div>
+            {userName}
           </NavLink>
       </div>
     </>

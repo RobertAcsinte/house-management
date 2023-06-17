@@ -7,22 +7,25 @@
   z-index: 999;
 }
 
-.hambuerMenuIcon {
-  width: 30px;
-  height: 30px;
+.hamburgerMenu svg {
+  transform: scale(1.2);
 }
 
 .navbarContainer {
   display: flex;
-
   flex-direction: row;
-  left: 0;
-  right: 0;
   padding-left: 150px;
   padding-right: 150px;
   font-size: 1.5rem;
-  height: 100px;
+  height: 150px;
   align-items: center;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .linksContainer {
@@ -30,36 +33,21 @@
 
 }
 
-.accountImageContainer {
-  display: flex;
-  align-items: center;
-}
-
-.userIcon {
-  width: 35px;
-  height: 35px;
-  padding-right: 10px;
-}
-
 a {
   cursor: pointer;
   margin-left: 20px;
-  color: black;
+  color: var(--black);
   text-decoration: none;
-  padding: 20px 50px;
-  transition: background-color .3s ease-in-out;
-  border-radius: 20px;
-
+  padding: 20px 20px;
+  transition: color .3s ease-in-out;
 }
 
 a:hover {
-  background-color: var(--button-background-faded);
-  
+  color: var(--orange);
 }
 
 .active {
-  background-color: var(--button-background);
-  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+  color: var(--orange);
 }
 
 @media only screen and (max-width: 1630px) {
@@ -76,18 +64,19 @@ a:hover {
   }
 
   a {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-left: 10px;
     padding: 20px 10px;
   }
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 885px) {
   .hamburgerMenu {
     display: block;
     padding-top: 20px;
     margin-right: 20px;
-
+    cursor: pointer;
+    color: orange;
   }
 
 
