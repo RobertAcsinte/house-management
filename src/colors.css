@@ -1,0 +1,6 @@
+:root {
+  --white: #f0f0f0;
+  --black: rgba(0, 0, 0, 0.85);
+  --black-shadow: rgba(0, 0, 0, 0.15);
+  --orange: rgb(238,100,75);
+}

@@ -1,0 +1,50 @@
+
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+  margin-top: 50px;
+}
+
+.container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  margin-bottom: 10px;
+}
+
+.editContainer {
+  display: flex;
+  font-size: 1.5rem;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.label {
+  font-size: 1.5rem;
+  flex: 1;
+  color: var(--orange);
+}
+
+.editContainer svg {
+  color: var(--black);
+  padding: 5px 5px;
+  border-radius: 50px;
+  transform: scale(1.5);
+  cursor: pointer;
+  transition: color .3s ease-in-out;
+}
+
+.editContainer svg:hover {
+  color: var(--orange);
+}
+
+p {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}

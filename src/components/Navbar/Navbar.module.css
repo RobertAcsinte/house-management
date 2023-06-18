@@ -1,0 +1,100 @@
+.hamburgerMenu {
+  display: none;
+  text-align: end;
+  top: 20px;
+  right: 20px;
+  display: none;
+  z-index: 999;
+}
+
+.hamburgerMenu svg {
+  transform: scale(1.2);
+}
+
+.navbarContainer {
+  display: flex;
+  flex-direction: row;
+  padding-left: 150px;
+  padding-right: 150px;
+  font-size: 1.5rem;
+  height: 150px;
+  align-items: center;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.linksContainer {
+  flex: 5;
+
+}
+
+a {
+  cursor: pointer;
+  margin-left: 20px;
+  color: var(--black);
+  text-decoration: none;
+  padding: 20px 20px;
+  transition: color .3s ease-in-out;
+}
+
+a:hover {
+  color: var(--orange);
+}
+
+.active {
+  color: var(--orange);
+}
+
+@media only screen and (max-width: 1630px) {
+  a {
+    margin-left: 10px;
+    padding: 20px 25px;
+  }
+}
+
+@media only screen and (max-width: 1325px) {
+  .navbarContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  a {
+    font-size: 1.5rem;
+    margin-left: 10px;
+    padding: 20px 10px;
+  }
+}
+
+@media only screen and (max-width: 945px) {
+  .hamburgerMenu {
+    display: block;
+    padding-top: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    color: orange;
+  }
+
+
+  .navbarContainer {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .linksContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    margin-left: 0;
+    text-align: center;
+  }
+}
