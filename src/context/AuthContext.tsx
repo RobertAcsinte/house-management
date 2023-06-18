@@ -14,6 +14,7 @@ interface AuthContextValue {
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
   getUserData: (uid: string) => void,
+  updateEmailUser(email: string): Promise<unknown>,
   reauthenticateUser(password: string): Promise<UserCredential>
   updateName: (name: string) => Promise<void>
 }
@@ -72,6 +73,22 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     );
   }
 
+  async function updateEmailUser(email: string) {    
+    return updateEmail(currentUser!, email).then(() => {
+      return set(ref(db, 'users/' + currentUser?.uid), 
+        {
+          ...currentUserDataDb,
+          email: email
+        }
+      )
+    })
+    .catch((error) => {
+      return new Promise((resolve, reject) => {
+        reject(error.code)
+      })
+    })
+  }
+
   function reauthenticateUser(password: string) {
     return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
   }
@@ -84,6 +101,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     saveUserDb,
     resetPassword,
     getUserData,
+    updateEmailUser,
     reauthenticateUser,
     updateName
   }

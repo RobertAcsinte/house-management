@@ -27,10 +27,11 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
             setError(mapFirebaseErrorMessages(error.code))
           })
           if(successLogin) {
-            await updateFunction(inputElementEdit.current.value).catch((error) => {
-              setError(mapFirebaseErrorMessages(error.code))
+            updateFunction(inputElementEdit.current.value).then(() => {
+              setShowModal(false)
+            }).catch((error) => {
+              setError(mapFirebaseErrorMessages(error))
             })
-            setShowModal(false)
           } else {
             return
           }
@@ -39,12 +40,11 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
           return
         }
       } else {
-        const successFunction = await updateFunction(inputElementEdit.current.value).catch((error) => {
-          setError(error.code)
-        })
-        if(successFunction) {
+        updateFunction(inputElementEdit.current.value).then(() => {
           setShowModal(false)
-        }
+        }).catch((error) => {
+          setError(mapFirebaseErrorMessages(error))
+        })
       }
     }
     else {

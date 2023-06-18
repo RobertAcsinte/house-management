@@ -18,6 +18,9 @@ function mapFirebaseErrorMessages(authCode: string) {
     case "auth/too-many-requests":
       return "Too many requests, please try again later."
 
+    case "auth/email-already-in-use":
+      return "This email address is already in use."
+
     default:
       return "Unexpected error"
   }

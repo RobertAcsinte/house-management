@@ -21,7 +21,7 @@ function AccountPage() {
         break
       }
       case 'email': {
-        // modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} updateFunction={context.updateName}></Modal>
+        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} reAuth={context.reauthenticateUser} updateFunction={context.updateEmailUser}></Modal>
         break
       }
       case 'password': {
