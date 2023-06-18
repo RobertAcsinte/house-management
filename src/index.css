@@ -38,13 +38,19 @@ body, html {
 .large-title-form {
   font-size: 3rem;
   font-weight: 900;
-  margin-bottom: 70px;
+  margin: 30px 0px;
 }
 
 .logo-form {
-  width: 70%;
+  width: 450px;
   height: auto;
-  padding-bottom: 50px;
+}
+
+@media only screen and (max-width: 495px) {
+  .logo-form {
+    width: 300px;
+    height: auto;
+  }
 }
 
 .box-container {
@@ -54,11 +60,11 @@ body, html {
   align-items: center;
   box-sizing: border-box;
   width: 700px;
-  padding: 80px 20px;
   background-color: var(--white);
   box-shadow: 0px 0px 50px var(--black-shadow);
   border-radius: 15px;
   margin: 0px 20px;
+  padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 575px) {
@@ -68,12 +74,12 @@ body, html {
 }
 
 form {
-  width: 80%;
+  width: 60%;
 }
 
-@media only screen and (max-width: 575px) {
+@media only screen and (max-width: 650px) {
   form {
-    width: 100%;
+    width: 80%;
   }
 }
 
@@ -85,9 +91,9 @@ input {
   color: black;
   font-weight: 400;
   border-width: 1px;
-  border-radius: 50px;
+  border-radius: 20px;
   margin-bottom: 20px;
-  padding: 20px 20px;
+  padding:15px 20px;
   box-sizing: border-box;
   width: 100%;
   font-size: 1.2rem;
@@ -107,9 +113,9 @@ input:focus {
   transition: background-color .3s ease-in-out;
   margin-top: 40px;
   border-style: none;
-  padding: 20px 20px;
+  padding: 15px 20px;
   color: white;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   border-radius: 20px;
   border-style: solid;
   border-width: 2px;
@@ -140,7 +146,7 @@ input:focus {
 .spinner-button {
   display: block;
   text-align: center;
-  margin-top: 57px;
+  margin-top: 45px;
 }
 
 .error-text {

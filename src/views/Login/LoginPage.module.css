@@ -37,14 +37,12 @@
 
 .button-create-account {
   font-family: "Roboto Condensed", sans-serif;
-  position: absolute;
-  bottom: 20px;
   border: none;
   background-color: inherit;
   font-size: 1.2rem;
   cursor: pointer;
   font-weight: 600;
-  margin-top: 50px;
+  margin-top: 20px;
   color: var(--buton-text);
 }
 

@@ -44,7 +44,7 @@ function ResetPassword() {
       <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={event => onSubmit(event)}>
           <input type="text" placeholder='Email' name='email'/>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button type="submit" className='full-button'>Send reset link</button>} 
+          {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--orange)" size="50px" /> </div>: <button type="submit" className='full-button'>Send reset link</button>} 
         </form>
         <div className='error-text'>{error}</div>
       </div>
