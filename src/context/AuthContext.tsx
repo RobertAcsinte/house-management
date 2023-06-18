@@ -3,13 +3,14 @@ import { ClipLoader } from 'react-spinners';
 import { auth, db } from "../firebaseConfig"
 import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
 interface AuthContextValue {
   currentUser: User | null,
   currentUserDataDb: any | null
   login: (email: string, password: string, stayLogged: boolean) => Promise<UserCredential>
+  logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
@@ -43,6 +44,10 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       setPersistence(auth, browserSessionPersistence)
     }
     return signInWithEmailAndPassword(auth, email, password)
+  }
+
+  function logout() {
+    return signOut(auth)
   }
 
   function saveUserDb(userId: string, email: string, name: string) {
@@ -102,6 +107,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     currentUser: currentUser,
     currentUserDataDb: currentUserDataDb,
     login,
+    logout,
     register,
     saveUserDb,
     resetPassword,
