@@ -140,7 +140,7 @@ input:focus {
 .spinner-button {
   display: block;
   text-align: center;
-  margin: 42px 0px
+  margin-top: 57px;
 }
 
 .error-text {

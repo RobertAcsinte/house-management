@@ -3,6 +3,7 @@ import style from './ModalEdit.module.css'
 import { useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import { ClipLoader } from 'react-spinners';
 
 type ModalProps =  {
   fieldTitle: string,
@@ -15,24 +16,30 @@ type ModalProps =  {
 
 function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}: ModalProps) {
 
-  const inputElementEdit = useRef<HTMLInputElement>(null);
-  const inputElementPassword = useRef<HTMLInputElement>(null);
+  const inputElementEdit = useRef<HTMLInputElement>(null)
+  const inputElementPassword = useRef<HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleButtonClick = async () => {
     if(inputElementEdit.current?.value) {
       if(reAuth) {
         if(inputElementPassword.current?.value) {
+          setLoading(true)
           const successLogin = await reAuth(inputElementPassword.current.value).catch((error) => {
             setError(mapFirebaseErrorMessages(error.code))
           })
           if(successLogin) {
             updateFunction(inputElementEdit.current.value).then(() => {
               setShowModal(false)
+              setLoading(false)
             }).catch((error) => {
+              console.log("sloboz")
               setError(mapFirebaseErrorMessages(error))
+              setLoading(false)
             })
           } else {
+            setLoading(false)
             return
           }
         } else {
@@ -40,10 +47,13 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
           return
         }
       } else {
+        setLoading(true)
         updateFunction(inputElementEdit.current.value).then(() => {
           setShowModal(false)
+          setLoading(false)
         }).catch((error) => {
           setError(mapFirebaseErrorMessages(error))
+          setLoading(false)
         })
       }
     }
@@ -66,7 +76,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
           {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
-            <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>}
           </div>
         </div>
       </div>
