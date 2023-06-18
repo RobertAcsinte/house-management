@@ -28,7 +28,7 @@ function Navbar({userName}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth < 945) {
+    if(window.innerWidth <= 945) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
