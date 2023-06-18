@@ -7,23 +7,35 @@ import { ClipLoader } from 'react-spinners';
 
 type ModalProps =  {
   fieldTitle: string,
-  fieldHint: string,
+  fieldHint: string | undefined,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   reAuth: ((password: string) => Promise<UserCredential>) | null,
-  // repeatPasswordField: boolean,
+  repeatPasswordField: boolean,
   updateFunction: (value: string) => Promise<any>
 }
 
-function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}: ModalProps) {
+function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordField, updateFunction}: ModalProps) {
 
   const inputElementEdit = useRef<HTMLInputElement>(null)
   const inputElementPassword = useRef<HTMLInputElement>(null)
+  const inputElementRepeatPassword = useRef<HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+
+
+  const newValueFieldStyle = repeatPasswordField ? "password" : "text"
 
   const handleButtonClick = async () => {
     if(inputElementEdit.current?.value) {
       if(reAuth) {
+
+        if(repeatPasswordField) {
+          if(inputElementEdit.current?.value !== inputElementRepeatPassword.current?.value) {
+            setError("Password don't match.")
+            return
+          }
+        }
+
         if(inputElementPassword.current?.value) {
           setLoading(true)
           const successLogin = await reAuth(inputElementPassword.current.value).catch((error) => {
@@ -34,8 +46,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
               setShowModal(false)
               setLoading(false)
             }).catch((error) => {
-              console.log("sloboz")
-              setError(mapFirebaseErrorMessages(error))
+              repeatPasswordField ? setError(mapFirebaseErrorMessages(error.code)) : setError(mapFirebaseErrorMessages(error))
               setLoading(false)
             })
           } else {
@@ -43,7 +54,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
             return
           }
         } else {
-          setError("Password field cannot be empty!")
+          setError("Current password field cannot be empty!")
           return
         }
       } else {
@@ -72,7 +83,8 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, updateFunction}
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>
-          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle}/>
+          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle} type={newValueFieldStyle}/>
+          {repeatPasswordField && <input type="password" placeholder='Repeat password' ref={inputElementRepeatPassword}/> }
           {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>

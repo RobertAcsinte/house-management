@@ -17,15 +17,15 @@ function AccountPage() {
     setShowModal(true)
     switch(editType) {
       case 'name': {
-        modal.current = <Modal fieldTitle={'New name'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} reAuth={context.reauthenticateUser} updateFunction={context.updateName}></Modal>
+        modal.current = <Modal fieldTitle={'New name'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateName}></Modal>
         break
       }
       case 'email': {
-        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} reAuth={context.reauthenticateUser} updateFunction={context.updateEmailUser}></Modal>
+        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateEmailUser}></Modal>
         break
       }
       case 'password': {
-        // modal.current = <Modal fieldTitle={'Password'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} updateFunction={context.updateName}></Modal>
+        modal.current = <Modal fieldTitle={'New password'} fieldHint={undefined} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {true} updateFunction={context.updatePasswordUser}></Modal>
         break
       }
     }

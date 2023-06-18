@@ -21,6 +21,9 @@ function mapFirebaseErrorMessages(authCode: string) {
     case "auth/email-already-in-use":
       return "This email address is already in use."
 
+    case "WEAK_PASSWORD : Password should be at least 6 characters":
+      return "Password should be at least 6 characters."
+
     default:
       return "Unexpected error"
   }

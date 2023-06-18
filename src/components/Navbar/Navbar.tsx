@@ -16,7 +16,7 @@ function Navbar({userName}: NavbarProps) {
   const navigate = useNavigate()
 
   const showMenuStyle = {
-    display: window.innerWidth > 885 ? "flex" : showMenu ? "flex" : "none"
+    display: window.innerWidth > 945 ? "flex" : showMenu ? "flex" : "none"
   }
 
   const hamburgerMenuColor = {
@@ -28,7 +28,7 @@ function Navbar({userName}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth < 885) {
+    if(window.innerWidth < 945) {
       setIsMobile(true)
     } else {
       setIsMobile(false)

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
 import { ClipLoader } from 'react-spinners';
 import { auth, db } from "../firebaseConfig"
-import { AuthCredential, User, UserCredential, browserLocalPersistence } from "firebase/auth"
+import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
 interface AuthContextValue {
@@ -13,8 +13,9 @@ interface AuthContextValue {
   register: (email: string, password: string) => Promise<UserCredential>
   saveUserDb: (userId: string, email: string, name: string) => Promise<void>
   resetPassword: (email: string) => Promise<void>
-  getUserData: (uid: string) => void,
-  updateEmailUser(email: string): Promise<unknown>,
+  getUserData: (uid: string) => void
+  updateEmailUser(email: string): Promise<unknown>
+  updatePasswordUser(newPassword: string): Promise<void>
   reauthenticateUser(password: string): Promise<UserCredential>
   updateName: (name: string) => Promise<void>
 }
@@ -89,6 +90,10 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     })
   }
 
+  function updatePasswordUser(newPassword: string) {
+    return updatePassword(currentUser!, newPassword)
+  }
+
   function reauthenticateUser(password: string) {
     return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
   }
@@ -102,6 +107,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     resetPassword,
     getUserData,
     updateEmailUser,
+    updatePasswordUser,
     reauthenticateUser,
     updateName
   }
