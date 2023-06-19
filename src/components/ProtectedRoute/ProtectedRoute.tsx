@@ -3,27 +3,32 @@ import { useAuthContext } from "../../context/AuthContext"
 
 
 export type ProtectedRouteProps = {
-  redirectPath: string
+  redirectPathAuthCondition: string
+  redirectPathHouseCondition: string
   requiresLoggedIn: boolean
   requiresHouseJoined: boolean
+  isAccount: boolean
   component: JSX.Element
 };
 
-function ProtectedRoute({ redirectPath, requiresLoggedIn, requiresHouseJoined, component}: ProtectedRouteProps) {
+function ProtectedRoute({ redirectPathAuthCondition, redirectPathHouseCondition, requiresLoggedIn, requiresHouseJoined, isAccount, component}: ProtectedRouteProps) {
   const context = useAuthContext()
 
   if(requiresLoggedIn) {
+    if(isAccount) {
+      return context.currentUser ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
+    }
     if(requiresHouseJoined) {
-      return context.currentUser ? (context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: '/no_house' }} />)
-      : <Navigate to={{ pathname: redirectPath }} />
+      return context.currentUser ? (context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
+      : <Navigate to={{ pathname: redirectPathAuthCondition }} />
     }
     else {
-      return context.currentUser ? (!context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: '/' }} />)
-      : <Navigate to={{ pathname: redirectPath }} />
+      return context.currentUser ? (!context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
+      : <Navigate to={{ pathname: redirectPathAuthCondition }} />
     }
   }
   else {
-    return !context.currentUser ? component : <Navigate to={{ pathname: redirectPath }} /> 
+    return !context.currentUser ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
   }
 
 }

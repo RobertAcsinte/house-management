@@ -13,34 +13,49 @@ import NoHouse from './views/NoHouse/NoHouse.tsx'
 function App() {
 
   const authRequiredNoHouseProps: Omit<ProtectedRouteProps, 'component'> = {
-    redirectPath: '/login',
+    redirectPathAuthCondition: '/login',
+    redirectPathHouseCondition: '/',
     requiresLoggedIn: true,
-    requiresHouseJoined: false
+    requiresHouseJoined: false,
+    isAccount: false
   };
 
   const authRequiredJoinedHouseProps: Omit<ProtectedRouteProps, 'component'> = {
-    redirectPath: '/login',
+    redirectPathAuthCondition: '/login',
+    redirectPathHouseCondition: '/nohouse',
     requiresLoggedIn: true,
-    requiresHouseJoined: true
+    requiresHouseJoined: true,
+    isAccount: false,
   };
 
   const notAuthRequiredProps: Omit<ProtectedRouteProps, 'component'> = {
-    redirectPath: '/',
+    redirectPathAuthCondition: '/',
+    redirectPathHouseCondition: '/',
     requiresLoggedIn: false,
-    requiresHouseJoined: false
+    requiresHouseJoined: false,
+    isAccount: false
+  };
+
+  const authRequiredIsAccountProps: Omit<ProtectedRouteProps, 'component'> = {
+    redirectPathAuthCondition: '/login',
+    redirectPathHouseCondition: '/',
+    requiresLoggedIn: true,
+    requiresHouseJoined: false,
+    isAccount: true
   };
   
   return (
     <>
     <Routes>
       <Route path='/' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
-      <Route path="/account" element={<ProtectedRoute {...authRequiredNoHouseProps} component={<AccountPage />} />} />
+
+      <Route path="/account" element={<ProtectedRoute {...authRequiredIsAccountProps} component={<AccountPage />} />} />
 
       <Route path="/register" element={<ProtectedRoute {...notAuthRequiredProps} component={<RegisterPage />} />} />
       <Route path="/login" element={<ProtectedRoute {...notAuthRequiredProps} component={<LoginPage />} />} />
       <Route path="/resetpassword" element={<ProtectedRoute {...notAuthRequiredProps} component={<ResetPassword />} />} />
 
-      <Route path='/no_house' element={<ProtectedRoute {...authRequiredNoHouseProps} component={<NoHouse />} />} />
+      <Route path='/nohouse' element={<ProtectedRoute {...authRequiredNoHouseProps} component={<NoHouse />} />} />
     </Routes>
     </>
   )
