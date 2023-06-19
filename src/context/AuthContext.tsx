@@ -6,9 +6,17 @@ import { ref, set, onValue } from "firebase/database";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
+
+interface UserDataDb {
+  uid: string
+  email: string,
+  name: string, 
+  houseId: string | undefined
+}
+
 interface AuthContextValue {
   currentUser: User | null,
-  currentUserDataDb: any | null
+  currentUserDataDb: UserDataDb | null
   login: (email: string, password: string, stayLogged: boolean) => Promise<UserCredential>
   logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
@@ -29,7 +37,7 @@ const AuthContext = React.createContext({} as AuthContextValue);
 
 export function AuthProvider({ children }: {children: React.ReactNode}) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [currentUserDataDb, setCurrentUserDataDb] = useState<any | null>(null)
+  const [currentUserDataDb, setCurrentUserDataDb] = useState<UserDataDb | null>(null)
   const [loading, setLoading] = useState(true)
 
   function register(email: string, password: string) {
@@ -62,8 +70,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   }
 
   function getUserData(uid: string) {
-    const starCountRef = ref(db, 'users/' + uid);
-    onValue(starCountRef, (snapshot) => {
+    const refDb = ref(db, 'users/' + uid);
+    onValue(refDb, (snapshot) => {
       const data = snapshot.val();
       setCurrentUserDataDb(data)
       setLoading(false)
@@ -101,6 +109,10 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   function reauthenticateUser(password: string) {
     return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
+  }
+
+  function checkJoinedHouse() {
+
   }
 
   const value: AuthContextValue = {

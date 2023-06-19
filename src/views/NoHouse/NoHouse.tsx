@@ -1,17 +1,17 @@
 import { useAuthContext } from '../../context/AuthContext';
 import Navbar from '../../components/Navbar/Navbar';
 
-function HomePage() {
+function NoHouse() {
   const context = useAuthContext();
   
   const { currentUserDataDb } = context;
 
   return (
     <>
-      <Navbar showAllOptions/>
+      <Navbar showAllOptions = {false}/>
       <div>{currentUserDataDb!.name}</div>
     </>
   )
 }
 
-export default HomePage
+export default NoHouse

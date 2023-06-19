@@ -28,9 +28,10 @@
   cursor: pointer;
 }
 
-.linksContainer {
-  flex: 5;
-
+.nameContainer {
+    flex: 1;
+    text-align: end;
+    padding: 20px 20px;
 }
 
 a {
@@ -57,7 +58,7 @@ a:hover {
   }
 }
 
-@media only screen and (max-width: 1325px) {
+@media only screen and (max-width: 1370px) {
   .navbarContainer {
     padding-left: 50px;
     padding-right: 50px;
@@ -70,7 +71,7 @@ a:hover {
   }
 }
 
-@media only screen and (max-width: 945px) {
+@media only screen and (max-width: 985px) {
   .hamburgerMenu {
     display: block;
     padding-top: 20px;
@@ -97,4 +98,5 @@ a:hover {
     margin-left: 0;
     text-align: center;
   }
+
 }
