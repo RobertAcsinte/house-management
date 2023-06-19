@@ -16,19 +16,19 @@ function ProtectedRoute({ redirectPathAuthCondition, redirectPathHouseCondition,
 
   if(requiresLoggedIn) {
     if(isAccount) {
-      return context.currentUser ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
+      return context.currentUserDataDb ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
     }
     if(requiresHouseJoined) {
-      return context.currentUser ? (context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
+      return context.currentUserDataDb ? (context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
       : <Navigate to={{ pathname: redirectPathAuthCondition }} />
     }
     else {
-      return context.currentUser ? (!context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
+      return context.currentUserDataDb ? (!context.currentUserDataDb?.houseId ? component: <Navigate to={{ pathname: redirectPathHouseCondition}} />)
       : <Navigate to={{ pathname: redirectPathAuthCondition }} />
     }
   }
   else {
-    return !context.currentUser ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
+    return !context.currentUserDataDb ? component : <Navigate to={{ pathname: redirectPathAuthCondition }} /> 
   }
 
 }

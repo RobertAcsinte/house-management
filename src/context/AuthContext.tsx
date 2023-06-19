@@ -40,6 +40,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   const [currentUserDataDb, setCurrentUserDataDb] = useState<UserDataDb | null>(null)
   const [loading, setLoading] = useState(true)
 
+
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
@@ -97,7 +98,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       )
     })
     .catch((error) => {
-      return new Promise((resolve, reject) => {
+      return new Promise((reject) => {
         reject(error.code)
       })
     })
@@ -128,8 +129,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
       getUserData(user?.uid!)  
+      setCurrentUser(user)
     })
     
     return unsubscribe

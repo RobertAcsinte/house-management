@@ -33,7 +33,6 @@ import Logo from '../../assets/logo.png';
     })
     if(successLogin) {
       setLoading(false)
-      navigate("/")
     }
   }
 
