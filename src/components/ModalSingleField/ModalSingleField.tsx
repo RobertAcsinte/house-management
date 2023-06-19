@@ -21,10 +21,11 @@ function ModalSingleField({modalTitle, fieldHint, buttonText, setShowModal, upda
     if(inputElement.current?.value) {
       setLoading(true)
       updateFunction(inputElement.current.value).then(() => {
+        
         setShowModal(false)
         setLoading(false)
       }).catch((error) => {
-        setError(mapFirebaseErrorMessages(error))
+        setError((error))
         setLoading(false)
       })
     }
