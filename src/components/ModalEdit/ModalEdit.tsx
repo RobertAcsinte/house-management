@@ -79,7 +79,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
 
   return (
     <div className={style.wrapper}>
-      <div className='center-wrapper'>
+      <div className='center-wrapper' style={{height:"100%"}}>
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>

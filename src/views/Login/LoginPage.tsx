@@ -38,7 +38,7 @@ import Logo from '../../assets/logo.png';
 
   return (
     <>
-    <div className='center-wrapper'>
+    <div className='center-wrapper-nonav'>
       <div className='box-container'>
         <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={onSubmit}>

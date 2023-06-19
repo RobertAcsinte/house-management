@@ -23,12 +23,12 @@ function NoHouse() {
       <Navbar showAllOptions = {false}/>
 
       <div className='center-wrapper'>
-        <div className={style.noHouseText}>Currently you are not part of any house!</div>
         <div className={style.container}>
-          <div className={style.buttonContainer}>
-            <button className='full-button' style={{marginRight: '20px'}}>Join an existing house</button>
-            <button className='empty-button' style={{marginLeft: '20px'}} onClick={onNewHouse}>Create a new house</button>
-          </div>
+          <div className={style.noHouseText}>Currently you are not part of any house!</div>
+            <div className={style.buttonContainer}>
+              <button className='full-button' style={{marginRight: '20px'}}>Join an existing house</button>
+              <button className='empty-button' style={{marginLeft: '20px'}} onClick={onNewHouse}>Create a new house</button>
+            </div>
         </div>
       </div>
       {showModal && modal.current}

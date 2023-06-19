@@ -21,11 +21,11 @@ function AccountPage() {
     setShowModal(true)
     switch(editType) {
       case 'name': {
-        modal.current = <Modal fieldTitle={'New name'} fieldHint={currentUserDataDb.name} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateName}></Modal>
+        modal.current = <Modal fieldTitle={'New name'} fieldHint={currentUserDataDb?.name} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateName}></Modal>
         break
       }
       case 'email': {
-        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb.email} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateEmailUser}></Modal>
+        modal.current = <Modal fieldTitle={'Email'} fieldHint={currentUserDataDb?.email} setShowModal={setShowModal} reAuth={context.reauthenticateUser} repeatPasswordField = {false} updateFunction={context.updateEmailUser}></Modal>
         break
       }
       case 'password': {
@@ -45,7 +45,7 @@ function AccountPage() {
 
   return (
     <>
-      <Navbar userName={currentUserDataDb?.name}/>
+      <Navbar showAllOptions/>
 
       <div className={style.wrapper}>
       <div className='box-container'>
@@ -56,7 +56,7 @@ function AccountPage() {
               <div className={style.label}>Name</div>
               <Edit onClick={() => {onEdit("name")}}/>
           </div>
-            <p>{currentUserDataDb.name}</p>
+            <p>{currentUserDataDb?.name}</p>
         </div>  
 
         <div className={style.container}>
@@ -64,7 +64,7 @@ function AccountPage() {
               <div className={style.label}>Email</div>
               <Edit onClick={() => {onEdit("email")}}/>
           </div>
-            <p>{currentUserDataDb.email}</p>
+            <p>{currentUserDataDb?.email}</p>
         </div>  
 
         <div className={style.container}>

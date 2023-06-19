@@ -38,8 +38,8 @@ function ResetPassword() {
 
   return (
     <>
-    
-    <div className='center-wrapper'>
+  
+    <div className='center-wrapper-nonav'>
       <div className='box-container'>
       <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={event => onSubmit(event)}>
