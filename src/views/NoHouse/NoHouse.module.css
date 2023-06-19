@@ -1,0 +1,17 @@
+.noHouseText {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 50px;
+  display: flex;
+  width: 700px;
+}
