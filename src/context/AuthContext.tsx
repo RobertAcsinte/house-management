@@ -111,10 +111,6 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
   }
 
-  function checkJoinedHouse() {
-
-  }
-
   const value: AuthContextValue = {
     currentUser: currentUser,
     currentUserDataDb: currentUserDataDb,

@@ -4,12 +4,15 @@ import App from './App.tsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.tsx'
+import { HouseProvider } from './context/HouseContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <HouseProvider>
+          <App />
+        </HouseProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
