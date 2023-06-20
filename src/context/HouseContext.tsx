@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from "react"
 import { ref, set, push, child, get, onValue } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
+import { UserDataDb } from "./AuthContext";
 
 
 interface HousesDataDb {
   id: string
   name: string
+  users: UserDataDb[]
 }
 
 interface HouseContextValue {
@@ -28,11 +30,36 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
   function getHouseData() {
     const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId);
     onValue(houseRef, (snapshot) => {
-      const key = snapshot.key
-      const data = snapshot.val();
-      setHouseInfoDb({id: key!, name: data.name})
+      const houseId = snapshot.key
+      const houseName = snapshot.val().name;
+      let users: UserDataDb[] = []
+      const promises = snapshot.val().users.map((userId: string) => {
+        return get(child(ref(db), `users/${userId}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            const userToAdd: UserDataDb = {
+              uid: userId,
+              email: snapshot.val().email,
+              name: snapshot.val().name,
+              houseId: snapshot.val().houseId
+            }
+            users = [...users, userToAdd]
+          }
+        })
+      })
+      Promise.all(promises).then(() => {
+        setHouseInfoDb({id: houseId!, name: houseName, users: users})
+      })
     });
   }
+
+  // function changeHouseName(name: string) {
+  //   return set(ref(db, 'houses/' + houseInfoDb?.id), 
+  //     {
+  //       ...currentUserDataDb,
+  //       name: name
+  //     }
+  //   );
+  // }
 
   function createHouse(houseName: string) {
     const generatedKey = push(child(ref(db), 'houses')).key;

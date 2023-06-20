@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswor
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
 
-interface UserDataDb {
+export interface UserDataDb {
   uid: string
   email: string,
   name: string, 

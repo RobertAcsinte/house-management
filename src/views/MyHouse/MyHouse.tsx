@@ -21,6 +21,11 @@ function MyHouse() {
 
   const modal = useRef<JSX.Element | null>(null)
 
+  const users = houseContext.houseInfoDb?.users.map((value, index) => {
+    const styleColor = index % 2 === 0 ? {background: 'var(--orange)', color: 'var(--black)'} : {background: 'var(--black)', color: 'var(--white)'}
+    return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
+  })
+
   return (
     <>
       <Navbar showAllOptions/>
@@ -29,18 +34,25 @@ function MyHouse() {
         <div className='large-title-form'>House info</div>
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
-              <div className='label'>House Id</div>
+              <div className='label'>Id</div>
           </div>
             <p>{houseContext.houseInfoDb?.id}</p>
         </div>  
+
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
-              <div className='label'>House name</div>
+              <div className='label'>Name</div>
               <Edit onClick={() => {onHouseNameEdit("name")}}/>
           </div>
             <p>{houseContext.houseInfoDb?.name}</p>
         </div>  
 
+        <div className='edit-label-container'>
+          <div className='edit-label-icon-subcontainer'>
+              <div className='label'>Members</div>
+          </div>
+            {users}
+        </div>  
 
         {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}}>Leave</button>}
         <div className='error-text'>{error}</div>
