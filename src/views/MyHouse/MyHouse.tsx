@@ -23,8 +23,12 @@ function MyHouse() {
     modal.current = <Modal modalTitle='New house name' fieldHint='Type the new name for your house' buttonText='Save' setShowModal={setShowModal} updateFunction={houseContext.changeHouseName}></Modal>
   }
 
+  const onButtonClick = () => {
+    houseContext.leaveHouse()
+  }
+
   const members = houseContext.houseInfoDb?.users.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--orange)', color: 'var(--black)'} : {background: 'var(--black)', color: 'var(--white)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
 
@@ -56,7 +60,7 @@ function MyHouse() {
             {members}
         </div>  
 
-        {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}}>Leave</button>}
+        {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}} onClick={onButtonClick}>Leave</button>}
         <div className='error-text'>{error}</div>
       </div>
       {showModal && modal.current}

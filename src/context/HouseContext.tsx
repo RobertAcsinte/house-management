@@ -16,6 +16,7 @@ interface HouseContextValue {
   createHouse(houseName: String): Promise<unknown>
   joinHouse(houseId: string): Promise<unknown>
   changeHouseName(name: string): Promise<void>
+  leaveHouse(): Promise<unknown>
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -56,6 +57,20 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   function changeHouseName(name: string) {
     return update(ref(db, `houses/${houseInfoDb?.id}`), {name: name})
+  }
+
+
+  function leaveHouse() {
+    const users = houseInfoDb?.users.filter((user) => {
+      return user.uid !== authContext.currentUser?.uid
+    })
+    return new Promise((reject) => {
+      update(ref(db, `houses/${houseInfoDb?.id}`), {users: users}).then (() => {
+        update(ref(db, `users/${authContext.currentUser?.uid}`), {houseId: null})
+      }).catch((error) => {
+        reject(error.code)
+      })
+    })
   }
 
   function createHouse(houseName: string) {
@@ -112,6 +127,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   const value: HouseContextValue = {
     houseInfoDb,
+    leaveHouse,
     changeHouseName,
     createHouse,
     joinHouse
