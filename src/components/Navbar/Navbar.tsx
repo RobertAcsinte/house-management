@@ -19,7 +19,7 @@ function Navbar({showAllOptions}: NavbarProps) {
   const userName = context.currentUserDataDb!.name
 
   const showMenuStyle = {
-    display: window.innerWidth > 985 ? "flex" : showMenu ? "flex" : "none"
+    display: window.innerWidth > 1000 ? "flex" : showMenu ? "flex" : "none"
   }
 
   const hamburgerMenuColor = {
@@ -31,7 +31,7 @@ function Navbar({showAllOptions}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 985) {
+    if(window.innerWidth <= 1000) {
       setIsMobile(true)
     } else {
       setIsMobile(false)

@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import { Edit } from '@mui/icons-material'
 import { useState, useRef } from 'react'
 import { ClipLoader } from 'react-spinners'
-import Modal from '../../components/ModalEdit/ModalEdit';
+import Modal from '../../components/ModalSingleField/ModalSingleField';
 import { useHouseContext } from '../../context/HouseContext'
 
 
@@ -16,12 +16,14 @@ function MyHouse() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const onHouseNameEdit = (name: string) => {
-  }
-
   const modal = useRef<JSX.Element | null>(null)
 
-  const users = houseContext.houseInfoDb?.users.map((value, index) => {
+  const onHouseNameEdit = (name: string) => {
+    setShowModal(true)
+    modal.current = <Modal modalTitle='New house name' fieldHint='Type the new name for your house' buttonText='Save' setShowModal={setShowModal} updateFunction={houseContext.changeHouseName}></Modal>
+  }
+
+  const members = houseContext.houseInfoDb?.users.map((value, index) => {
     const styleColor = index % 2 === 0 ? {background: 'var(--orange)', color: 'var(--black)'} : {background: 'var(--black)', color: 'var(--white)'}
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
@@ -51,7 +53,7 @@ function MyHouse() {
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Members</div>
           </div>
-            {users}
+            {members}
         </div>  
 
         {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}}>Leave</button>}
