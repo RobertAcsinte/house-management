@@ -14,19 +14,10 @@ body, html {
   height: 100%;
 }
 
-.wrapper-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 150px;
-}
 
-@media only screen and (max-width: 780px) {
-  .wrapper-content {
-    margin-top: 20px;
-    padding-bottom: 20px;
-  }
-}
+
+
+  /* ------------------------------------------------------ Layouts ------------------------------------------------------ */
 
 .center-wrapper-nonav {
   height: 100%;
@@ -39,28 +30,16 @@ body, html {
 .center-wrapper {
   height: 80%;
   display: flex;
-
   justify-content: center;
   align-items: center;
   margin: 0px 20px;
 }
 
-.large-title-form {
-  font-size: 3rem;
-  font-weight: 900;
-  margin: 30px 0px;
-}
-
-.logo-form {
-  width: 450px;
-  height: auto;
-}
-
-@media only screen and (max-width: 495px) {
-  .logo-form {
-    width: 300px;
-    height: auto;
-  }
+.top-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+  margin-top: 50px;
 }
 
 .box-container {
@@ -82,6 +61,43 @@ body, html {
     height: auto;
   }
 }
+
+
+  /* ------------------------------------------------------ Logo ------------------------------------------------------ */
+
+.logo-form {
+  width: 450px;
+  height: auto;
+}
+
+@media only screen and (max-width: 495px) {
+  .logo-form {
+    width: 300px;
+    height: auto;
+  }
+}
+
+
+
+  /* ------------------------------------------------------ Text ------------------------------------------------------ */
+
+.large-title-form {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 30px 0px;
+}
+
+.error-text {
+  font-family: "Roboto Condensed", sans-serif;
+  padding-top: 20px;
+  color: brown;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+
+
+  /* ------------------------------------------------------ Forms ------------------------------------------------------ */
 
 form {
   width: 60%;
@@ -113,6 +129,10 @@ input:focus {
   outline: none !important;
   border:1px solid var(--black);
 }
+
+
+
+  /* ------------------------------------------------------ Buttons ------------------------------------------------------ */
 
 
 .full-button {
@@ -182,10 +202,42 @@ input:focus {
   margin-top: 45px;
 }
 
-.error-text {
-  font-family: "Roboto Condensed", sans-serif;
-  padding-top: 20px;
-  color: brown;
-  font-weight: 700;
-  font-size: 1.2rem;
+
+
+  /* ------------------------------------------------------ Edit Label ------------------------------------------------------ */
+
+.edit-label-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  margin-bottom: 10px;
+}
+
+.edit-label-icon-subcontainer {
+  display: flex;
+  font-size: 1.5rem;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.label {
+  font-size: 1.5rem;
+  flex: 1;
+  color: var(--orange);
+}
+
+.edit-label-icon-subcontainer svg {
+  color: var(--black);
+  padding: 5px 5px;
+  border-radius: 50px;
+  transform: scale(1.5);
+  cursor: pointer;
+  transition: color .3s ease-in-out;
+}
+
+.edit-label-icon-subcontainer svg:hover {
+  color: var(--orange);
 }

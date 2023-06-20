@@ -47,29 +47,29 @@ function AccountPage() {
     <>
       <Navbar showAllOptions/>
 
-      <div className={style.wrapper}>
+      <div className='top-wrapper'>
       <div className='box-container'>
         <div className='large-title-form'>Account info</div>
 
-        <div className={style.container}>
-          <div className={style.editContainer}>
-              <div className={style.label}>Name</div>
+        <div className='edit-label-container'>
+          <div className='edit-label-icon-subcontainer'>
+              <div className='label'>Name</div>
               <Edit onClick={() => {onEdit("name")}}/>
           </div>
             <p>{currentUserDataDb?.name}</p>
         </div>  
 
-        <div className={style.container}>
-          <div className={style.editContainer}>
+        <div className='edit-label-container'>
+          <div className='edit-label-icon-subcontainer'>
               <div className={style.label}>Email</div>
               <Edit onClick={() => {onEdit("email")}}/>
           </div>
             <p>{currentUserDataDb?.email}</p>
         </div>  
 
-        <div className={style.container}>
-          <div className={style.editContainer}>
-              <div className={style.label}>Password</div>
+        <div className='edit-label-container'>
+          <div className='edit-label-icon-subcontainer'>
+              <div className='label'>Password</div>
               <Edit onClick={() => {onEdit("password")}}/>
           </div>
             <p>********</p>

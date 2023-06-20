@@ -1,9 +1,16 @@
-import React, { useContext } from "react"
-import { ref, set, push, child, get } from "firebase/database";
+import React, { useContext, useEffect, useState } from "react"
+import { ref, set, push, child, get, onValue } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 
+
+interface HousesDataDb {
+  id: string
+  name: string
+}
+
 interface HouseContextValue {
+  houseInfoDb: HousesDataDb | null
   createHouse(houseName: String): Promise<unknown>
   joinHouse(houseId: string): Promise<unknown>
 }
@@ -16,6 +23,16 @@ export function useHouseContext() {
 
 export function HouseProvider({ children }: {children: React.ReactNode}) {
   const authContext = useAuthContext();
+  const [houseInfoDb, setHouseInfoDb] = useState<HousesDataDb | null>(null)
+
+  function getHouseData() {
+    const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId);
+    onValue(houseRef, (snapshot) => {
+      const key = snapshot.key
+      const data = snapshot.val();
+      setHouseInfoDb({id: key!, name: data.name})
+    });
+  }
 
   function createHouse(houseName: string) {
     const generatedKey = push(child(ref(db), 'houses')).key;
@@ -62,8 +79,15 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     });
   }
 
+  useEffect(() => {
+    if(authContext.currentUserDataDb?.houseId !== undefined) {
+      getHouseData()
+    }
+  }, [authContext.currentUserDataDb])
+
 
   const value: HouseContextValue = {
+    houseInfoDb,
     createHouse,
     joinHouse
   }
