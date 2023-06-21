@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './MyHouse.module.css'
 import Navbar from '../../components/Navbar/Navbar'
-import { Edit } from '@mui/icons-material'
+import { AddCircle, Edit } from '@mui/icons-material'
 import { useState, useRef } from 'react'
 import Modal from '../../components/ModalSingleField/ModalSingleField';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm'
@@ -16,7 +16,7 @@ function MyHouse() {
 
   const modal = useRef<JSX.Element | null>(null)
 
-  const onHouseNameEdit = () => {
+  const handleButtonHouseName = () => {
     setShowModal(true)
     modal.current = <Modal modalTitle='New house name' fieldHint='Type the new name for your house' buttonText='Save' setShowModal={setShowModal} updateFunction={houseContext.changeHouseName}></Modal>
   }
@@ -26,10 +26,17 @@ function MyHouse() {
     modal.current = <ModalConfirm title='Are you sure you want to leave?' setShowModal={setShowModal} updateFunction={houseContext.leaveHouse}></ModalConfirm>
   }
 
+  const handleButtonAddMember = () => {
+    setShowModal(true)
+    modal.current = <Modal modalTitle='Email address' fieldHint='Email address of who you want to join' buttonText='Send invite' setShowModal={setShowModal} updateFunction={houseContext.sendInvite}></Modal>
+  }
+
   const members = houseContext.houseInfoDb?.users.map((value, index) => {
     const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
+
+
 
   return (
     <>
@@ -47,7 +54,7 @@ function MyHouse() {
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Name</div>
-              <Edit onClick={onHouseNameEdit}/>
+              <Edit onClick={handleButtonHouseName}/>
           </div>
             <p>{houseContext.houseInfoDb?.name}</p>
         </div>  
@@ -55,6 +62,7 @@ function MyHouse() {
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Members</div>
+              <AddCircle onClick={handleButtonAddMember}></AddCircle>
           </div>
             {members}
         </div>  

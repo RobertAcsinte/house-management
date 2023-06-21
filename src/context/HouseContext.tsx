@@ -3,6 +3,7 @@ import { ref, set, push, child, get, onValue, update } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 import { UserDataDb } from "./AuthContext";
+import { Email } from "@mui/icons-material";
 
 
 interface HousesDataDb {
@@ -17,6 +18,7 @@ interface HouseContextValue {
   joinHouse(houseId: string): Promise<unknown>
   changeHouseName(name: string): Promise<void>
   leaveHouse(): Promise<unknown>
+  sendInvite(email: string): Promise<unknown>
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -56,6 +58,33 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   function changeHouseName(name: string) {
     return update(ref(db, `houses/${houseInfoDb?.id}`), {name: name})
+  }
+
+
+  function sendInvite(email: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const snapshot = await get(child(ref(db), 'users'));
+        if (snapshot.exists()) {
+          const usersData = snapshot.val();
+          const emailAddresses = Object.values(usersData).map((user: any) => user.email);
+          const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email);
+          if (emailAddresses.includes(email)) {
+            if(snapshot.child(userId!).val().houseId === undefined) {
+              update(ref(db, `users/${userId}`), {invitationReceivedHouseId: houseInfoDb?.id}).then(() => {
+                resolve(true);
+              }).catch((error) => reject(error))
+            } else {
+              reject("The user is already part of a house!")
+            }
+          } else {
+            reject("No account with the given email");
+          }
+        } 
+      } catch (error) {
+        reject(error);
+      }
+    });    
   }
 
 
@@ -130,7 +159,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     leaveHouse,
     changeHouseName,
     createHouse,
-    joinHouse
+    joinHouse,
+    sendInvite
   }
 
   return (
