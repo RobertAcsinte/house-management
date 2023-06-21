@@ -3,7 +3,6 @@ import style from './MyHouse.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 import { Edit } from '@mui/icons-material'
 import { useState, useRef } from 'react'
-import { ClipLoader } from 'react-spinners'
 import Modal from '../../components/ModalSingleField/ModalSingleField';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm'
 import { useHouseContext } from '../../context/HouseContext'

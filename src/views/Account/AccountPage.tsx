@@ -4,16 +4,14 @@ import style from "./AccountPage.module.css"
 import Modal from '../../components/ModalEdit/ModalEdit';
 import { useState, useRef } from 'react';
 import { Edit } from '@mui/icons-material';
-import { ClipLoader } from 'react-spinners';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
 
 function AccountPage() {
   const context = useAuthContext();
   
   const { currentUserDataDb } = context;
   const [showModal, setShowModal] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const modal = useRef<JSX.Element | null>(null)
 
@@ -36,11 +34,8 @@ function AccountPage() {
   }
 
   const onLogoutButton = async () => {
-    setLoading(true)
-    await context.logout().catch((error) => {
-      mapFirebaseErrorMessages(error.code)
-    })
-    setLoading(false)
+    setShowModal(true)
+    modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
   }
 
   return (
@@ -74,8 +69,7 @@ function AccountPage() {
           </div>
             <p>********</p>
         </div> 
-        {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}} onClick={onLogoutButton}>Logout</button>}
-        <div className='error-text'>{error}</div>
+        <button className='full-button' style={{width: "50%"}} onClick={onLogoutButton}>Logout</button>
       </div>
       {showModal && modal.current}
     </div>
