@@ -36,7 +36,6 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
       const houseName = snapshot.val().name;
       let users: UserDataDb[] = []
       const promises = snapshot.val().users.map((userId: string) => {
-        console.log(userId)
         return get(child(ref(db), `users/${userId}`)).then((snapshot) => {
           if (snapshot.exists()) {
             const userToAdd: UserDataDb = {
@@ -61,11 +60,12 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
 
   function leaveHouse() {
-    const users = houseInfoDb?.users.filter((user) => {
-      return user.uid !== authContext.currentUser?.uid
-    })
+    const uids = houseInfoDb?.users
+    .filter((user) => user.uid !== authContext.currentUser?.uid)
+    .map((user) => user.uid);
+  
     return new Promise((reject) => {
-      update(ref(db, `houses/${houseInfoDb?.id}`), {users: users}).then (() => {
+      update(ref(db, `houses/${houseInfoDb?.id}`), {users: uids}).then (() => {
         update(ref(db, `users/${authContext.currentUser?.uid}`), {houseId: null})
       }).catch((error) => {
         reject(error.code)

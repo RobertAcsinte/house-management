@@ -2,7 +2,7 @@ import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
-import Modal from '../../components/ModalConfirm/ModalConfirm';
+import Modal from '../../components/ModalInfo/ModalInfo';
 import Logo from '../../assets/logo.png';
 
 function ResetPassword() {

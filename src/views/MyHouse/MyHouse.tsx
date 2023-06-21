@@ -5,6 +5,7 @@ import { Edit } from '@mui/icons-material'
 import { useState, useRef } from 'react'
 import { ClipLoader } from 'react-spinners'
 import Modal from '../../components/ModalSingleField/ModalSingleField';
+import ModalConfirm from '../../components/ModalConfirm/ModalConfirm'
 import { useHouseContext } from '../../context/HouseContext'
 
 
@@ -13,18 +14,17 @@ function MyHouse() {
 
   const houseContext = useHouseContext()
   const [showModal, setShowModal] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const modal = useRef<JSX.Element | null>(null)
 
-  const onHouseNameEdit = (name: string) => {
+  const onHouseNameEdit = () => {
     setShowModal(true)
     modal.current = <Modal modalTitle='New house name' fieldHint='Type the new name for your house' buttonText='Save' setShowModal={setShowModal} updateFunction={houseContext.changeHouseName}></Modal>
   }
 
-  const onButtonClick = () => {
-    houseContext.leaveHouse()
+  const handleButtonLeave = () => {
+    setShowModal(true)
+    modal.current = <ModalConfirm title='Are you sure you want to leave?' setShowModal={setShowModal} updateFunction={houseContext.leaveHouse}></ModalConfirm>
   }
 
   const members = houseContext.houseInfoDb?.users.map((value, index) => {
@@ -48,7 +48,7 @@ function MyHouse() {
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Name</div>
-              <Edit onClick={() => {onHouseNameEdit("name")}}/>
+              <Edit onClick={onHouseNameEdit}/>
           </div>
             <p>{houseContext.houseInfoDb?.name}</p>
         </div>  
@@ -59,9 +59,7 @@ function MyHouse() {
           </div>
             {members}
         </div>  
-
-        {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>:<button className='full-button' style={{width: "50%"}} onClick={onButtonClick}>Leave</button>}
-        <div className='error-text'>{error}</div>
+        <button className='full-button' style={{width: "50%"}} onClick={handleButtonLeave}>Leave</button>
       </div>
       {showModal && modal.current}
     </div>
