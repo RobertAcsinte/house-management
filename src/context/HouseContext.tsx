@@ -6,10 +6,18 @@ import { UserDataDb } from "./AuthContext";
 import { Email } from "@mui/icons-material";
 
 
+// interface invitationsUsers {
+//   idUser: string,
+//   name: string, 
+//   email
+// }
+
 interface HousesDataDb {
   id: string
   name: string
   users: UserDataDb[]
+  invitationsUsersId: string[]
+  invitationsUsersEmail: string[]
 }
 
 interface HouseContextValue {
@@ -33,11 +41,13 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   function getHouseData() {
     const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId);
-    onValue(houseRef, (snapshot) => {
-      const houseId = snapshot.key
+    onValue(houseRef, async (snapshot) => {
+      const houseId = snapshot.key;
       const houseName = snapshot.val().name;
-      let users: UserDataDb[] = []
-      const promises = snapshot.val().users.map((userId: string) => {
+      const invitations = snapshot.val().invitations;
+      let users: UserDataDb[] = [];
+  
+      const userPromises = snapshot.val().users.map((userId: string) => {
         return get(child(ref(db), `users/${userId}`)).then((snapshot) => {
           if (snapshot.exists()) {
             const userToAdd: UserDataDb = {
@@ -45,16 +55,34 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
               email: snapshot.val().email,
               name: snapshot.val().name,
               houseId: snapshot.val().houseId
-            }
-            users = [...users, userToAdd]
+            };
+            users = [...users, userToAdd];
           }
-        })
-      })
-      Promise.all(promises).then(() => {
-        setHouseInfoDb({id: houseId!, name: houseName, users: users})
-      })
+        });
+      });
+  
+      await Promise.all(userPromises);
+  
+      const invitationNamesPromises = invitations.map((value: string) => {
+        return get(child(ref(db), `users/${value}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            return snapshot.val().email;
+          }
+        });
+      });
+  
+      const invitationNames = await Promise.all(invitationNamesPromises);
+  
+      setHouseInfoDb({
+        id: houseId!,
+        name: houseName,
+        users: users,
+        invitationsUsersId: invitations,
+        invitationsUsersEmail: invitationNames
+      });
     });
   }
+
 
   function changeHouseName(name: string) {
     return update(ref(db, `houses/${houseInfoDb?.id}`), {name: name})
@@ -72,7 +100,10 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
           if (emailAddresses.includes(email)) {
             if(snapshot.child(userId!).val().houseId === undefined) {
               update(ref(db, `users/${userId}`), {invitationReceivedHouseId: houseInfoDb?.id}).then(() => {
-                resolve(true);
+                const invitationsToSave = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
+                update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSave})
+                .then(() => resolve(true))
+                .catch((error)=> reject(error))
               }).catch((error) => reject(error))
             } else {
               reject("The user is already part of a house!")

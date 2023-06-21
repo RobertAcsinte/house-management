@@ -36,6 +36,10 @@ function MyHouse() {
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
 
+  const invitations = houseContext.houseInfoDb?.invitationsUsersEmail.map((value, index) => {
+    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
+    return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
+  })
 
 
   return (
@@ -65,7 +69,15 @@ function MyHouse() {
               <AddCircle onClick={handleButtonAddMember}></AddCircle>
           </div>
             {members}
-        </div>  
+        </div>
+
+        <div className='edit-label-container'>
+          <div className='edit-label-icon-subcontainer'>
+              <div className='label'>Pending invitations</div>
+          </div>
+            {invitations}
+        </div>
+          
         <button className='full-button' style={{width: "50%"}} onClick={handleButtonLeave}>Leave</button>
       </div>
       {showModal && modal.current}
