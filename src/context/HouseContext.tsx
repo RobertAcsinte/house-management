@@ -47,7 +47,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
               uid: userId,
               email: snapshot.val().email,
               name: snapshot.val().name,
-              houseId: snapshot.val().houseId
+              houseId: snapshot.val().houseId,
+              invitationsReceivedHouseId: snapshot.val().invitationsReceivedHouseId
             };
             users = [...users, userToAdd];
           }

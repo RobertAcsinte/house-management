@@ -12,6 +12,7 @@ export interface UserDataDb {
   email: string,
   name: string, 
   houseId: string | undefined
+  invitationsReceivedHouseId: [string] | undefined
 }
 
 interface AuthContextValue {
@@ -39,7 +40,6 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [currentUserDataDb, setCurrentUserDataDb] = useState<UserDataDb | null>(null)
   const [loading, setLoading] = useState(true)
-
 
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
