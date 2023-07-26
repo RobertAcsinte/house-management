@@ -6,12 +6,12 @@ body, html {
   font-family: "Roboto Condensed", sans-serif;
   background-color: var(--white);
   color: var(--black);
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
 }
 
 #root {
-  height: 100%;
+  min-height: 100vh;
 }
 
 
@@ -19,8 +19,18 @@ body, html {
 
   /* ------------------------------------------------------ Layouts ------------------------------------------------------ */
 
-.center-wrapper-nonav {
+.wrapper {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  display: flex;
+  align-items: center;
+  margin: 20px 20px;
+  padding-bottom: 20px;
+}
+
+.center-wrapper-nonav {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +38,7 @@ body, html {
 }
 
 .center-wrapper {
-  height: 80%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,7 +48,7 @@ body, html {
 .top-wrapper {
   display: flex;
   justify-content: center;
-  padding-bottom: 5px;
+  padding-bottom: 20px;
   margin-top: 50px;
 }
 
@@ -155,6 +165,27 @@ input:focus {
 }
 
 .full-button:hover {
+  background-color: var(--orange);
+}
+
+.full-button-small {
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: var(--black);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  border-style: none;
+  padding: 15px 20px;
+  color: white;
+  font-size: 1.5rem;
+  border-radius: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--orange);
+  box-sizing: border-box;
+}
+
+.full-button-small:hover {
   background-color: var(--orange);
 }
 

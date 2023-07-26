@@ -25,15 +25,25 @@ function NoHouse() {
     <>
       <Navbar showAllOptions = {false}/>
 
-      <div className='center-wrapper'>
-        <div className={style.container}>
+      {/* <div className='center-wrapper'> */}
+        <div className='wrapper'>
           <div className={style.noHouseText}>Currently you are not part of any house!</div>
             <div className={style.buttonContainer}>
               <button className='full-button' style={{marginRight: '20px'}} onClick={onJoinHouse}>Join an existing house</button>
               <button className='empty-button' style={{marginLeft: '20px'}} onClick={onNewHouse}>Create a new house</button>
             </div>
+            <div className={style.inviteContainer}>
+              <p>You have been invited to join a house!</p>
+              <div className={style.inviteList}>
+                <p className={style.houseNameInvite}>invite 1fsdfsgsfgsfgsfgfs</p>
+                <button className='full-button-small'>Join</button>
+              </div>
+              <div className={style.inviteList}>
+                invite 1
+              </div>
+            </div>
         </div>
-      </div>
+      {/* </div> */}
       {showModal && modal.current}
     </>
   )

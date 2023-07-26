@@ -3,14 +3,7 @@ import { ref, set, push, child, get, onValue, update } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 import { UserDataDb } from "./AuthContext";
-import { Email } from "@mui/icons-material";
 
-
-// interface invitationsUsers {
-//   idUser: string,
-//   name: string, 
-//   email
-// }
 
 interface HousesDataDb {
   id: string
@@ -63,15 +56,19 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
   
       await Promise.all(userPromises);
   
-      const invitationNamesPromises = invitations.map((value: string) => {
-        return get(child(ref(db), `users/${value}`)).then((snapshot) => {
-          if (snapshot.exists()) {
-            return snapshot.val().email;
-          }
+      let invitationNames: string[] = []
+      if(invitations !== undefined) {
+        const invitationNamesPromises = invitations.map((value: string) => {
+          return get(child(ref(db), `users/${value}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+              return snapshot.val().email;
+            }
+          });
         });
-      });
-  
-      const invitationNames = await Promise.all(invitationNamesPromises);
+    
+        invitationNames = await Promise.all(invitationNamesPromises);
+      } 
+
   
       setHouseInfoDb({
         id: houseId!,
@@ -99,12 +96,21 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
           const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email);
           if (emailAddresses.includes(email)) {
             if(snapshot.child(userId!).val().houseId === undefined) {
-              update(ref(db, `users/${userId}`), {invitationReceivedHouseId: houseInfoDb?.id}).then(() => {
-                const invitationsToSave = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
-                update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSave})
-                .then(() => resolve(true))
-                .catch((error)=> reject(error))
-              }).catch((error) => reject(error))
+              const savedInvitationsUser = snapshot.child(userId!).val().invitationsReceivedHouseId
+              const invitationToSaveUser = savedInvitationsUser ? [...savedInvitationsUser, houseInfoDb?.id] : [houseInfoDb?.id]
+              const invitationsToSaveHouse = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
+              if(houseInfoDb!.invitationsUsersId === undefined) {
+                update(ref(db, `users/${userId}`), {invitationsReceivedHouseId: invitationToSaveUser}).then(() => {
+                  update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSaveHouse})
+                  .then(() => resolve(true))
+                  .catch((error)=> reject(error))
+                }).catch((error) => reject(error))
+              } else {
+                  if(!invitationsToSaveHouse.find((userIdInvitation: any) => { return userIdInvitation === userId})) {
+                  } else {
+                    reject("The user is already invited to this house!")
+                  }
+              }
             } else {
               reject("The user is already part of a house!")
             }
