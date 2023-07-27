@@ -24,7 +24,10 @@ function NoHouse() {
     modal.current = <ModalSingleField modalTitle={'Join a house!'} fieldHint={'Enter the id of the house'} buttonText={'Join'} setShowModal={setShowModal} updateFunction={houseContext.joinHouse}></ModalSingleField>
   }
 
-  console.log(invites)
+  const onAcceptInvite = (houseId: string) => {
+    houseContext.onAcceptInvitation(houseId)
+  }
+
 
   useEffect(() => {  
     if (authContext.currentUserDataDb?.invitationsReceivedHouseId) {
@@ -68,7 +71,7 @@ function NoHouse() {
                   Array.from(invites).map(([key, value]) => (
                     <div className={style.inviteList} key={key}>
                       <p className={style.houseNameInvite}>{`${value}`}<span className={style.idSpan}>{key}</span></p>
-                      <button className='full-button-small'>Join</button>
+                      <button className='full-button-small' onClick={() => {onAcceptInvite(key)}}>Join</button>
                     </div>
                   ))
                 }

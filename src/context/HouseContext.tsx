@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ref, set, push, child, get, onValue, update } from "firebase/database";
+import { ref, set, push, child, get, onValue, update, remove } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 import { UserDataDb } from "./AuthContext";
@@ -21,6 +21,7 @@ interface HouseContextValue {
   leaveHouse(): Promise<unknown>
   sendInvite(email: string): Promise<unknown>
   getHouseNameById(idhouse: string): Promise<unknown>
+  onAcceptInvitation(houseId: string): void
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -199,6 +200,26 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     });
   }
 
+  function onAcceptInvitation(houseId: string) {
+    joinHouse(houseId)
+    get(child(ref(db), `houses/${houseId}`))
+      .then((snapshot) => {
+        const updatedInvitations = snapshot.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
+        const updatedHouse = {
+          ...snapshot.val(),
+          invitations: updatedInvitations,
+        };
+        set(ref(db, `houses/${houseId}`), updatedHouse).then(() => {
+          get(child(ref(db), `users/${authContext.currentUser?.uid}`))
+            .then((snapshot) => {
+              update(ref(db, `users/${authContext.currentUser?.uid}`), {invitationsReceivedHouseId: null})
+            })
+        })
+      }).catch((error) => {
+
+      })
+  }
+
   useEffect(() => {
     if(authContext.currentUserDataDb?.houseId !== undefined) {
       getHouseData()
@@ -213,7 +234,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     createHouse,
     joinHouse,
     sendInvite,
-    getHouseNameById
+    getHouseNameById,
+    onAcceptInvitation
   }
 
   return (
