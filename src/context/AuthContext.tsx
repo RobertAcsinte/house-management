@@ -12,7 +12,7 @@ export interface UserDataDb {
   email: string,
   name: string, 
   houseId: string | undefined
-  invitationsReceivedHouseId: [string] | undefined
+  invitationsReceivedHouseId: [string] | undefined,
 }
 
 interface AuthContextValue {

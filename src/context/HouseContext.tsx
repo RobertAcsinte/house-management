@@ -20,6 +20,7 @@ interface HouseContextValue {
   changeHouseName(name: string): Promise<void>
   leaveHouse(): Promise<unknown>
   sendInvite(email: string): Promise<unknown>
+  getHouseNameById(idhouse: string): Promise<unknown>
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -92,9 +93,9 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
       try {
         const snapshot = await get(child(ref(db), 'users'));
         if (snapshot.exists()) {
-          const usersData = snapshot.val();
-          const emailAddresses = Object.values(usersData).map((user: any) => user.email);
-          const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email);
+          const usersData = snapshot.val()
+          const emailAddresses = Object.values(usersData).map((user: any) => user.email)
+          const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email)
           if (emailAddresses.includes(email)) {
             if(snapshot.child(userId!).val().houseId === undefined) {
               const savedInvitationsUser = snapshot.child(userId!).val().invitationsReceivedHouseId
@@ -123,6 +124,19 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
         reject(error);
       }
     });    
+  }
+
+  function getHouseNameById(idhouse: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const snapshot = await get(child(ref(db), 'houses/' + idhouse + '/name'))
+        if(snapshot.exists()) {
+          resolve(snapshot.val())
+        } 
+      } catch(error) {
+        reject(error)
+      }
+    })
   }
 
 
@@ -198,7 +212,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     changeHouseName,
     createHouse,
     joinHouse,
-    sendInvite
+    sendInvite,
+    getHouseNameById
   }
 
   return (

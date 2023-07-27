@@ -56,6 +56,11 @@ p {
   font-size: 1.5rem;
 }
 
+.idSpan {
+  margin-left: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @media only screen and (max-width: 475px) {
   .inviteList {
     flex-direction: column;
