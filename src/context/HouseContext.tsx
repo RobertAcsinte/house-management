@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ref, set, push, child, get, onValue, update, remove } from "firebase/database";
+import { ref, set, push, child, get, onValue, update } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 import { UserDataDb } from "./AuthContext";
@@ -35,30 +35,28 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
   const [houseInfoDb, setHouseInfoDb] = useState<HousesDataDb | null>(null)
 
   function getHouseData() {
-    const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId);
+    const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId)
     onValue(houseRef, async (snapshot) => {
       const houseId = snapshot.key;
       const houseName = snapshot.val().name;
       const invitations = snapshot.val().invitations;
       let users: UserDataDb[] = [];
   
-      const userPromises = snapshot.val().users.map((userId: string) => {
-        return get(child(ref(db), `users/${userId}`)).then((snapshot) => {
-          if (snapshot.exists()) {
-            const userToAdd: UserDataDb = {
-              uid: userId,
-              email: snapshot.val().email,
-              name: snapshot.val().name,
-              houseId: snapshot.val().houseId,
-              invitationsReceivedHouseId: snapshot.val().invitationsReceivedHouseId
-            };
-            users = [...users, userToAdd];
-          }
-        });
-      });
-  
-      await Promise.all(userPromises);
-  
+      //get info about the users who are joined the house
+      const usersData = snapshot.val().users.map(async (userId: string) => {
+        const userInfoFetched = await get(child(ref(db), `users/${userId}`))
+        const userToAdd: UserDataDb = {
+          uid: userId,
+          email: userInfoFetched.val().email,
+          name: userInfoFetched.val().name,
+          houseId: userInfoFetched.val().houseId,
+          invitationsReceivedHouseId: userInfoFetched.val().invitationsReceivedHouseId
+        };
+        users = [...users, userToAdd];
+      })
+      await Promise.all(usersData)
+
+      //get emails from the user id for pending invitations
       let invitationNames: string[] = []
       if(invitations !== undefined) {
         const invitationNamesPromises = invitations.map((value: string) => {
@@ -68,7 +66,6 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
             }
           });
         });
-    
         invitationNames = await Promise.all(invitationNamesPromises);
       } 
 
@@ -100,20 +97,19 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
           if (emailAddresses.includes(email)) {
             if(snapshot.child(userId!).val().houseId === undefined) {
               const savedInvitationsUser = snapshot.child(userId!).val().invitationsReceivedHouseId
-              const invitationToSaveUser = savedInvitationsUser ? [...savedInvitationsUser, houseInfoDb?.id] : [houseInfoDb?.id]
+              const updatedSavedInvitationsUser = savedInvitationsUser ? [...savedInvitationsUser, houseInfoDb?.id] : [houseInfoDb?.id]
               const invitationsToSaveHouse = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
-              if(houseInfoDb!.invitationsUsersId === undefined) {
-                update(ref(db, `users/${userId}`), {invitationsReceivedHouseId: invitationToSaveUser}).then(() => {
+
+              if (!houseInfoDb!.invitationsUsersId.find((userIdInvitation: any) => userIdInvitation === userId)) {
+                update(ref(db, `users/${userId}`), {invitationsReceivedHouseId: updatedSavedInvitationsUser}).then(() => {
                   update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSaveHouse})
                   .then(() => resolve(true))
                   .catch((error)=> reject(error))
                 }).catch((error) => reject(error))
               } else {
-                  if(!invitationsToSaveHouse.find((userIdInvitation: any) => { return userIdInvitation === userId})) {
-                  } else {
-                    reject("The user is already invited to this house!")
-                  }
+                reject("The user is already invited to this house!")
               }
+              
             } else {
               reject("The user is already part of a house!")
             }

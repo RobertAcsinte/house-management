@@ -28,7 +28,6 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
   const handleButtonClick = async () => {
     if(inputElementEdit.current?.value) {
       if(reAuth) {
-
         if(repeatPasswordField) {
           if(inputElementEdit.current?.value !== inputElementRepeatPassword.current?.value) {
             setError("Password don't match.")
