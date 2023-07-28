@@ -18,7 +18,7 @@ interface HouseContextValue {
   createHouse(houseName: String): Promise<unknown>
   joinHouse(houseId: string): Promise<unknown>
   changeHouseName(name: string): Promise<void>
-  leaveHouse(): Promise<unknown>
+  leaveHouse(): Promise<void>
   sendInvite(email: string): Promise<unknown>
   getHouseNameById(idhouse: string): Promise<unknown>
   onAcceptInvitation(houseId: string): Promise<any>
@@ -37,10 +37,11 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
   function getHouseData() {
     const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId)
     onValue(houseRef, async (snapshot) => {
-      const houseId = snapshot.key;
-      const houseName = snapshot.val().name;
-      const invitations = snapshot.val().invitations;
-      let users: UserDataDb[] = [];
+      const houseId = snapshot.key
+      const houseName = snapshot.val().name
+      const invitations = snapshot.val().invitations
+      let users: UserDataDb[] = []
+      let invitationsEmail: string[] = []
   
       //get info about the users who are joined the house
       const usersData = snapshot.val().users.map(async (userId: string) => {
@@ -56,74 +57,65 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
       })
       await Promise.all(usersData)
 
-      //get emails from the user id for pending invitations
-      let invitationNames: string[] = []
-      if(invitations !== undefined) {
-        const invitationNamesPromises = invitations.map((value: string) => {
-          return get(child(ref(db), `users/${value}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-              return snapshot.val().email;
-            }
-          });
+       //get emails from the user id for pending invitations
+      if (invitations !== undefined) {
+        const invitationNamesPromises = invitations.map(async (value: string) => {
+          const snapshot = await get(child(ref(db), `users/${value}`));
+          return snapshot.val().email;
         });
-        invitationNames = await Promise.all(invitationNamesPromises);
-      } 
+        invitationsEmail = await Promise.all(invitationNamesPromises);
+      }
 
-  
       setHouseInfoDb({
         id: houseId!,
         name: houseName,
         users: users,
         invitationsUsersId: invitations,
-        invitationsUsersEmail: invitationNames
+        invitationsUsersEmail: invitationsEmail
       });
     });
   }
 
-
-  function changeHouseName(name: string) {
+  function changeHouseName(name: string): Promise<void> {
     return update(ref(db, `houses/${houseInfoDb?.id}`), {name: name})
   }
 
-
-  function sendInvite(email: string) {
+  function sendInvite(email: string): Promise<unknown> {
     return new Promise(async (resolve, reject) => {
       try {
-        const snapshot = await get(child(ref(db), 'users'));
-        if (snapshot.exists()) {
-          const usersData = snapshot.val()
-          const emailAddresses = Object.values(usersData).map((user: any) => user.email)
-          const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email)
-          if (emailAddresses.includes(email)) {
-            if(snapshot.child(userId!).val().houseId === undefined) {
-              const savedInvitationsUser = snapshot.child(userId!).val().invitationsReceivedHouseId
-              const updatedSavedInvitationsUser = savedInvitationsUser ? [...savedInvitationsUser, houseInfoDb?.id] : [houseInfoDb?.id]
-              const invitationsToSaveHouse = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
-
-              if (!houseInfoDb!.invitationsUsersId.find((userIdInvitation: any) => userIdInvitation === userId)) {
-                update(ref(db, `users/${userId}`), {invitationsReceivedHouseId: updatedSavedInvitationsUser}).then(() => {
-                  update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSaveHouse})
-                  .then(() => resolve(true))
-                  .catch((error)=> reject(error))
-                }).catch((error) => reject(error))
-              } else {
-                reject("The user is already invited to this house!")
+        const snapshotUsers = await get(child(ref(db), 'users'));
+        const usersData = snapshotUsers.val()
+        const emailAddresses = Object.values(usersData).map((user: any) => user.email)
+        const userId = Object.keys(usersData).find((key: string) => usersData[key].email === email)
+        if (emailAddresses.includes(email)) {
+          if(snapshotUsers.child(userId!).val().houseId === undefined) {
+            const savedInvitationsUser = snapshotUsers.child(userId!).val().invitationsReceivedHouseId
+            const updatedSavedInvitationsUser = savedInvitationsUser ? [...savedInvitationsUser, houseInfoDb?.id] : [houseInfoDb?.id]
+            const invitationsToSaveHouse = houseInfoDb!.invitationsUsersId ? [...houseInfoDb!.invitationsUsersId, userId] : [userId]
+            if (!houseInfoDb!.invitationsUsersId.find((userIdInvitation: any) => userIdInvitation === userId)) {
+              try {
+                await update(ref(db, `users/${userId}`), {invitationsReceivedHouseId: updatedSavedInvitationsUser})
+                await update(ref(db, `houses/${houseInfoDb?.id}`), {invitations: invitationsToSaveHouse})
+                resolve(true)
+              } catch(error) {
+                reject(error)
               }
-              
             } else {
-              reject("The user is already part of a house!")
+              reject("The user is already invited to this house!")
             }
           } else {
-            reject("No account with the given email");
+            reject("The user is already part of a house!")
           }
-        } 
+        } else {
+          reject("No account with the given email");
+        }
       } catch (error) {
         reject(error);
       }
     });    
   }
 
-  function getHouseNameById(idhouse: string) {
+  function getHouseNameById(idhouse: string): Promise<unknown> {
     return new Promise(async (resolve, reject) => {
       try {
         const snapshot = await get(child(ref(db), 'houses/' + idhouse + '/name'))
@@ -136,94 +128,80 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     })
   }
 
-
-  function leaveHouse() {
+  function leaveHouse(): Promise<void> {
     const uids = houseInfoDb?.users
-    .filter((user) => user.uid !== authContext.currentUser?.uid)
-    .map((user) => user.uid);
-  
-    return new Promise((reject) => {
-      update(ref(db, `houses/${houseInfoDb?.id}`), {users: uids}).then (() => {
-        update(ref(db, `users/${authContext.currentUser?.uid}`), {houseId: null})
-      }).catch((error) => {
-        reject(error.code)
-      })
+      .filter((user) => user.uid !== authContext.currentUser?.uid)
+      .map((user) => user.uid)
+    return new Promise(async (resolve, reject) => {
+      try {
+        await update(ref(db, `houses/${houseInfoDb?.id}`), {users: uids})
+        await update(ref(db, `users/${authContext.currentUser?.uid}`), {houseId: null})
+        resolve()
+      } catch(error) {
+        reject(error)
+      }
     })
   }
 
   function createHouse(houseName: string) {
     const generatedKey = push(child(ref(db), 'houses')).key;
-    return set(ref(db, 'houses/' + generatedKey), {
-      name: houseName,
-      users: [authContext.currentUser?.uid]
-    }).then(() => {
-      return set(ref(db, '/users/' + authContext.currentUser?.uid), {
-        ...authContext.currentUserDataDb,
-        houseId: generatedKey
-      })
-    })
-    .catch((error) => {
-      return new Promise((reject) => {
-        reject(error.code)
-      })
-    })
-  }
+    return new Promise(async (resolve, reject) => {
+      try {
+        await set(ref(db, 'houses/' + generatedKey), {
+          name: houseName,
+          users: [authContext.currentUser?.uid]
+        })
+        await set(ref(db, '/users/' + authContext.currentUser?.uid), {
+          ...authContext.currentUserDataDb,
+          houseId: generatedKey
+        })
+      } catch(error) {
+        reject(error)
+      }
+    }
+  )}
 
   function joinHouse(houseId: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      get(child(ref(db), `houses/${houseId}`))
-        .then((snapshot) => {
-          if (!snapshot.exists()) {
-            reject("No house available with the given id!");
-          } else {
-            const updatedHouse = {
-              ...snapshot.val(),
-              users: [...snapshot.val().users, authContext.currentUser?.uid],
-            };
-            set(ref(db, `/houses/${houseId}`), updatedHouse)
-              .then(() => {
-                set(ref(db, `/users/${authContext.currentUser?.uid}`), {
-                  ...authContext.currentUserDataDb,
-                  houseId: houseId,
-                })
-                  .then(() => {
-                    resolve();
-                  })
-                  .catch((error) => {
-                    reject(error);
-                  });
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  function onAcceptInvitation(houseId: string): Promise<any> {
-    return new Promise<void>((resolve, reject) => {
-      joinHouse(houseId).then(() => {
-        get(child(ref(db), `houses/${houseId}`))
-        .then((snapshot) => {
-          const updatedInvitations = snapshot.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        const snapshot = await get(child(ref(db), `houses/${houseId}`));
+        if (!snapshot.exists()) {
+          reject("No house available with the given id!");
+        } else {
           const updatedHouse = {
             ...snapshot.val(),
+            users: [...snapshot.val().users, authContext.currentUser?.uid],
+          }
+          await set(ref(db, `/houses/${houseId}`), updatedHouse);
+          await set(ref(db, `/users/${authContext.currentUser?.uid}`), {
+            ...authContext.currentUserDataDb,
+            houseId: houseId,
+          });
+          resolve();
+        }
+      } catch (error) {
+        reject(error);
+      }
+    })
+  }  
+
+  function onAcceptInvitation(houseId: string): Promise<any> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        await joinHouse(houseId)
+        const houseInfo = await get(child(ref(db), `houses/${houseId}`))
+          const updatedInvitations = houseInfo.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
+          const updatedHouse = {
+            ...houseInfo.val(),
             invitations: updatedInvitations,
           };
-          set(ref(db, `houses/${houseId}`), updatedHouse).then(() => {
-            get(child(ref(db), `users/${authContext.currentUser?.uid}`))
-              .then((snapshot) => {
-                update(ref(db, `users/${authContext.currentUser?.uid}`), {invitationsReceivedHouseId: null}).then(() => resolve())
-              })
-          })
-        }).catch((error) => {
-          reject(error)
-        })
-      }).catch((error) => reject(error))
+          await set(ref(db, `houses/${houseId}`), updatedHouse)
+          await get(child(ref(db), `users/${authContext.currentUser?.uid}`))
+          await update(ref(db, `users/${authContext.currentUser?.uid}`), {invitationsReceivedHouseId: null})
+          resolve()
+      } catch(error) {
+        reject(error)
+      }
     })
   }
 
