@@ -8,7 +8,7 @@ function HomePage() {
   // const { currentUserDataDb } = context;
   let id = 0
   const [count, setCount] = useState(0)
-  console.log("sloboz")
+
 
   const call = () => {
     console.log(id)

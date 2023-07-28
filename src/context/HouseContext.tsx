@@ -173,8 +173,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     })
   }
 
-  function joinHouse(houseId: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+  function joinHouse(houseId: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
       get(child(ref(db), `houses/${houseId}`))
         .then((snapshot) => {
           if (!snapshot.exists()) {
@@ -186,23 +186,32 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
             };
             set(ref(db, `/houses/${houseId}`), updatedHouse)
               .then(() => {
-                set(ref(db, '/users/' + authContext.currentUser?.uid), {
-                ...authContext.currentUserDataDb,
-                houseId: houseId
-                }).catch((error) => {
-                  reject(error)
+                set(ref(db, `/users/${authContext.currentUser?.uid}`), {
+                  ...authContext.currentUserDataDb,
+                  houseId: houseId,
                 })
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch((error) => {
+                    reject(error);
+                  });
               })
-              .catch((error) => reject(error.code));
+              .catch((error) => {
+                reject(error);
+              });
           }
         })
-        .catch((error) => reject(error));
+        .catch((error) => {
+          reject(error);
+        });
     });
   }
 
   function onAcceptInvitation(houseId: string) {
-    joinHouse(houseId)
-    get(child(ref(db), `houses/${houseId}`))
+    joinHouse(houseId).then(() => {
+      console.log("pisat")
+      get(child(ref(db), `houses/${houseId}`))
       .then((snapshot) => {
         const updatedInvitations = snapshot.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
         const updatedHouse = {
@@ -218,6 +227,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
       }).catch((error) => {
 
       })
+    }).catch((error) => console.log(error))
   }
 
   useEffect(() => {
