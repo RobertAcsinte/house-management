@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import style from './NoHouse.module.css'
 import { useState, useRef, useEffect } from 'react';
 import ModalSingleField from '../../components/ModalSingleField/ModalSingleField';
+import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
 
 function NoHouse() {
   const houseContext = useHouseContext();
@@ -25,7 +26,9 @@ function NoHouse() {
   }
 
   const onAcceptInvite = (houseId: string) => {
-    houseContext.onAcceptInvitation(houseId)
+    setShowModal(true)
+    modal.current = <ModalConfirm title='Are you sure you want to join this house?' setShowModal={setShowModal} updateFunction={ () => houseContext.onAcceptInvitation(houseId)}></ModalConfirm>
+   
   }
 
 

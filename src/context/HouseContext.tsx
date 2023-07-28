@@ -21,7 +21,7 @@ interface HouseContextValue {
   leaveHouse(): Promise<unknown>
   sendInvite(email: string): Promise<unknown>
   getHouseNameById(idhouse: string): Promise<unknown>
-  onAcceptInvitation(houseId: string): void
+  onAcceptInvitation(houseId: string): Promise<any>
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -208,26 +208,27 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     });
   }
 
-  function onAcceptInvitation(houseId: string) {
-    joinHouse(houseId).then(() => {
-      console.log("pisat")
-      get(child(ref(db), `houses/${houseId}`))
-      .then((snapshot) => {
-        const updatedInvitations = snapshot.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
-        const updatedHouse = {
-          ...snapshot.val(),
-          invitations: updatedInvitations,
-        };
-        set(ref(db, `houses/${houseId}`), updatedHouse).then(() => {
-          get(child(ref(db), `users/${authContext.currentUser?.uid}`))
-            .then((snapshot) => {
-              update(ref(db, `users/${authContext.currentUser?.uid}`), {invitationsReceivedHouseId: null})
-            })
+  function onAcceptInvitation(houseId: string): Promise<any> {
+    return new Promise<void>((resolve, reject) => {
+      joinHouse(houseId).then(() => {
+        get(child(ref(db), `houses/${houseId}`))
+        .then((snapshot) => {
+          const updatedInvitations = snapshot.val().invitations.filter((element: string) => element !== authContext.currentUser?.uid)
+          const updatedHouse = {
+            ...snapshot.val(),
+            invitations: updatedInvitations,
+          };
+          set(ref(db, `houses/${houseId}`), updatedHouse).then(() => {
+            get(child(ref(db), `users/${authContext.currentUser?.uid}`))
+              .then((snapshot) => {
+                update(ref(db, `users/${authContext.currentUser?.uid}`), {invitationsReceivedHouseId: null}).then(() => resolve())
+              })
+          })
+        }).catch((error) => {
+          reject(error)
         })
-      }).catch((error) => {
-
-      })
-    }).catch((error) => console.log(error))
+      }).catch((error) => reject(error))
+    })
   }
 
   useEffect(() => {

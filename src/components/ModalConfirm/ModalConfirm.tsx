@@ -6,7 +6,7 @@ import { ClipLoader } from 'react-spinners'
 type ModalProps =  {
   title: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  updateFunction: () => Promise<any>
+  updateFunction: () => Promise<any> 
 }
 
 function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
