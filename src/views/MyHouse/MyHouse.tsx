@@ -41,7 +41,6 @@ function MyHouse() {
     return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
   })
 
-
   return (
     <>
       <Navbar showAllOptions/>
@@ -71,12 +70,16 @@ function MyHouse() {
             {members}
         </div>
 
+        {
+        (invitations !== undefined && invitations?.length > 0) && 
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Pending invitations</div>
           </div>
             {invitations}
         </div>
+        }
+
           
         <button className='full-button' style={{width: "50%"}} onClick={handleButtonLeave}>Leave</button>
       </div>
