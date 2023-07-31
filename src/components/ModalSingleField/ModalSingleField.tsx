@@ -24,7 +24,11 @@ function ModalSingleField({modalTitle, fieldHint, buttonText, setShowModal, upda
         setShowModal(false)
         setLoading(false)
       }).catch((error) => {
-        setError((error))
+        if(typeof error === "string") {
+          setError(error)
+        } else {
+        setError((error.message))
+        }
         setLoading(false)
       })
     }
