@@ -12,6 +12,7 @@ function NoHouse() {
   
   const [showModal, setShowModal] = useState(false)
   const [invites, setInvites] = useState<Map<string, string>>(new Map())
+  const [error, setError] = useState<any>()
 
   const modal = useRef<JSX.Element | null>(null)
 
@@ -36,7 +37,7 @@ function NoHouse() {
     if (authContext.currentUserDataDb?.invitationsReceivedHouseId) {
       const promises = authContext.currentUserDataDb.invitationsReceivedHouseId.map((valueId) =>
         houseContext.getHouseNameById(valueId).catch((error) => {
-          return null;
+          setError(error)
         })
       );
   
@@ -46,7 +47,7 @@ function NoHouse() {
         values.forEach((value, index) => {
           if (value) {
             const valueId = authContext.currentUserDataDb!.invitationsReceivedHouseId![index];
-            newInvitesMap.set(valueId, value as string);
+            newInvitesMap.set(valueId, value);
           }
         });
   
@@ -54,8 +55,6 @@ function NoHouse() {
       });
     }
   }, [authContext.currentUserDataDb?.invitationsReceivedHouseId]);
-  
-
 
   return (
     <>
@@ -69,15 +68,24 @@ function NoHouse() {
             {
             authContext.currentUserDataDb?.invitationsReceivedHouseId && 
             <div className={style.inviteContainer}>
-              <p>You have been invited to join a house!</p>
-                {
-                  Array.from(invites).map(([key, value]) => (
-                    <div className={style.inviteList} key={key}>
-                      <p className={style.houseNameInvite}>{`${value}`}<span className={style.idSpan}>{key}</span></p>
-                      <button className='full-button-small' onClick={() => {onAcceptInvite(key)}}>Join</button>
-                    </div>
-                  ))
-                }
+              {
+              error ? 
+                <p>{error}</p> 
+                : 
+                (
+                  <>
+                    <p>You have been invited to join a house!</p>
+                    {
+                    Array.from(invites).map(([key, value]) => (
+                      <div className={style.inviteList} key={key}>
+                        <p className={style.houseNameInvite}>{`${value}`}<span className={style.idSpan}>{key}</span></p>
+                        <button className='full-button-small' onClick={() => {onAcceptInvite(key)}}>Join</button>
+                      </div>
+                    ))
+                    }
+                  </>
+                )
+              }
               </div>
 
             }

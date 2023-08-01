@@ -15,13 +15,13 @@ interface HousesDataDb {
 
 interface HouseContextValue {
   houseInfoDb: HousesDataDb | null
-  createHouse(houseName: String): Promise<unknown>
-  joinHouse(houseId: string): Promise<unknown>
+  createHouse(houseName: String): Promise<void>
+  joinHouse(houseId: string): Promise<void>
   changeHouseName(name: string): Promise<void>
   leaveHouse(): Promise<void>
   sendInvite(email: string): Promise<boolean>
-  getHouseNameById(idhouse: string): Promise<unknown>
-  onAcceptInvitation(houseId: string): Promise<any>
+  getHouseNameById(idhouse: string): Promise<string>
+  onAcceptInvitation(houseId: string): Promise<void>
 }
 
 const HouseContext = React.createContext({} as HouseContextValue);
@@ -120,7 +120,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     });    
   }
 
-  function getHouseNameById(idhouse: string): Promise<unknown> {
+  function getHouseNameById(idhouse: string): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
         const snapshot = await get(child(ref(db), 'houses/' + idhouse + '/name'))
@@ -148,7 +148,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     })
   }
 
-  function createHouse(houseName: string) {
+  function createHouse(houseName: string): Promise<void> {
     const generatedKey = push(child(ref(db), 'houses')).key;
     return new Promise(async (resolve, reject) => {
       try {
@@ -160,6 +160,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
           ...authContext.currentUserDataDb,
           houseId: generatedKey
         })
+        resolve()
       } catch(error) {
         reject(error)
       }
@@ -190,7 +191,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
     })
   }  
 
-  function onAcceptInvitation(houseId: string): Promise<any> {
+  function onAcceptInvitation(houseId: string): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       try {
         await joinHouse(houseId)
