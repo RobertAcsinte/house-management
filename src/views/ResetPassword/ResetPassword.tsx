@@ -21,24 +21,22 @@ function ResetPassword() {
       setError("Please fill out the email field.")
       return
     }
-
     setLoading(true)
-    context.resetPassword(email)
-    .then(() =>  
-      {
-        setLoading(false)
-        void setShowModal(true)
-      })
 
-    .catch((forgotPasswordError) => {
+    try {
+      await context.resetPassword(email)
       setLoading(false)
-      setError(mapFirebaseErrorMessages(forgotPasswordError.code))
-    })
+      setShowModal(true)
+    } catch(error) {
+      setLoading(false)
+      if(typeof error === "string") {
+        setError(mapFirebaseErrorMessages(error))
+      }
+    }
   }
 
   return (
     <>
-  
     <div className='center-wrapper-nonav'>
       <div className='box-container'>
       <img className='logo-form' src={Logo} alt="logo" />

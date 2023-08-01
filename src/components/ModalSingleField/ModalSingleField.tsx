@@ -2,7 +2,6 @@ import React from 'react'
 import style from './ModalSingleField.module.css'
 import { useRef, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages'
 
 type ModalProps =  {
   modalTitle: string,
