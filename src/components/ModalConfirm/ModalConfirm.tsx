@@ -22,8 +22,6 @@ function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
         setError((error))
         setLoading(false)
       })
-
-
   }
 
   const handleButtonClickClose = () => {
