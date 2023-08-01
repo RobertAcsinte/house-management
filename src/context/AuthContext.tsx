@@ -18,16 +18,16 @@ export interface UserDataDb {
 interface AuthContextValue {
   currentUser: User | null,
   currentUserDataDb: UserDataDb | null
-  login: (email: string, password: string, stayLogged: boolean) => Promise<UserCredential>
+  login(email: string, password: string, stayLogged: boolean): Promise<UserCredential>
   logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
-  saveUserDb: (userId: string, email: string, name: string) => Promise<void>
-  resetPassword: (email: string) => Promise<void>
-  getUserData: (uid: string) => void
+  saveUserDb(userId: string, email: string, name: string): Promise<void>
+  resetPassword(email: string): Promise<void>
+  getUserData(uid: string): void
   updateEmailUser(email: string): Promise<unknown>
   updatePasswordUser(newPassword: string): Promise<void>
   reauthenticateUser(password: string): Promise<UserCredential>
-  updateName: (name: string) => Promise<void>
+  updateName(name: string): Promise<void>
 }
 
 export function useAuthContext() {
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
-  function login(email: string, password: string, stayLogged: boolean) {
+  function login(email: string, password: string, stayLogged: boolean): Promise<UserCredential> {
     if(stayLogged) {
       setPersistence(auth, browserLocalPersistence)
     }
@@ -55,23 +55,23 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return signInWithEmailAndPassword(auth, email, password)
   }
 
-  function logout() {
+  function logout(): Promise<void> {
     return signOut(auth)
   }
 
-  function saveUserDb(userId: string, email: string, name: string) {
+  function saveUserDb(userId: string, email: string, name: string): Promise<void> {
     return set(ref(db, 'users/' + userId), {
       email: email,
       name: name
     });
   }
 
-  function resetPassword(email: string) {
+  function resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(auth, email)
   }
 
-  function getUserData(uid: string) {
-    const refDb = ref(db, 'users/' + uid);
+  function getUserData(uid: string): void {
+    const refDb = ref(db, 'users/' + uid)
     onValue(refDb, (snapshot) => {
       const data = snapshot.val();
       setCurrentUserDataDb(data)
@@ -79,7 +79,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     });
   }
 
-  function updateName(name: string) {
+  function updateName(name: string): Promise<void> {
     return set(ref(db, 'users/' + currentUser?.uid), 
       {
         ...currentUserDataDb,
@@ -88,27 +88,27 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     );
   }
 
-  async function updateEmailUser(email: string) {    
-    return updateEmail(currentUser!, email).then(() => {
-      return set(ref(db, 'users/' + currentUser?.uid), 
+  async function updateEmailUser(email: string): Promise<void> {    
+    return new Promise(async (resolve, reject) => {
+      try {
+        await updateEmail(currentUser!, email)
+        await set(ref(db, 'users/' + currentUser?.uid), 
         {
           ...currentUserDataDb,
           email: email
-        }
-      )
-    })
-    .catch((error) => {
-      return new Promise((reject) => {
-        reject(error.code)
-      })
+        })
+        resolve()
+      } catch(error) {
+        reject(error)
+      }
     })
   }
 
-  function updatePasswordUser(newPassword: string) {
+  function updatePasswordUser(newPassword: string): Promise<void> {
     return updatePassword(currentUser!, newPassword)
   }
 
-  function reauthenticateUser(password: string) {
+  function reauthenticateUser(password: string): Promise<UserCredential> {
     return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
   }
 

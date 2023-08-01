@@ -4,7 +4,6 @@ import style from "./AccountPage.module.css"
 import Modal from '../../components/ModalEdit/ModalEdit';
 import { useState, useRef } from 'react';
 import { Edit } from '@mui/icons-material';
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
 
 function AccountPage() {

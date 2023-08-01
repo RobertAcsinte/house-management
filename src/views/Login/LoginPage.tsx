@@ -25,15 +25,12 @@ import Logo from '../../assets/logo.png';
       setError("Please fill out all the fields.")
       return
     }
-
     setLoading(true)
-    const successLogin = await context?.login(email, password, rememberCheck).catch((error) => {
+    await context?.login(email, password, rememberCheck).catch((error) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(error.code))
     })
-    if(successLogin) {
-      setLoading(false)
-    }
+    setLoading(false)
   }
 
   return (

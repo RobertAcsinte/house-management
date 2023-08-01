@@ -35,15 +35,15 @@ function RegisterPage() {
     })
 
     if (userCredential) {
-      context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
+      await context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
         setError(mapFirebaseErrorMessages(registerError.code))
       })
-
-      context.login(email, password, true).catch((loginError) => {
+      await context.login(email, password, true).catch((loginError) => {
         setLoading(false)
         setError(mapFirebaseErrorMessages(loginError.code))
       })
+      setLoading(false)
     }
   }
 
