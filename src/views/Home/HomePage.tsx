@@ -1,6 +1,6 @@
 import { useAuthContext } from '../../context/AuthContext';
 import Navbar from '../../components/Navbar/Navbar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function HomePage() {
   const context = useAuthContext();
@@ -14,5 +14,9 @@ function HomePage() {
     </>
   )
 }
+
+
+ 
+
 
 export default HomePage

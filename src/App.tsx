@@ -9,6 +9,7 @@ import { ProtectedRouteProps } from './components/ProtectedRoute/ProtectedRoute.
 import AccountPage from './views/Account/AccountPage.tsx'
 import NoHouse from './views/NoHouse/NoHouse.tsx'
 import MyHouse from './views/MyHouse/MyHouse.tsx'
+import KitchenPage from './views/Kitchen/KitchenPage.tsx'
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
     <Routes>
       <Route path='/' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
       <Route path='/myhouse' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<MyHouse />} />} />
+      <Route path='/kitchen' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<KitchenPage />} />} />
 
       <Route path="/account" element={<ProtectedRoute {...authRequiredIsAccountProps} component={<AccountPage />} />} />
 

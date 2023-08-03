@@ -18,6 +18,7 @@ function Navbar({showAllOptions}: NavbarProps) {
   const context = useAuthContext();
   const userName = context.currentUserDataDb!.name
 
+  //used to have the hamburger menu closed if the window is small and the navbar is hamburger
   const showMenuStyle = {
     display: window.innerWidth > 1000 ? "flex" : showMenu ? "flex" : "none"
   }

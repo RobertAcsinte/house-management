@@ -1,0 +1,74 @@
+.weekContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.buttonDate {
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: var(--black);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  width: 100px;
+  padding: 10px 15px;
+  margin: 5px 5px;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--orange);
+  box-sizing: border-box;
+}
+
+.buttonDate:hover {
+  background-color: var(--orange);
+}
+
+p {
+  font-size: 1rem;
+}
+
+
+.weekContainerSmall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.arrowContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  font-size: 1.5rem;
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 20px;
+}
+
+.daysContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 495px) {
+  .buttonDate {
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 60px;
+  }
+}
