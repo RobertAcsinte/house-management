@@ -72,3 +72,23 @@ p {
     width: 60px;
   }
 }
+
+.timeSlotsContainer {
+  margin: 50px 10%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 10px;
+}
+
+.timeSlotElement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 20px 20px;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: var(--orange);
+  border-width: 2px;
+}

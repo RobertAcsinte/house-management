@@ -50,7 +50,6 @@ function KitchenPage() {
     window.addEventListener("resize", handleResize)
   }, [])
 
-
   const weekDaysBig = 
     <div className={style.weekContainer}>
       <button onClick={handlePreviousWeekButton} className={style.buttonDate}>
@@ -108,10 +107,42 @@ function KitchenPage() {
       </div>
     </div>  
 
+  const times = [];
+  for (let i = 0; i < 24; i++) {
+    if(i<10) {
+      times.push("0" + i + ":00" + ' - ' + "0" + i + ":30")
+      times.push("0" + i + ":30" + ' - ' + "0" + (i + 1) + ":00")
+    }
+    else {
+      if(i == 23) {
+        times.push(i + ":00" + ' - ' + i + ":30")
+        times.push(i + ":30" + ' - ' + "00:00")
+      } else {
+        times.push(i + ":00" + ' - ' + i + ":30")
+        times.push(i + ":30" + ' - ' + (i + 1) + ":00")
+      }
+    }
+  }
+
+  const timesElement = times.map((element) => {
+    return (
+      <div key={element} className={style.timeSlotElement}>
+        {element}
+      </div>
+    )
+  })
+
+  const timeSlots = (
+    <div className={style.timeSlotsContainer}>
+      {timesElement}
+    </div>
+  );
+
   return (
     <>
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
+      {timeSlots}
     </>
   )
 }
