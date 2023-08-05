@@ -28,19 +28,6 @@ function KitchenPage() {
     const firstDateOfWeek = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
     firstDateOfWeek.setDate(firstDateOfWeekNumber - daysSinceMonday + daysFrom) // Get the first day of the week (Monday)
 
-
-    const romaniaTimeZone = 'Europe/Bucharest';
-
-    // Format the date and time in ISO 8601 format with the "Z" for UTC
-    const localIsoString = today.toLocaleString('en-US', { timeZone: romaniaTimeZone }).replace(', ', 'T') + 'Z';
-    
-    console.log(localIsoString);
-    console.log(today.toISOString())
-
-    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
-
-
-
     const dates = [];
     for (let i = 0; i < 7; i++) {
       const currentDate = new Date(firstDateOfWeek)
@@ -70,6 +57,11 @@ function KitchenPage() {
   }
   
   useEffect(() => {
+    if(window.innerWidth <= 865) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
     setWeekDates(getWeekDays(0))
     window.addEventListener("resize", handleResize)
   }, [])
@@ -142,8 +134,8 @@ function KitchenPage() {
       onChange={(newValue) => setSelectedStartingTime(newValue)}
     />
 
-    console.log(selectedStartingTime)
-    console.log(dayjs(selectedStartingTime).toISOString())
+    // console.log(selectedStartingTime)
+    // console.log(dayjs(selectedStartingTime).toISOString())
 
 
     const endingTimePicker =      
