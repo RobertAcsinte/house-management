@@ -1,21 +1,45 @@
 import Navbar from '../../components/Navbar/Navbar';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import style from './KitchenPage.module.css'
 import React from 'react';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
+import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import ModalProps from '../../components/ModalProps/ModalProps';
 
 function KitchenPage() {
   const [weekDates, setWeekDates] = useState<Date[]>([]);
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [selectedStartingTime, setSelectedStartingTime] = useState<any>(dayjs(new Date().getTime()))
+  const [selectedEndingTime, setSelectedEndingTime] = useState<any>(dayjs(new Date().getTime()).add(30, 'minute'))
+
+
+
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const modal = useRef<JSX.Element | null>(null)
+
+  const today = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
 
   const getWeekDays = (daysFrom: number) => {
-    const today = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
     const currentDayOfWeek = today.getDay() // Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3...Saturday: 6
     const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1 // Adjust to get Monday as the first day instead of Sunday
     
     const firstDateOfWeek = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
     firstDateOfWeek.setDate(firstDateOfWeekNumber - daysSinceMonday + daysFrom) // Get the first day of the week (Monday)
+
+
+    const romaniaTimeZone = 'Europe/Bucharest';
+
+    // Format the date and time in ISO 8601 format with the "Z" for UTC
+    const localIsoString = today.toLocaleString('en-US', { timeZone: romaniaTimeZone }).replace(', ', 'T') + 'Z';
+    
+    console.log(localIsoString);
+    console.log(today.toISOString())
+
+    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+
+
 
     const dates = [];
     for (let i = 0; i < 7; i++) {
@@ -59,11 +83,11 @@ function KitchenPage() {
         <React.Fragment key={index}>
           {date.toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ?
             <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}}>
-              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p>{date.toLocaleDateString()}</p>
+              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
             </button>
             : 
             <button key={index} className={style.buttonDate}>
-              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p>{date.toLocaleDateString()}</p>
+              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
             </button>
           }
         </React.Fragment>
@@ -107,42 +131,48 @@ function KitchenPage() {
       </div>
     </div>  
 
-  const times = [];
-  for (let i = 0; i < 24; i++) {
-    if(i<10) {
-      times.push("0" + i + ":00" + ' - ' + "0" + i + ":30")
-      times.push("0" + i + ":30" + ' - ' + "0" + (i + 1) + ":00")
-    }
-    else {
-      if(i == 23) {
-        times.push(i + ":00" + ' - ' + i + ":30")
-        times.push(i + ":30" + ' - ' + "00:00")
-      } else {
-        times.push(i + ":00" + ' - ' + i + ":30")
-        times.push(i + ":30" + ' - ' + (i + 1) + ":00")
-      }
-    }
+
+  const startingTimePicker =      
+    <MobileTimePicker
+      label="Starting time"
+      disablePast
+      ampm={false}
+      slotProps={{ textField: { variant: 'filled' } }}
+      value={selectedStartingTime}
+      onChange={(newValue) => setSelectedStartingTime(newValue)}
+    />
+
+    console.log(selectedStartingTime)
+    console.log(dayjs(selectedStartingTime).toISOString())
+
+
+    const endingTimePicker =      
+    <MobileTimePicker
+      label="Ending time"
+      disablePast
+      ampm={false}
+      slotProps={{ textField: { variant: 'filled' } }}
+      value={selectedEndingTime}
+      onChange={(newValue) => setSelectedEndingTime(newValue)}
+    />
+
+
+  const handleAddButton = () => {
+    setShowModal(true)
+    modal.current = <ModalProps fieldTitle='Make an appoitment' setShowModal={setShowModal} reactNodes={[startingTimePicker, endingTimePicker]} />
   }
 
-  const timesElement = times.map((element) => {
-    return (
-      <div key={element} className={style.timeSlotElement}>
-        {element}
-      </div>
-    )
-  })
-
-  const timeSlots = (
-    <div className={style.timeSlotsContainer}>
-      {timesElement}
-    </div>
-  );
 
   return (
     <>
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
-      {timeSlots}
+      <div className={style.addContainer}>
+        <button className='full-button-small' onClick={handleAddButton}>
+          Book a timeslot
+        </button>
+        {showModal && modal.current}
+      </div>
     </>
   )
 }

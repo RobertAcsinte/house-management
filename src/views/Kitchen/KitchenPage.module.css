@@ -27,7 +27,7 @@
   background-color: var(--orange);
 }
 
-p {
+.dateSmall {
   font-size: 1rem;
 }
 
@@ -92,3 +92,15 @@ p {
   border-color: var(--orange);
   border-width: 2px;
 }
+
+.addContainer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 50px 100px;
+  padding: 20px 0px;
+  border-radius: 20px;
+}
+
+
+
