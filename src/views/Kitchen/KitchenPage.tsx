@@ -8,7 +8,8 @@ import dayjs from 'dayjs';
 import ModalProps from '../../components/ModalProps/ModalProps';
 
 function KitchenPage() {
-  const [weekDates, setWeekDates] = useState<Date[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+  const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const [selectedStartingTime, setSelectedStartingTime] = useState<any>(dayjs(new Date().getTime()))
@@ -55,7 +56,13 @@ function KitchenPage() {
       setIsMobile(false)
     }
   }
+
+  const handleDateButton = (date: Date) => {
+    console.log(date)
+    setSelectedDate(date)
+  }
   
+
   useEffect(() => {
     if(window.innerWidth <= 865) {
       setIsMobile(true)
@@ -66,6 +73,7 @@ function KitchenPage() {
     window.addEventListener("resize", handleResize)
   }, [])
 
+
   const weekDaysBig = 
     <div className={style.weekContainer}>
       <button onClick={handlePreviousWeekButton} className={style.buttonDate}>
@@ -73,12 +81,12 @@ function KitchenPage() {
       </button>
       {weekDates.map((date, index) => (
         <React.Fragment key={index}>
-          {date.toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ?
-            <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}}>
+          {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
+            <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}} onClick={() => handleDateButton(date)}>
               {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
             </button>
             : 
-            <button key={index} className={style.buttonDate}>
+            <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
               {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
             </button>
           }
@@ -109,12 +117,12 @@ function KitchenPage() {
       <div className={style.daysContainer}>
         {weekDates.map((date, index) => (
           <React.Fragment key={index}>
-            {date.toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ?
-              <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}}>
+            {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
+              <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}} onClick={() => handleDateButton(date)}>
                 {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
               </button>
               : 
-              <button key={index} className={style.buttonDate}>
+              <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
                 {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
               </button>
             }
@@ -126,6 +134,7 @@ function KitchenPage() {
 
   const startingTimePicker =      
     <MobileTimePicker
+      key={selectedStartingTime}
       label="Starting time"
       disablePast
       ampm={false}
@@ -137,9 +146,9 @@ function KitchenPage() {
     // console.log(selectedStartingTime)
     // console.log(dayjs(selectedStartingTime).toISOString())
 
-
     const endingTimePicker =      
     <MobileTimePicker
+      key={selectedEndingTime}
       label="Ending time"
       disablePast
       ampm={false}
