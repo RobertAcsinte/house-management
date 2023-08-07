@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext.tsx'
 import { HouseProvider } from './context/HouseContext.tsx'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AppointmentProvider } from './context/AppointmentContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <AuthProvider>
           <HouseProvider>
-            <App />
+            <AppointmentProvider>
+              <App />
+            </AppointmentProvider>
           </HouseProvider>
         </AuthProvider>
       </BrowserRouter>
