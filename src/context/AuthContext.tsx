@@ -73,8 +73,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   function getUserData(uid: string): void {
     const refDb = ref(db, 'users/' + uid)
     onValue(refDb, (snapshot) => {
-      const data = snapshot.val();
-      setCurrentUserDataDb(data)
+      const data = snapshot.val()
+      setCurrentUserDataDb({ ...data, uid });
       setLoading(false)
     });
   }

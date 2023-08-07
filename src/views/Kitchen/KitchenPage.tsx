@@ -1,11 +1,12 @@
 import Navbar from '../../components/Navbar/Navbar';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import style from './KitchenPage.module.css'
 import React from 'react';
 import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import ModalProps from '../../components/ModalProps/ModalProps';
+import { useAppointmentContext } from '../../context/AppointmentContext';
 
 function KitchenPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -15,7 +16,7 @@ function KitchenPage() {
   const [selectedStartingTime, setSelectedStartingTime] = useState<any>(dayjs(new Date().getTime()))
   const [selectedEndingTime, setSelectedEndingTime] = useState<any>(dayjs(new Date().getTime()).add(30, 'minute'))
 
-
+  const appointmentContext = useAppointmentContext()
 
   const [showModal, setShowModal] = useState<boolean>(false)
   const modal = useRef<JSX.Element | null>(null)
@@ -63,16 +64,14 @@ function KitchenPage() {
   }
   
 
-  useEffect(() => {
-    if(window.innerWidth <= 865) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(false)
-    }
-    setWeekDates(getWeekDays(0))
-    window.addEventListener("resize", handleResize)
-  }, [])
+  const handleAddButton = () => {
+    setShowModal(true)
+    modal.current = <ModalProps fieldTitle='Make an appoitment' setShowModal={setShowModal} reactNodes={[startingTimePicker, endingTimePicker]} updateFunction={createBooking} />
+  }
 
+  const createBooking = () => {
+    return appointmentContext.createAppointment(dayjs(selectedStartingTime).toISOString(), dayjs(selectedEndingTime).toISOString())
+  }
 
   const weekDaysBig = 
     <div className={style.weekContainer}>
@@ -143,8 +142,6 @@ function KitchenPage() {
       onChange={(newValue) => setSelectedStartingTime(newValue)}
     />
 
-    // console.log(selectedStartingTime)
-    // console.log(dayjs(selectedStartingTime).toISOString())
 
     const endingTimePicker =      
     <MobileTimePicker
@@ -157,12 +154,15 @@ function KitchenPage() {
       onChange={(newValue) => setSelectedEndingTime(newValue)}
     />
 
-
-  const handleAddButton = () => {
-    setShowModal(true)
-    modal.current = <ModalProps fieldTitle='Make an appoitment' setShowModal={setShowModal} reactNodes={[startingTimePicker, endingTimePicker]} />
-  }
-
+  useEffect(() => {
+    if(window.innerWidth <= 865) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+    setWeekDates(getWeekDays(0))
+    window.addEventListener("resize", handleResize)
+  }, [])
 
   return (
     <>

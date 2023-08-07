@@ -6,21 +6,25 @@ import { ClipLoader } from 'react-spinners';
 
 type ModalPropsType =  {
   fieldTitle: string,
+  
 
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  // updateFunction: (value: string) => Promise<any>
+  updateFunction: () => Promise<any>
   reactNodes: ReactNode[];
 }
 
-function ModalProps({fieldTitle, setShowModal, reactNodes}: ModalPropsType) {
-
+function ModalProps({fieldTitle, setShowModal, reactNodes, updateFunction}: ModalPropsType) {
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
-
   const handleButtonClick = async () => {
-
+    setLoading(true)
+    await updateFunction().catch((error) => {
+      setError(mapFirebaseErrorMessages(error.code))
+    })
+    setLoading(false)
+    setShowModal(false)
   }
 
   const handleClose = () => {
@@ -36,7 +40,7 @@ function ModalProps({fieldTitle, setShowModal, reactNodes}: ModalPropsType) {
             {reactNodes}
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Book now!</button>}
           </div>
         </div>
       </div>
