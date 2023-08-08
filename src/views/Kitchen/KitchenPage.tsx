@@ -13,11 +13,6 @@ function KitchenPage() {
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
-  const [selectedStartingTime, setSelectedStartingTime] = useState<any>(dayjs(new Date().getTime()))
-  const [selectedEndingTime, setSelectedEndingTime] = useState<any>(dayjs(new Date().getTime()).add(30, 'minute'))
-
-  // console.log(selectedStartingTime.toISOString())
-  // console.log(selectedEndingTime.toISOString())
 
   const appointmentContext = useAppointmentContext()
 
@@ -61,21 +56,19 @@ function KitchenPage() {
   }
 
   const handleDateButton = (date: Date) => {
-    console.log(date)
     setSelectedDate(date)
   }
   
-
   const handleAddButton = () => {
     setShowModal(true)
     modal.current = 
     <ModalProps 
       fieldTitle='Make an appoitment' 
       setShowModal={setShowModal} 
+      //sends to the time picker modal only the date as in for example '2023-08-08'
+      calendarDate={dayjs(selectedDate).toISOString().slice(0, 10)}
      />
   }
-
-
 
   const weekDaysBig = 
     <div className={style.weekContainer}>

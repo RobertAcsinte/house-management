@@ -10,22 +10,25 @@ import { useAppointmentContext } from '../../context/AppointmentContext';
 type ModalTimePickerType =  {
   fieldTitle: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  calendarDate: string
 }
 
-function ModalTimePicker({fieldTitle, setShowModal}: ModalTimePickerType) {
+function ModalTimePicker({fieldTitle, setShowModal, calendarDate}: ModalTimePickerType) {
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const selectedStartingTime = useRef<any>(dayjs(new Date().getTime()))
-  const selectedEndingTime = useRef<any>(dayjs(new Date().getTime()).add(30, 'minute'))
+  //gets the calendarDate props which is in the format of '2023-08-08' then it adds a T
+  //then it gets the current time to ISO string, which is like 2023-08-08T12:10:23.105Z, and then it's slicing it to only get the 12:10:23.105Z part
+  //this way it gets the selected date from the slider and the selected time from the picker, bc the selected time from the picker only gives the current date
+  const formattedStartingTime = useRef(calendarDate + "T" + dayjs(new Date().getTime()).toISOString().slice(dayjs(new Date().getTime()).toISOString().indexOf("T") + 1))
+  const formattedEndingTime = useRef(calendarDate + "T" + dayjs(dayjs(new Date().getTime()).add(30, 'minute')).toISOString().slice(dayjs(dayjs(new Date().getTime()).add(30, 'minute')).toISOString().indexOf("T") + 1))
 
   const appointmentContext = useAppointmentContext()
 
-
   const handleButtonClick = async () => {
     setLoading(true)
-    await appointmentContext.createAppointment(dayjs(selectedStartingTime.current).toISOString(), dayjs(selectedEndingTime.current).toISOString()).catch((error) => {
+    await appointmentContext.createAppointment(formattedStartingTime.current, formattedEndingTime.current).catch((error) => {
       setError(mapFirebaseErrorMessages(error.code))
     })
     setLoading(false)
@@ -36,26 +39,35 @@ function ModalTimePicker({fieldTitle, setShowModal}: ModalTimePickerType) {
     setShowModal(false)
   }
   
+
+  //the pickers needs the value as a dayjs type and it also gives it as a dayjs type when changed
   const startingTimePicker =      
     <MobileTimePicker
-      key={selectedStartingTime.current}
+      key={formattedStartingTime.current}
       label="Starting time"
       disablePast
       ampm={false}
       slotProps={{ textField: { variant: 'filled' } }}
-      value={selectedStartingTime.current}
-      onChange={(newValue) => selectedStartingTime.current = newValue}
+      value={dayjs(new Date(formattedStartingTime.current))}
+      onChange={(newValue) => {
+        const time = dayjs(newValue).toISOString().slice(dayjs(newValue).toISOString().indexOf("T") + 1)
+        const formattedDateAppointment = calendarDate + "T" + time
+        formattedStartingTime.current = formattedDateAppointment
+      }}
     />
-
   const endingTimePicker =      
     <MobileTimePicker
-      key={selectedEndingTime.current}
+      key={formattedEndingTime.current}
       label="Ending time"
       disablePast
       ampm={false}
       slotProps={{ textField: { variant: 'filled' } }}
-      value={selectedEndingTime.current}
-      onChange={(newValue) => selectedEndingTime.current = newValue}
+      value={dayjs(new Date(formattedEndingTime.current))}
+      onChange={(newValue) => {
+        const time = dayjs(newValue).toISOString().slice(dayjs(newValue).toISOString().indexOf("T") + 1)
+        const formattedDateAppointment = calendarDate + "T" + time
+        formattedEndingTime.current = formattedDateAppointment
+      }}
     />
 
   return (
