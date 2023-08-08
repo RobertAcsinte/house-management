@@ -49,7 +49,6 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
     const appointmentRef = ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + date)
     onValue(appointmentRef, async (snapshot) => {
       const data = snapshot.val();
-      console.log(data)
       if (data) {
         const newAppointmentsArray = Object.keys(data).map((appointmentId) => {
           const appointment = data[appointmentId];

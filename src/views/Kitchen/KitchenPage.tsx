@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
 import { AppointmentDb, useAppointmentContext } from '../../context/AppointmentContext';
 import { useHouseContext } from '../../context/HouseContext';
+import AppointmentBox from '../../components/AppointmentBox/AppointmentBox';
 
 function KitchenPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -145,9 +146,9 @@ function KitchenPage() {
   }, [houseContext.houseInfoDb, selectedDate])
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
-    return (<div>
-      {element.startingTime}
-    </div>)
+    return (
+      <AppointmentBox key={element.id} name={element.usersId} startingTime={element.startingTime} endingTime={element.endingTime} />
+    )
   })
 
   return (
@@ -158,9 +159,11 @@ function KitchenPage() {
         <button className='full-button-small' onClick={handleAddButton}>
           Book a timeslot
         </button>
-        {showModal && modal.current}
-        {appointmentsUI}
       </div>
+      <div className={style.appointmentsContainer}>
+          {appointmentsUI}
+        </div>
+        {showModal && modal.current}
     </>
   )
 }
