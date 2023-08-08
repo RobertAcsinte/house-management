@@ -5,7 +5,7 @@ import React from 'react';
 import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import ModalProps from '../../components/ModalProps/ModalProps';
+import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
 import { useAppointmentContext } from '../../context/AppointmentContext';
 
 function KitchenPage() {
@@ -15,6 +15,9 @@ function KitchenPage() {
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const [selectedStartingTime, setSelectedStartingTime] = useState<any>(dayjs(new Date().getTime()))
   const [selectedEndingTime, setSelectedEndingTime] = useState<any>(dayjs(new Date().getTime()).add(30, 'minute'))
+
+  // console.log(selectedStartingTime.toISOString())
+  // console.log(selectedEndingTime.toISOString())
 
   const appointmentContext = useAppointmentContext()
 
@@ -36,7 +39,6 @@ function KitchenPage() {
       currentDate.setDate(firstDateOfWeek.getDate() + i)
       dates.push(currentDate)
     }
-
     return dates
   };
 
@@ -66,12 +68,14 @@ function KitchenPage() {
 
   const handleAddButton = () => {
     setShowModal(true)
-    modal.current = <ModalProps fieldTitle='Make an appoitment' setShowModal={setShowModal} reactNodes={[startingTimePicker, endingTimePicker]} updateFunction={createBooking} />
+    modal.current = 
+    <ModalProps 
+      fieldTitle='Make an appoitment' 
+      setShowModal={setShowModal} 
+     />
   }
 
-  const createBooking = () => {
-    return appointmentContext.createAppointment(dayjs(selectedStartingTime).toISOString(), dayjs(selectedEndingTime).toISOString())
-  }
+
 
   const weekDaysBig = 
     <div className={style.weekContainer}>
@@ -129,30 +133,6 @@ function KitchenPage() {
         ))}
       </div>
     </div>  
-
-
-  const startingTimePicker =      
-    <MobileTimePicker
-      key={selectedStartingTime}
-      label="Starting time"
-      disablePast
-      ampm={false}
-      slotProps={{ textField: { variant: 'filled' } }}
-      value={selectedStartingTime}
-      onChange={(newValue) => setSelectedStartingTime(newValue)}
-    />
-
-
-    const endingTimePicker =      
-    <MobileTimePicker
-      key={selectedEndingTime}
-      label="Ending time"
-      disablePast
-      ampm={false}
-      slotProps={{ textField: { variant: 'filled' } }}
-      value={selectedEndingTime}
-      onChange={(newValue) => setSelectedEndingTime(newValue)}
-    />
 
   useEffect(() => {
     if(window.innerWidth <= 865) {

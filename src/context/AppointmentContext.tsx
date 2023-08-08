@@ -26,9 +26,10 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const houseContext = useHouseContext()
 
   function createAppointment(startingDate: string, endingDate: string): Promise<void> {
+    const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key;
     return new Promise(async (resolve, reject) => {
       try {
-        await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id), {
+        await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
           userId: authContext.currentUserDataDb?.uid,
           startingDate: startingDate,
           endingDate: endingDate
