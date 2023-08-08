@@ -6,15 +6,18 @@ import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
-import { useAppointmentContext } from '../../context/AppointmentContext';
+import { AppointmentDb, useAppointmentContext } from '../../context/AppointmentContext';
+import { useHouseContext } from '../../context/HouseContext';
 
 function KitchenPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [appointments, setAppointments] = useState<AppointmentDb[]>([])
 
   const appointmentContext = useAppointmentContext()
+  const houseContext = useHouseContext()
 
   const [showModal, setShowModal] = useState<boolean>(false)
   const modal = useRef<JSX.Element | null>(null)
@@ -137,6 +140,16 @@ function KitchenPage() {
     window.addEventListener("resize", handleResize)
   }, [])
 
+  useEffect(() => {
+    appointmentContext.getAppointments(dayjs(selectedDate).toISOString().slice(0, 10))
+  }, [houseContext.houseInfoDb, selectedDate])
+
+  const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
+    return (<div>
+      {element.startingTime}
+    </div>)
+  })
+
   return (
     <>
       <Navbar showAllOptions/>
@@ -146,6 +159,7 @@ function KitchenPage() {
           Book a timeslot
         </button>
         {showModal && modal.current}
+        {appointmentsUI}
       </div>
     </>
   )

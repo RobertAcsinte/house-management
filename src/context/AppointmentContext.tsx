@@ -1,10 +1,10 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useAuthContext } from "./AuthContext"
 import { useHouseContext } from "./HouseContext"
-import { child, push, ref, set } from "firebase/database"
+import { child, onValue, push, ref, set } from "firebase/database"
 import { db } from "../firebaseConfig"
 
-interface AppointmentDb {
+export interface AppointmentDb {
   id: string
   startingTime: string
   endingTime: string
@@ -12,7 +12,9 @@ interface AppointmentDb {
 }
 
 interface AppointmentContextValue {
+  appointmentsDb: AppointmentDb[] | null,
   createAppointment(startingDate: string, endingDate: string): Promise<void>
+  getAppointments(date: string): void 
 }
 
 const AppointmentContext = React.createContext({} as AppointmentContextValue)
@@ -22,6 +24,8 @@ export function useAppointmentContext() {
 }
 
 export function AppointmentProvider({ children }: {children: React.ReactNode}) {
+  const [appointmentsDb, setAppointmentsDb] = useState<AppointmentDb[] | null>(null)
+
   const authContext = useAuthContext()
   const houseContext = useHouseContext()
 
@@ -41,9 +45,30 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
     }
   )}
 
-
+  function getAppointments(date: string): void {
+    const appointmentRef = ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + date)
+    onValue(appointmentRef, async (snapshot) => {
+      const data = snapshot.val();
+      console.log(data)
+      if (data) {
+        const newAppointmentsArray = Object.keys(data).map((appointmentId) => {
+          const appointment = data[appointmentId];
+          return {
+            id: appointmentId,
+            startingTime: appointment.startingDate,
+            endingTime: appointment.endingDate,
+            usersId: appointment.userId,
+          };
+        });
+        setAppointmentsDb(newAppointmentsArray);
+      }
+    })
+  }
+  
   const value: AppointmentContextValue = {
-    createAppointment
+    appointmentsDb: appointmentsDb,
+    createAppointment,
+    getAppointments
   }
 
   return (
