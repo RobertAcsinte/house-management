@@ -18,7 +18,7 @@ function KitchenPage() {
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const appointmentContext = useAppointmentContext()
   const houseContext = useHouseContext()
@@ -71,7 +71,8 @@ function KitchenPage() {
     modal.current = 
     <ModalProps 
       fieldTitle='Make an appoitment' 
-      setShowModal={setShowModal} 
+      setShowModal={setShowModal}
+      setErrorNoAppointments={setError}
       //sends to the time picker modal only the date as in for example '2023-08-08'
       calendarDate={dayjs(selectedDate).toISOString().slice(0, 10)}
      />
@@ -149,6 +150,7 @@ function KitchenPage() {
       try {
         await appointmentContext.getAppointments(dayjs(selectedDate).toISOString().slice(0, 10))
         setLoading(false)
+        setError(null)
       } catch(error: any) {
         setLoading(false)
         setError(mapFirebaseErrorMessages(error))
@@ -162,6 +164,7 @@ function KitchenPage() {
       <AppointmentBox key={element.id} name={element.userName} startingTime={element.startingTime} endingTime={element.endingTime} />
     )
   })
+
   return (
     <>
       <Navbar showAllOptions/>

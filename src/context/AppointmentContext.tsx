@@ -68,6 +68,9 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
             setAppointmentsDb(newAppointmentsArray)
             resolve()
           }
+          else {
+            reject("No appointments")
+          }
         })
       } catch (error) {
         reject(error);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import { ClipLoader } from 'react-spinners';
 import { auth, db } from "../firebaseConfig"
 import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
@@ -37,9 +37,9 @@ export function useAuthContext() {
 const AuthContext = React.createContext({} as AuthContextValue);
 
 export function AuthProvider({ children }: {children: React.ReactNode}) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const currentUser = useRef<User | null>(null)
   const [currentUserDataDb, setCurrentUserDataDb] = useState<UserDataDb | null>(null)
-  const [loading, setLoading] = useState(true)
+  const loading = useRef<boolean>(true)
 
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
@@ -76,13 +76,13 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       const data = snapshot.val()
       if(data) {
         setCurrentUserDataDb({ ...data, uid });
+        loading.current = false
       }
-      setLoading(false)
     });
   }
 
   function updateName(name: string): Promise<void> {
-    return set(ref(db, 'users/' + currentUser?.uid), 
+    return set(ref(db, 'users/' + currentUser.current?.uid), 
       {
         ...currentUserDataDb,
         name: name
@@ -93,8 +93,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   async function updateEmailUser(email: string): Promise<void> {    
     return new Promise(async (resolve, reject) => {
       try {
-        await updateEmail(currentUser!, email)
-        await set(ref(db, 'users/' + currentUser?.uid), 
+        await updateEmail(currentUser.current!, email)
+        await set(ref(db, 'users/' + currentUser.current?.uid), 
         {
           ...currentUserDataDb,
           email: email
@@ -107,15 +107,15 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   }
 
   function updatePasswordUser(newPassword: string): Promise<void> {
-    return updatePassword(currentUser!, newPassword)
+    return updatePassword(currentUser.current!, newPassword)
   }
 
   function reauthenticateUser(password: string): Promise<UserCredential> {
-    return reauthenticateWithCredential(currentUser!, EmailAuthProvider.credential(currentUser!.email!, password))
+    return reauthenticateWithCredential(currentUser.current!, EmailAuthProvider.credential(currentUser.current!.email!, password))
   }
 
   const value: AuthContextValue = {
-    currentUser: currentUser,
+    currentUser: currentUser.current,
     currentUserDataDb: currentUserDataDb,
     login,
     logout,
@@ -133,24 +133,22 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if(user) {
         getUserData(user?.uid)  
-        setCurrentUser(user)
-      } else {
-        setLoading(false)
-      }
+        currentUser.current = user
+      } 
     })
     
     return unsubscribe
   }, [])
+  
 
   return (
     <AuthContext.Provider value={value}>
-      { loading ? 
+      { loading.current ? 
       <>
         <div className='center-wrapper'>
           <ClipLoader color="var(--orange)" size="200px" /> 
           </div>
       </>
-
       : children }
 
     </AuthContext.Provider>

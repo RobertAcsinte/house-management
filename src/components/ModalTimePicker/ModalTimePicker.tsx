@@ -10,10 +10,11 @@ import { useAppointmentContext } from '../../context/AppointmentContext';
 type ModalTimePickerType =  {
   fieldTitle: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrorNoAppointments: React.Dispatch<React.SetStateAction<string| null>>,
   calendarDate: string
 }
 
-function ModalTimePicker({fieldTitle, setShowModal, calendarDate}: ModalTimePickerType) {
+function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, calendarDate}: ModalTimePickerType) {
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -33,6 +34,7 @@ function ModalTimePicker({fieldTitle, setShowModal, calendarDate}: ModalTimePick
     })
     setLoading(false)
     setShowModal(false)
+    setErrorNoAppointments(null)
   }
 
   const handleClose = () => {

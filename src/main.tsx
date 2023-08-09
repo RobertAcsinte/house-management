@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { AppointmentProvider } from './context/AppointmentContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
         <AuthProvider>
@@ -21,6 +21,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           </HouseProvider>
         </AuthProvider>
       </BrowserRouter>
-    </LocalizationProvider>
-  // </React.StrictMode>
+     </LocalizationProvider>
+   </React.StrictMode>
 )

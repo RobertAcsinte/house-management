@@ -40,6 +40,7 @@ function MyHouse() {
     const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
     return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
   })
+  console.log("my house")
 
   return (
     <>

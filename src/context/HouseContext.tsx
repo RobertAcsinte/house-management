@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { ref, set, push, child, get, onValue, update } from "firebase/database";
 import { db } from "../firebaseConfig"
 import { useAuthContext } from "./AuthContext";
 import { UserDataDb } from "./AuthContext";
+import { ClipLoader } from "react-spinners";
 
 
 interface HousesDataDb {
@@ -33,6 +34,7 @@ export function useHouseContext() {
 export function HouseProvider({ children }: {children: React.ReactNode}) {
   const authContext = useAuthContext();
   const [houseInfoDb, setHouseInfoDb] = useState<HousesDataDb | null>(null)
+  const loading = useRef<boolean>(true)
 
   function getHouseData(): void {
     const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId)
@@ -73,6 +75,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
         invitationsUsersId: invitations,
         invitationsUsersEmail: invitationsEmail
       })
+      loading.current = false
     })
   }
 
@@ -231,7 +234,13 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   return (
     <HouseContext.Provider value={value}>
-      {children}
+      { loading.current ? 
+      <>
+        <div className='center-wrapper'>
+          <ClipLoader color="var(--orange)" size="200px" /> 
+          </div>
+      </>
+      : children }
     </HouseContext.Provider>
   )
 }
