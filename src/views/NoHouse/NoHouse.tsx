@@ -32,7 +32,6 @@ function NoHouse() {
    
   }
 
-
   useEffect(() => {  
     if (authContext.currentUserDataDb?.invitationsReceivedHouseId) {
       const promises = authContext.currentUserDataDb.invitationsReceivedHouseId.map((valueId) =>

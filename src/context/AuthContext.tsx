@@ -74,7 +74,9 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     const refDb = ref(db, 'users/' + uid)
     onValue(refDb, (snapshot) => {
       const data = snapshot.val()
-      setCurrentUserDataDb({ ...data, uid });
+      if(data) {
+        setCurrentUserDataDb({ ...data, uid });
+      }
       setLoading(false)
     });
   }
@@ -129,8 +131,12 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      getUserData(user?.uid!)  
-      setCurrentUser(user)
+      if(user) {
+        getUserData(user?.uid)  
+        setCurrentUser(user)
+      } else {
+        setLoading(false)
+      }
     })
     
     return unsubscribe
