@@ -59,9 +59,20 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
             usersId: appointment.userId,
           };
         });
-        setAppointmentsDb(newAppointmentsArray);
+        newAppointmentsArray.sort(compareStartingTime)
+        setAppointmentsDb(newAppointmentsArray)
       }
     })
+  }
+
+  function compareStartingTime(a: AppointmentDb, b: AppointmentDb) {
+    if (a.startingTime < b.startingTime) {
+      return -1;
+    }
+    if (a.startingTime > b.startingTime) {
+      return 1;
+    }
+    return 0;
   }
   
   const value: AppointmentContextValue = {
