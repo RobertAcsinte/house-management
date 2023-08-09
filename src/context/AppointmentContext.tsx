@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useAuthContext } from "./AuthContext"
 import { useHouseContext } from "./HouseContext"
-import { child, onValue, push, ref, set } from "firebase/database"
+import { child, get, onValue, push, ref, set } from "firebase/database"
 import { db } from "../firebaseConfig"
 
 export interface AppointmentDb {
   id: string
   startingTime: string
   endingTime: string
-  usersId: string
+  userId: string
+  userName: string
 }
 
 interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
   createAppointment(startingDate: string, endingDate: string): Promise<void>
-  getAppointments(date: string): void 
+  getAppointments(date: string): Promise<void> 
 }
 
 const AppointmentContext = React.createContext({} as AppointmentContextValue)
@@ -45,24 +46,33 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
     }
   )}
 
-  function getAppointments(date: string): void {
-    const appointmentRef = ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + date)
-    onValue(appointmentRef, async (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const newAppointmentsArray = Object.keys(data).map((appointmentId) => {
-          const appointment = data[appointmentId];
-          return {
-            id: appointmentId,
-            startingTime: appointment.startingDate,
-            endingTime: appointment.endingDate,
-            usersId: appointment.userId,
-          };
-        });
-        newAppointmentsArray.sort(compareStartingTime)
-        setAppointmentsDb(newAppointmentsArray)
+  function getAppointments(date: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const appointmentRef = ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + date)
+        onValue(appointmentRef, async (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            const newAppointmentsArray = await Promise.all(Object.keys(data).map(async (appointmentId) => {
+              const appointment = data[appointmentId];
+              const userInfoFetched = await get(child(ref(db), `users/${appointment.userId}`))
+              return {
+                id: appointmentId,
+                startingTime: appointment.startingDate,
+                endingTime: appointment.endingDate,
+                userId: appointment.userId,
+                userName: userInfoFetched.val().name
+              }
+            }))
+            newAppointmentsArray.sort(compareStartingTime)
+            setAppointmentsDb(newAppointmentsArray)
+            resolve()
+          }
+        })
+      } catch (error) {
+        reject(error);
       }
-    })
+      })    
   }
 
   function compareStartingTime(a: AppointmentDb, b: AppointmentDb) {

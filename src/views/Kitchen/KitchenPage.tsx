@@ -9,13 +9,16 @@ import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
 import { AppointmentDb, useAppointmentContext } from '../../context/AppointmentContext';
 import { useHouseContext } from '../../context/HouseContext';
 import AppointmentBox from '../../components/AppointmentBox/AppointmentBox';
+import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import { ClipLoader } from 'react-spinners';
 
 function KitchenPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
-  const [appointments, setAppointments] = useState<AppointmentDb[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
   const appointmentContext = useAppointmentContext()
   const houseContext = useHouseContext()
@@ -142,15 +145,23 @@ function KitchenPage() {
   }, [])
 
   useEffect(() => {
-    appointmentContext.getAppointments(dayjs(selectedDate).toISOString().slice(0, 10))
+    const fetchAppointments = async () => {
+      try {
+        await appointmentContext.getAppointments(dayjs(selectedDate).toISOString().slice(0, 10))
+        setLoading(false)
+      } catch(error: any) {
+        setLoading(false)
+        setError(mapFirebaseErrorMessages(error))
+      }
+    }
+    fetchAppointments()
   }, [houseContext.houseInfoDb, selectedDate])
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (
-      <AppointmentBox key={element.id} name={element.usersId} startingTime={element.startingTime} endingTime={element.endingTime} />
+      <AppointmentBox key={element.id} name={element.userName} startingTime={element.startingTime} endingTime={element.endingTime} />
     )
   })
-
   return (
     <>
       <Navbar showAllOptions/>
@@ -160,10 +171,19 @@ function KitchenPage() {
           Book a timeslot
         </button>
       </div>
-      <div className={style.appointmentsContainer}>
-          {appointmentsUI}
-        </div>
-        {showModal && modal.current}
+      {loading ? 
+        <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div> 
+        : 
+        <>{error ?
+          <div className='top-wrapper'><p className='error-text'>{error}</p></div>
+          :
+          <div className={style.appointmentsContainer}>
+            {appointmentsUI}
+          </div>
+        }</>
+      }
+
+      {showModal && modal.current}
     </>
   )
 }

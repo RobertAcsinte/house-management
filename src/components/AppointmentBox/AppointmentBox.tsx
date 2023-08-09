@@ -10,7 +10,6 @@ type AppointmentBoxProps = {
 function AppointmentBox({name, startingTime, endingTime}: AppointmentBoxProps) {
   const timestampStart = startingTime
   const dateObjectStart = new Date(timestampStart)
-  console.log(dateObjectStart)
   const hoursStart = dateObjectStart.getHours() < 10 ? `0${dateObjectStart.getHours()}` : dateObjectStart.getHours()
   const minutesStart = dateObjectStart.getMinutes() < 10 ? `0${dateObjectStart.getMinutes()}` : dateObjectStart.getMinutes()
   const formattedTimeStart = `${hoursStart}:${minutesStart}`
