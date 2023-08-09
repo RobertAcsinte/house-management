@@ -1,11 +1,13 @@
 .container {
   display: inline-flex;
-  background-color: var(--black);
-  color: var(--white);
+  background-color: var(--white);
+  color: var(--black);
   align-items: center;
   box-sizing: border-box;
   padding: 10px 10px;
   border-radius: 20px;
+  border: solid;
+  border-color: var(--orange);
   box-shadow: 0px 0px 10px var(--black-shadow);
 }
 

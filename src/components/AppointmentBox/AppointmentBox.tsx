@@ -10,14 +10,15 @@ type AppointmentBoxProps = {
 function AppointmentBox({name, startingTime, endingTime}: AppointmentBoxProps) {
   const timestampStart = startingTime
   const dateObjectStart = new Date(timestampStart)
-  const hoursStart = dateObjectStart.getUTCHours() < 10 ? `0${dateObjectStart.getUTCHours()}` : dateObjectStart.getUTCHours()
-  const minutesStart = dateObjectStart.getUTCMinutes() < 10 ? `0${dateObjectStart.getUTCMinutes()}` : dateObjectStart.getUTCMinutes()
+  console.log(dateObjectStart)
+  const hoursStart = dateObjectStart.getHours() < 10 ? `0${dateObjectStart.getHours()}` : dateObjectStart.getHours()
+  const minutesStart = dateObjectStart.getMinutes() < 10 ? `0${dateObjectStart.getMinutes()}` : dateObjectStart.getMinutes()
   const formattedTimeStart = `${hoursStart}:${minutesStart}`
 
   const timestampEnd = endingTime
   const dateObjectEnd = new Date(timestampEnd)
-  const hoursEnd = dateObjectEnd.getUTCHours() < 10 ? `0${dateObjectEnd.getUTCHours()}` : dateObjectEnd.getUTCHours()
-  const minutesEnd = dateObjectEnd.getUTCMinutes() < 10 ? `0${dateObjectEnd.getUTCMinutes()}` : dateObjectEnd.getUTCMinutes()
+  const hoursEnd = dateObjectEnd.getHours() < 10 ? `0${dateObjectEnd.getHours()}` : dateObjectEnd.getHours()
+  const minutesEnd = dateObjectEnd.getMinutes() < 10 ? `0${dateObjectEnd.getMinutes()}` : dateObjectEnd.getMinutes()
   const formattedTimeEnd = `${hoursEnd}:${minutesEnd}`
 
   return (
