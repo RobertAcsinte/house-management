@@ -27,12 +27,11 @@ function KitchenPage() {
   const modal = useRef<JSX.Element | null>(null)
 
   const today = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
+  const firstDateOfWeek = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
+  const currentDayOfWeek = today.getDay() // Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3...Saturday: 6
+  const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1 // Adjust to get Monday as the first day instead of Sunday
 
   const getWeekDays = (daysFrom: number) => {
-    const currentDayOfWeek = today.getDay() // Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3...Saturday: 6
-    const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1 // Adjust to get Monday as the first day instead of Sunday
-    
-    const firstDateOfWeek = new Date() //Wed Aug 02 2023 16:42:49 GMT+0300 (Eastern European Summer Time)
     firstDateOfWeek.setDate(firstDateOfWeekNumber - daysSinceMonday + daysFrom) // Get the first day of the week (Monday)
 
     const dates = [];
@@ -78,9 +77,16 @@ function KitchenPage() {
      />
   }
 
+  var disabledArrowBack: boolean = false
+  if(weekDates.length > 0) {
+    if((new Date().getDate() - daysSinceMonday) === weekDates[0].getDate() ) {
+      disabledArrowBack = true
+    }
+  }
+
   const weekDaysBig = 
     <div className={style.weekContainer}>
-      <button onClick={handlePreviousWeekButton} className={style.buttonDate}>
+      <button disabled={disabledArrowBack} onClick={handlePreviousWeekButton} className={style.buttonDate}>
         <ArrowBack />
       </button>
       {weekDates.map((date, index) => (
@@ -104,7 +110,7 @@ function KitchenPage() {
   const weekDaysSmall = 
     <div className={style.weekContainerSmall}>
       <div className={style.arrowContainer}>
-        <button onClick={handlePreviousWeekButton} className={style.buttonDate}>
+        <button disabled={disabledArrowBack} onClick={handlePreviousWeekButton} className={style.buttonDate}>
           <ArrowBack />
         </button>
         <div className={style.dateContainer}>

@@ -39,7 +39,7 @@ const AuthContext = React.createContext({} as AuthContextValue);
 export function AuthProvider({ children }: {children: React.ReactNode}) {
   const currentUser = useRef<User | null>(null)
   const [currentUserDataDb, setCurrentUserDataDb] = useState<UserDataDb | null>(null)
-  const loading = useRef<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       const data = snapshot.val()
       if(data) {
         setCurrentUserDataDb({ ...data, uid });
-        loading.current = false
+        setLoading(false)
       }
     });
   }
@@ -129,12 +129,18 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     updateName
   }
 
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if(user) {
         getUserData(user?.uid)  
         currentUser.current = user
-      } 
+      }
+      else {
+        setLoading(false)
+        setCurrentUserDataDb(null)
+      }
+      
     })
     
     return unsubscribe
@@ -143,7 +149,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   return (
     <AuthContext.Provider value={value}>
-      { loading.current ? 
+      { loading ? 
       <>
         <div className='center-wrapper'>
           <ClipLoader color="var(--orange)" size="200px" /> 

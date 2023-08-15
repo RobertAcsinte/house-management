@@ -22,5 +22,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </AuthProvider>
       </BrowserRouter>
      </LocalizationProvider>
-   </React.StrictMode>
+  </React.StrictMode>
 )

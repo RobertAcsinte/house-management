@@ -34,7 +34,7 @@ export function useHouseContext() {
 export function HouseProvider({ children }: {children: React.ReactNode}) {
   const authContext = useAuthContext();
   const [houseInfoDb, setHouseInfoDb] = useState<HousesDataDb | null>(null)
-  const loading = useRef<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   function getHouseData(): void {
     const houseRef = ref(db, 'houses/' + authContext.currentUserDataDb?.houseId)
@@ -75,7 +75,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
         invitationsUsersId: invitations,
         invitationsUsersEmail: invitationsEmail
       })
-      loading.current = false
+      setLoading(false)
     })
   }
 
@@ -217,6 +217,8 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
   useEffect(() => {
     if(authContext.currentUserDataDb?.houseId !== undefined) {
       getHouseData()
+    } else {
+      setLoading(false)
     }
   }, [authContext.currentUserDataDb])
 
@@ -234,7 +236,7 @@ export function HouseProvider({ children }: {children: React.ReactNode}) {
 
   return (
     <HouseContext.Provider value={value}>
-      { loading.current ? 
+      { loading ? 
       <>
         <div className='center-wrapper'>
           <ClipLoader color="var(--orange)" size="200px" /> 
