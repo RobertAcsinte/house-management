@@ -33,15 +33,20 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   function createAppointment(startingDate: string, endingDate: string): Promise<void> {
     const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key;
     return new Promise(async (resolve, reject) => {
-      try {
-        await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
-          userId: authContext.currentUserDataDb?.uid,
-          startingDate: startingDate,
-          endingDate: endingDate
-        })
-        resolve()
-      } catch(error) {
-        reject(error)
+      console.log(new Date(startingDate).getHours())
+      if(new Date(startingDate) > new Date(endingDate)) {
+        reject("The starting date cannot be later than the ending date!")
+      } else {
+        try {
+          await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
+            userId: authContext.currentUserDataDb?.uid,
+            startingDate: startingDate,
+            endingDate: endingDate
+          })
+          resolve()
+        } catch(error) {
+          reject(error)
+        }
       }
     }
   )}

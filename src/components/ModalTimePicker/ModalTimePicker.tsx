@@ -29,12 +29,14 @@ function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, cale
 
   const handleButtonClick = async () => {
     setLoading(true)
-    await appointmentContext.createAppointment(formattedStartingTime.current, formattedEndingTime.current).catch((error) => {
+    appointmentContext.createAppointment(formattedStartingTime.current, formattedEndingTime.current).then(() => {
+      setLoading(false)
+      setShowModal(false)
+      setErrorNoAppointments(null)
+    }).catch((error) => {
       setError(mapFirebaseErrorMessages(error.code))
+      setLoading(false)
     })
-    setLoading(false)
-    setShowModal(false)
-    setErrorNoAppointments(null)
   }
 
   const handleClose = () => {
@@ -43,7 +45,6 @@ function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, cale
   
   const disablePast = (calendarDate.getDate() === new Date().getDate()) && (calendarDate.getMonth() === new Date().getMonth())
 
-  console.log(dayjs(new Date(formattedStartingTime.current)))
   //the pickers needs the value as a dayjs type and it also gives it as a dayjs type when changed
   const startingTimePicker =      
     <MobileTimePicker
