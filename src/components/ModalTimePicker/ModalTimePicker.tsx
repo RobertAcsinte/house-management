@@ -64,13 +64,13 @@ function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, cale
     <MobileTimePicker
       key={formattedEndingTime.current}
       label="Ending time"
-      disablePast
+      disablePast = {disablePast}
       ampm={false}
       slotProps={{ textField: { variant: 'filled' } }}
       value={dayjs(new Date(formattedEndingTime.current))}
       onChange={(newValue) => {
         const time = dayjs(newValue).toISOString().slice(dayjs(newValue).toISOString().indexOf("T") + 1)
-        const formattedDateAppointment = calendarDate + "T" + time
+        const formattedDateAppointment = dayjs(calendarDate).toISOString().slice(0, 10) + "T" + time
         formattedEndingTime.current = formattedDateAppointment
       }}
     />

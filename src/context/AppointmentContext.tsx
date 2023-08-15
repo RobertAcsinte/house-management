@@ -32,23 +32,43 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
 
   function createAppointment(startingDate: string, endingDate: string): Promise<void> {
     const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key
-    // console.log(appointmentsDb)
-    // appointmentsDb?.forEach((element) => {
-    //   console.log(element.startingTime)
-    // })
     return new Promise(async (resolve, reject) => {
       if(new Date(startingDate) > new Date(endingDate)) {
+        console.log("start bigger than end")
         reject("The starting date cannot be later than the ending date!")
-      } else {
-        try {
-          await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
-            userId: authContext.currentUserDataDb?.uid,
-            startingDate: startingDate,
-            endingDate: endingDate
-          })
-          resolve()
-        } catch(error) {
-          reject(error)
+      } 
+      else {
+        let taken = false
+        if(appointmentsDb !== null) {
+          for (const element of appointmentsDb) {
+            if(new Date(startingDate) <= new Date(element.startingTime)) {
+              if(new Date(endingDate) >= new Date(element.startingTime)) {
+                taken = true
+                console.log("taken")
+                reject("Already taken")
+                break
+              }
+            } else if(new Date(startingDate) >= new Date(element.startingTime)) {
+              if(new Date(startingDate) <= new Date(element.endingTime)) {
+                taken = true
+                console.log("taken")
+                reject("Already taken")
+                break
+              }
+            }
+          }
+        }
+        if(!taken) {
+          try {
+            await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
+              userId: authContext.currentUserDataDb?.uid,
+              startingDate: startingDate,
+              endingDate: endingDate
+            })
+            resolve()
+          } catch(error) {
+            reject(error)
+          }
         }
       }
     }
