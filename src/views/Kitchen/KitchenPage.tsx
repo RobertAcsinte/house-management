@@ -73,7 +73,8 @@ function KitchenPage() {
       setShowModal={setShowModal}
       setErrorNoAppointments={setError}
       //sends to the time picker modal only the date as in for example '2023-08-08'
-      calendarDate={dayjs(selectedDate).toISOString().slice(0, 10)}
+      // calendarDate={dayjs(selectedDate).toISOString().slice(0, 10)}
+      calendarDate={selectedDate}
      />
   }
 
