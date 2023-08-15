@@ -168,6 +168,7 @@ function KitchenPage() {
     window.addEventListener("resize", handleResize)
   }, [])
 
+  //this will run initially and every time the date is changed
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -181,6 +182,21 @@ function KitchenPage() {
     }
     fetchAppointments()
   }, [houseContext.houseInfoDb, selectedDate])
+
+  //this is only if while there are no appointments and another user makes one in the meantime, 
+  //it won't show it because error is not null from the no appointments message 
+  //so this way if the appoitments are empty and one appears in the meantime, error becomes null
+  useEffect(() => {
+    if(appointmentContext.appointmentsDb !== null && appointmentContext.appointmentsDb.length > 0) {
+      setError(null)
+    } else {
+      //set an error for no appointments only if there is not already an error set by the previous useEffect
+      //to not miss another error codes or cause unecessery re-renders
+      if(error === null) {
+        setError("There are no appointments made for this day. Create one!")
+      }
+    }
+  }, [appointmentContext.appointmentsDb])
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (

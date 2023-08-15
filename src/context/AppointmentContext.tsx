@@ -31,9 +31,12 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const houseContext = useHouseContext()
 
   function createAppointment(startingDate: string, endingDate: string): Promise<void> {
-    const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key;
+    const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key
+    // console.log(appointmentsDb)
+    // appointmentsDb?.forEach((element) => {
+    //   console.log(element.startingTime)
+    // })
     return new Promise(async (resolve, reject) => {
-      console.log(new Date(startingDate).getHours())
       if(new Date(startingDate) > new Date(endingDate)) {
         reject("The starting date cannot be later than the ending date!")
       } else {
@@ -74,6 +77,7 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
             resolve()
           }
           else {
+            setAppointmentsDb(null)
             reject("No appointments")
           }
         })
