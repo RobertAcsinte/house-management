@@ -93,12 +93,20 @@ function KitchenPage() {
         <React.Fragment key={index}>
           {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
             <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}} onClick={() => handleDateButton(date)}>
-              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
+              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
             </button>
             : 
-            <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
-              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString()}</p>
-            </button>
+            <>
+            {date.getDate() < new Date().getDate() ? 
+              <button disabled key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
+                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
+              </button>
+              :
+              <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
+                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
+              </button>
+            }
+            </>
           }
         </React.Fragment>
       ))}
@@ -116,7 +124,7 @@ function KitchenPage() {
         <div className={style.dateContainer}>
           {weekDates.length > 0 && (
             <>
-              {weekDates[0].toLocaleDateString("de-DE").slice(0, 10)} - {weekDates[weekDates.length-1].toISOString().slice(0, 10)}
+              {weekDates[0].toLocaleDateString("de-DE").slice(0, 10)} - {weekDates[weekDates.length-1].toLocaleDateString("de-DE").slice(0, 10)}
             </>
           )}
         </div>
@@ -132,9 +140,17 @@ function KitchenPage() {
                 {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
               </button>
               : 
-              <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
-                {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
-              </button>
+              <>
+              {date.getDate() < new Date().getDate() ? 
+                <button disabled key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
+                  {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
+                </button>
+                :
+                <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
+                  {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
+                </button>
+              }
+              </>
             }
           </React.Fragment>
         ))}
