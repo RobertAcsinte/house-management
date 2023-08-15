@@ -97,7 +97,7 @@ function KitchenPage() {
             </button>
             : 
             <>
-            {date.getDate() < new Date().getDate() ? 
+            {(date.getDate() < new Date().getDate()) && (date.getMonth() === new Date().getMonth()) ? 
               <button disabled key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
                 {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
               </button>
