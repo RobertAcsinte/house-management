@@ -14,7 +14,7 @@ export interface AppointmentDb {
 
 interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
-  createAppointment(startingDate: string, endingDate: string): Promise<void>
+  createAppointment(startingDate: Date, endingDate: Date): Promise<void>
   getAppointments(date: string): Promise<void> 
 }
 
@@ -30,10 +30,10 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const authContext = useAuthContext()
   const houseContext = useHouseContext()
 
-  function createAppointment(startingDate: string, endingDate: string): Promise<void> {
+  function createAppointment(startingDate: Date, endingDate: Date): Promise<void> {
     const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key
     return new Promise(async (resolve, reject) => {
-      if(new Date(startingDate) > new Date(endingDate)) {
+      if(startingDate > endingDate) {
         console.log("start bigger than end")
         reject("The starting date cannot be later than the ending date!")
       } 
@@ -41,15 +41,15 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
         let taken = false
         if(appointmentsDb !== null) {
           for (const element of appointmentsDb) {
-            if(new Date(startingDate) <= new Date(element.startingTime)) {
-              if(new Date(endingDate) >= new Date(element.startingTime)) {
+            if(startingDate <= new Date(element.startingTime)) {
+              if(endingDate >= new Date(element.startingTime)) {
                 taken = true
                 console.log("taken")
                 reject("Already taken")
                 break
               }
-            } else if(new Date(startingDate) >= new Date(element.startingTime)) {
-              if(new Date(startingDate) <= new Date(element.endingTime)) {
+            } else if(startingDate >= new Date(element.startingTime)) {
+              if(startingDate <= new Date(element.endingTime)) {
                 taken = true
                 console.log("taken")
                 reject("Already taken")
@@ -60,10 +60,10 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
         }
         if(!taken) {
           try {
-            await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.slice(0, 10) + "/" + generatedKey), {
+            await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.toLocaleDateString("nl-NL") + "/" + generatedKey), {
               userId: authContext.currentUserDataDb?.uid,
-              startingDate: startingDate,
-              endingDate: endingDate
+              startingDate: startingDate.toString(),
+              endingDate: endingDate.toString()
             })
             resolve()
           } catch(error) {
@@ -92,7 +92,14 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
                 userName: userInfoFetched.val().name
               }
             }))
+            // console.log(newAppointmentsArray)
             newAppointmentsArray.sort(compareStartingTime)
+            newAppointmentsArray.forEach((element) => {
+              // console.log(Date.parse(element.startingTime))
+              // console.log(element.startingTime)
+              // console.log(new Date(element.startingTime))
+              // console.log(Date.parse(new Date(element.startingTime).))
+            })
             setAppointmentsDb(newAppointmentsArray)
             resolve()
           }
@@ -108,10 +115,17 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   }
 
   function compareStartingTime(a: AppointmentDb, b: AppointmentDb) {
-    if (a.startingTime < b.startingTime) {
+
+    // if (Date.parse(a.startingTime) < Date.parse(b.startingTime)) {
+    //   return -1;
+    // }
+    // if (Date.parse(a.startingTime) > Date.parse(b.startingTime)) {
+    //   return 1;
+    // }
+    if (new Date(a.startingTime).getHours() < new Date(b.startingTime).getHours()) {
       return -1;
     }
-    if (a.startingTime > b.startingTime) {
+    if (new Date(a.startingTime).getHours() > new Date(b.startingTime).getHours()) {
       return 1;
     }
     return 0;

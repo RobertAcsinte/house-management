@@ -72,8 +72,6 @@ function KitchenPage() {
       fieldTitle='Make an appoitment' 
       setShowModal={setShowModal}
       setErrorNoAppointments={setError}
-      //sends to the time picker modal only the date as in for example '2023-08-08'
-      // calendarDate={dayjs(selectedDate).toISOString().slice(0, 10)}
       calendarDate={selectedDate}
      />
   }
@@ -172,10 +170,12 @@ function KitchenPage() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        await appointmentContext.getAppointments(dayjs(selectedDate).toISOString().slice(0, 10))
+        await appointmentContext.getAppointments(selectedDate.toLocaleDateString("nl-NL"))
         setLoading(false)
         setError(null)
       } catch(error: any) {
+        console.log("sloboz")
+        console.log(error)
         setLoading(false)
         setError(mapFirebaseErrorMessages(error))
       }
