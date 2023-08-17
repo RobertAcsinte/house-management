@@ -30,7 +30,7 @@ function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, cale
       setShowModal(false)
       setErrorNoAppointments(null)
     }).catch((error) => {
-      setError(mapFirebaseErrorMessages(error.code))
+      setError(error)
       setLoading(false)
     })
   }

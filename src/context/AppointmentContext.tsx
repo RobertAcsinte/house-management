@@ -41,18 +41,20 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
         let taken = false
         if(appointmentsDb !== null) {
           for (const element of appointmentsDb) {
+            const startTimeStringHour = new Date(element.startingTime).getHours() < 10 ? `0${new Date(element.startingTime).getHours()}` : new Date(element.startingTime).getHours()
+            const startTimeStringMinute = new Date(element.startingTime).getMinutes() < 10 ? `0${new Date(element.startingTime).getMinutes()}` : new Date(element.startingTime).getMinutes()
+            const endingTimeStringHour = new Date(element.endingTime).getHours() < 10 ? `0${new Date(element.endingTime).getHours()}` : new Date(element.endingTime).getHours()
+            const endingTimeStringMinute = new Date(element.endingTime).getMinutes() < 10 ? `0${new Date(element.endingTime).getMinutes()}` : new Date(element.endingTime).getMinutes()
             if(startingDate <= new Date(element.startingTime)) {
               if(endingDate >= new Date(element.startingTime)) {
                 taken = true
-                console.log("taken")
-                reject("Already taken")
+                reject(`There is already an appointment at ${startTimeStringHour}:${startTimeStringMinute} - ${endingTimeStringHour}:${endingTimeStringMinute}`)
                 break
               }
             } else if(startingDate >= new Date(element.startingTime)) {
               if(startingDate <= new Date(element.endingTime)) {
                 taken = true
-                console.log("taken")
-                reject("Already taken")
+                reject(`There is already an appointment at ${startTimeStringHour}:${startTimeStringMinute} - ${endingTimeStringHour}:${endingTimeStringMinute}`)
                 break
               }
             }
