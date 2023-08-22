@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar/Navbar';
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import style from './SchedulePage.module.css'
+import style from './AppointmentsPage.module.css'
 import React from 'react';
 import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
@@ -13,7 +13,7 @@ import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { ClipLoader } from 'react-spinners';
 import { AppointmentType } from '../../AppointmentType';
 
-function SchedulePage({ appointmentType }: { appointmentType: AppointmentType }) {
+function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentType }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
@@ -181,7 +181,7 @@ function SchedulePage({ appointmentType }: { appointmentType: AppointmentType })
       }
     }
     fetchAppointments()
-  }, [houseContext.houseInfoDb, selectedDate])
+  }, [houseContext.houseInfoDb, selectedDate, appointmentType])
 
   //this is only if while there are no appointments and another user makes one in the meantime, 
   //it won't show it because error is not null from the no appointments message 
@@ -196,7 +196,7 @@ function SchedulePage({ appointmentType }: { appointmentType: AppointmentType })
         setError("There are no appointments made for this day. Create one!")
       }
     }
-  }, [appointmentContext.appointmentsDb])
+  }, [appointmentContext.appointmentsDb, appointmentType])
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (
@@ -231,4 +231,4 @@ function SchedulePage({ appointmentType }: { appointmentType: AppointmentType })
 }
 
 
-export default SchedulePage
+export default AppointmentsPage
