@@ -12,6 +12,7 @@ import AppointmentBox from '../../components/AppointmentBox/AppointmentBox';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { ClipLoader } from 'react-spinners';
 import { AppointmentType } from '../../AppointmentType';
+import { useAuthContext } from '../../context/AuthContext';
 
 function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentType }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -22,6 +23,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
   const [loading, setLoading] = useState<boolean>(false)
 
   const appointmentContext = useAppointmentContext()
+  const userContext = useAuthContext()
   const houseContext = useHouseContext()
 
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -198,9 +200,10 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
     }
   }, [appointmentContext.appointmentsDb, appointmentType])
 
+
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (
-      <AppointmentBox key={element.id} name={element.userName} startingTime={element.startingTime} endingTime={element.endingTime} />
+      <AppointmentBox key={element.id} name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} startingTime={element.startingTime} endingTime={element.endingTime} />
     )
   })
 
