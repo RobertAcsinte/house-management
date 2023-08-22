@@ -4,19 +4,23 @@ import { useState, useEffect } from 'react';
 import Logo from '../../assets/logo-low.png';
 import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useAuthContext } from '../../context/AuthContext';
 
 type NavbarProps =  {
-  userName: string | null
+  showAllOptions: boolean
 }
 
-function Navbar({userName}: NavbarProps) {
+function Navbar({showAllOptions}: NavbarProps) {
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [, setIsMobile] = useState<boolean>(false)
   const navigate = useNavigate()
+  const context = useAuthContext();
+  const userName = context.currentUserDataDb!.name
 
+  //used to have the hamburger menu closed if the window is small and the navbar is hamburger
   const showMenuStyle = {
-    display: window.innerWidth > 945 ? "flex" : showMenu ? "flex" : "none"
+    display: window.innerWidth > 1000 ? "flex" : showMenu ? "flex" : "none"
   }
 
   const hamburgerMenuColor = {
@@ -28,7 +32,7 @@ function Navbar({userName}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 945) {
+    if(window.innerWidth <= 1000) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -44,7 +48,7 @@ function Navbar({userName}: NavbarProps) {
       <div className={style.hamburgerMenu} onClick={handleHamburgerClick}><MenuIcon style={hamburgerMenuColor}></MenuIcon></div>
       <div className={style.navbarContainer} style={showMenuStyle}>
       <img className={style.logo} src={Logo} alt="logo" onClick={() => {navigate("/")}}/>
-        <div className={style.linksContainer}>
+        {showAllOptions && <div className={style.linksContainer}>
 
           <NavLink
           to="/" 
@@ -80,14 +84,16 @@ function Navbar({userName}: NavbarProps) {
           isActive ? style.active : style.inactive}>
             My House
           </NavLink>
-        </div>
+        </div>}
 
-        <NavLink
-          to="/account" 
-          className={({ isActive }) =>
-          isActive ? style.active : style.inactive}>
-            {userName}
+        <div className={style.nameContainer}>
+          <NavLink
+            to="/account" 
+            className={({ isActive }) =>
+            isActive ? style.active : style.inactive}>
+              {userName}
           </NavLink>
+        </div>
       </div>
     </>
   )

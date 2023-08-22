@@ -1,19 +1,31 @@
 import React from 'react'
 import style from './ModalConfirm.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { ClipLoader } from 'react-spinners'
 
 type ModalProps =  {
   title: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  navigateRoute: string
+  updateFunction: () => Promise<any> 
 }
 
-function ModalConfirm({title, setShowModal, navigateRoute}: ModalProps) {
-  const navigate = useNavigate()
+function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const handleButtonClick = () => {
+  const handleButtonClickConfirm = () => {
+      setLoading(true)
+      updateFunction().then(() => {
+        setShowModal(false)
+        setLoading(false)
+      }).catch((error) => {
+        setError((error))
+        setLoading(false)
+      })
+  }
+
+  const handleButtonClickClose = () => {
     setShowModal(false)
-    navigate(navigateRoute)
   }
 
   return (
@@ -21,7 +33,13 @@ function ModalConfirm({title, setShowModal, navigateRoute}: ModalProps) {
       <div className='center-wrapper'>
         <div className={style['box-container-modal']}>
           <div className={style['large-title-modal']}>{title}</div>
-            <button className='full-button' onClick={handleButtonClick}>Close</button>
+            <div className='error-text'>{error}</div>
+            <div className={style.buttonsContainer}>
+              {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: 
+              <div><button className='full-button' style={{flex:"1"}} onClick={handleButtonClickConfirm}>Confirm</button>
+              <button className='empty-button' style={{flex:"1"}} onClick={handleButtonClickClose}>Cancel</button></div>
+              }
+            </div>
         </div>
       </div>
     </div>

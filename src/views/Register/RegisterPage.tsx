@@ -35,21 +35,21 @@ function RegisterPage() {
     })
 
     if (userCredential) {
-      context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
+      await context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
         setError(mapFirebaseErrorMessages(registerError.code))
       })
-
-      context.login(email, password, true).catch((loginError) => {
+      await context.login(email, password, true).catch((loginError) => {
         setLoading(false)
         setError(mapFirebaseErrorMessages(loginError.code))
       })
+      setLoading(false)
     }
   }
 
   return (
     <>
-      <div className='center-wrapper'>
+      <div className='center-wrapper-nonav'>
         <div className='box-container'>
           <img className='logo-form' src={Logo} alt="logo" />
           <form onSubmit={event => onSubmit(event)}>

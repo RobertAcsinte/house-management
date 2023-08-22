@@ -2,7 +2,7 @@ import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
-import Modal from '../../components/ModalConfirm/ModalConfirm';
+import Modal from '../../components/ModalInfo/ModalInfo';
 import Logo from '../../assets/logo.png';
 
 function ResetPassword() {
@@ -21,25 +21,23 @@ function ResetPassword() {
       setError("Please fill out the email field.")
       return
     }
-
     setLoading(true)
-    context.resetPassword(email)
-    .then(() =>  
-      {
-        setLoading(false)
-        void setShowModal(true)
-      })
 
-    .catch((forgotPasswordError) => {
+    try {
+      await context.resetPassword(email)
       setLoading(false)
-      setError(mapFirebaseErrorMessages(forgotPasswordError.code))
-    })
+      setShowModal(true)
+    } catch(error) {
+      setLoading(false)
+      if(typeof error === "string") {
+        setError(mapFirebaseErrorMessages(error))
+      }
+    }
   }
 
   return (
     <>
-    
-    <div className='center-wrapper'>
+    <div className='center-wrapper-nonav'>
       <div className='box-container'>
       <img className='logo-form' src={Logo} alt="logo" />
         <form onSubmit={event => onSubmit(event)}>

@@ -28,7 +28,6 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
   const handleButtonClick = async () => {
     if(inputElementEdit.current?.value) {
       if(reAuth) {
-
         if(repeatPasswordField) {
           if(inputElementEdit.current?.value !== inputElementRepeatPassword.current?.value) {
             setError("Password don't match.")
@@ -79,7 +78,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
 
   return (
     <div className={style.wrapper}>
-      <div className='center-wrapper'>
+      <div className='center-wrapper' style={{height:"100%"}}>
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>

@@ -24,6 +24,12 @@ function mapFirebaseErrorMessages(authCode: string) {
     case "WEAK_PASSWORD : Password should be at least 6 characters":
       return "Password should be at least 6 characters."
 
+    case "No appointments":
+      return "There are no appointments made for this day. Create one!"
+
+    case "The starting date cannot be later than the ending date!":
+      return "The starting date cannot be later than the ending date!"
+
     default:
       return "Unexpected error"
   }
