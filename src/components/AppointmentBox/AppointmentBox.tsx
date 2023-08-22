@@ -4,10 +4,11 @@ import style from './AppointmentBox.module.css'
 type AppointmentBoxProps = {
   name: string,
   startingTime: string,
-  endingTime: string
+  endingTime: string,
+  showRemove: boolean
 }
 
-function AppointmentBox({name, startingTime, endingTime}: AppointmentBoxProps) {
+function AppointmentBox({name, startingTime, endingTime, showRemove}: AppointmentBoxProps) {
   const dateObjectStart = new Date(startingTime)
   const hoursStart = dateObjectStart.getHours() < 10 ? `0${dateObjectStart.getHours()}` : dateObjectStart.getHours()
   const minutesStart = dateObjectStart.getMinutes() < 10 ? `0${dateObjectStart.getMinutes()}` : dateObjectStart.getMinutes()
@@ -20,6 +21,7 @@ function AppointmentBox({name, startingTime, endingTime}: AppointmentBoxProps) {
 
   return (
     <div className={style.container}>
+      {showRemove && <div className={style.removeButton}>X</div>}
       <img className={style.avatar} src={Avatar} alt="avatar" />
       <div className={style.textContainer}>
         <p className={style.name}>{name}</p>

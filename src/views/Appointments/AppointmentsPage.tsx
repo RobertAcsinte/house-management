@@ -203,7 +203,13 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (
-      <AppointmentBox key={element.id} name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} startingTime={element.startingTime} endingTime={element.endingTime} />
+      <AppointmentBox 
+        key={element.id} 
+        name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} 
+        startingTime={element.startingTime} 
+        endingTime={element.endingTime}
+        showRemove={element.userId === userContext.currentUser?.uid }
+      />
     )
   })
 
