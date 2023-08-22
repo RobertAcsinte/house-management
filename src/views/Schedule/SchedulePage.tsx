@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar/Navbar';
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import style from './KitchenPage.module.css'
+import style from './SchedulePage.module.css'
 import React from 'react';
 import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
@@ -11,8 +11,9 @@ import { useHouseContext } from '../../context/HouseContext';
 import AppointmentBox from '../../components/AppointmentBox/AppointmentBox';
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { ClipLoader } from 'react-spinners';
+import { AppointmentType } from '../../AppointmentType';
 
-function KitchenPage() {
+function SchedulePage({ appointmentType }: { appointmentType: AppointmentType }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
@@ -73,6 +74,7 @@ function KitchenPage() {
       setShowModal={setShowModal}
       setErrorNoAppointments={setError}
       calendarDate={selectedDate}
+      appointmentType={appointmentType}
      />
   }
 
@@ -170,12 +172,10 @@ function KitchenPage() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        await appointmentContext.getAppointments(selectedDate.toLocaleDateString("nl-NL"))
+        await appointmentContext.getAppointments(appointmentType, selectedDate.toLocaleDateString("nl-NL"))
         setLoading(false)
         setError(null)
       } catch(error: any) {
-        console.log("sloboz")
-        console.log(error)
         setLoading(false)
         setError(mapFirebaseErrorMessages(error))
       }
@@ -231,4 +231,4 @@ function KitchenPage() {
 }
 
 
-export default KitchenPage
+export default SchedulePage

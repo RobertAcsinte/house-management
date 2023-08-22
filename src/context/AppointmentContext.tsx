@@ -3,6 +3,7 @@ import { useAuthContext } from "./AuthContext"
 import { useHouseContext } from "./HouseContext"
 import { child, get, onValue, push, ref, set } from "firebase/database"
 import { db } from "../firebaseConfig"
+import { AppointmentType } from "../AppointmentType"
 
 export interface AppointmentDb {
   id: string
@@ -14,8 +15,8 @@ export interface AppointmentDb {
 
 interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
-  createAppointment(startingDate: Date, endingDate: Date): Promise<void>
-  getAppointments(date: string): Promise<void> 
+  createAppointment(appointmentType: AppointmentType, startingDate: Date, endingDate: Date): Promise<void>
+  getAppointments(appointmentType: AppointmentType, date: string): Promise<void> 
 }
 
 const AppointmentContext = React.createContext({} as AppointmentContextValue)
@@ -30,11 +31,10 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const authContext = useAuthContext()
   const houseContext = useHouseContext()
 
-  function createAppointment(startingDate: Date, endingDate: Date): Promise<void> {
-    const generatedKey = push(child(ref(db), 'kitchenAppointments/' + houseContext.houseInfoDb?.id)).key
+  function createAppointment(appointmentType: AppointmentType, startingDate: Date, endingDate: Date): Promise<void> {
+    const generatedKey = push(child(ref(db), appointmentType + '/' + houseContext.houseInfoDb?.id)).key
     return new Promise(async (resolve, reject) => {
       if(startingDate > endingDate) {
-        console.log("start bigger than end")
         reject("The starting date cannot be later than the ending date!")
       } 
       else {
@@ -62,7 +62,7 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
         }
         if(!taken) {
           try {
-            await set(ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + startingDate.toLocaleDateString("nl-NL") + "/" + generatedKey), {
+            await set(ref(db, appointmentType + '/' + houseContext.houseInfoDb?.id + "/" + startingDate.toLocaleDateString("nl-NL") + "/" + generatedKey), {
               userId: authContext.currentUserDataDb?.uid,
               startingDate: startingDate.toString(),
               endingDate: endingDate.toString()
@@ -76,10 +76,10 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
     }
   )}
 
-  function getAppointments(date: string): Promise<void> {
+  function getAppointments(appointmentType: AppointmentType, date: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const appointmentRef = ref(db, 'kitchenAppointments/' + houseContext.houseInfoDb?.id + "/" + date)
+        const appointmentRef = ref(db, appointmentType + '/' + houseContext.houseInfoDb?.id + "/" + date)
         onValue(appointmentRef, async (snapshot) => {
           const data = snapshot.val();
           if (data) {
@@ -94,14 +94,7 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
                 userName: userInfoFetched.val().name
               }
             }))
-            // console.log(newAppointmentsArray)
             newAppointmentsArray.sort(compareStartingTime)
-            newAppointmentsArray.forEach((element) => {
-              // console.log(Date.parse(element.startingTime))
-              // console.log(element.startingTime)
-              // console.log(new Date(element.startingTime))
-              // console.log(Date.parse(new Date(element.startingTime).))
-            })
             setAppointmentsDb(newAppointmentsArray)
             resolve()
           }
@@ -117,13 +110,6 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   }
 
   function compareStartingTime(a: AppointmentDb, b: AppointmentDb) {
-
-    // if (Date.parse(a.startingTime) < Date.parse(b.startingTime)) {
-    //   return -1;
-    // }
-    // if (Date.parse(a.startingTime) > Date.parse(b.startingTime)) {
-    //   return 1;
-    // }
     if (new Date(a.startingTime).getHours() < new Date(b.startingTime).getHours()) {
       return -1;
     }

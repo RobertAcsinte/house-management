@@ -6,15 +6,17 @@ import { ClipLoader } from 'react-spinners';
 import { MobileTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { useAppointmentContext } from '../../context/AppointmentContext';
+import { AppointmentType } from '../../AppointmentType';
 
 type ModalTimePickerType =  {
   fieldTitle: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
   setErrorNoAppointments: React.Dispatch<React.SetStateAction<string| null>>,
-  calendarDate: Date
+  calendarDate: Date,
+  appointmentType: AppointmentType
 }
 
-function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, calendarDate}: ModalTimePickerType) {
+function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, calendarDate, appointmentType}: ModalTimePickerType) {
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -25,7 +27,7 @@ function ModalTimePicker({fieldTitle, setShowModal, setErrorNoAppointments, cale
 
   const handleButtonClick = async () => {
     setLoading(true)
-    appointmentContext.createAppointment(startingTime.current, endingTime.current).then(() => {
+    appointmentContext.createAppointment(appointmentType, startingTime.current, endingTime.current).then(() => {
       setLoading(false)
       setShowModal(false)
       setErrorNoAppointments(null)
