@@ -16,7 +16,7 @@ function NotesPage() {
   }
 
   const notes = notesContext.notes?.map((note) => {
-    return <NotesBox key={note.id} title={note.title} date={note.date} content={note.content}/>
+    return <NotesBox key={note.id} title={note.title} date={note.date} content={note.content} user={note.userName}/>
   })
 
   return (
@@ -25,7 +25,9 @@ function NotesPage() {
       <div className={style.buttonContainer}>
           <button className='full-button-small' onClick={onAddButton}>Add Note</button>
       </div>
+      <div className={style.notesGrid}>
         {notes}
+      </div>
       {showModal && modal.current}
     </>
   )

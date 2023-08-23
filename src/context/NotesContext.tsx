@@ -7,6 +7,7 @@ import { useAuthContext } from "./AuthContext"
 interface NoteDataDb {
   id: string,
   userId: string,
+  userName: string
   date: number,
   pinned: boolean,
   title: string,
