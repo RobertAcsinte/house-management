@@ -1,5 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import style from './ModalAddNote.module.css'
+import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages'
+import { useNotesContext } from '../../context/NotesContext'
+import { ClipLoader } from 'react-spinners'
 
 
 type ModalProps =  {
@@ -7,6 +10,9 @@ type ModalProps =  {
 }
 
 function ModalAddNote({setShowModal}: ModalProps){
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const notesContext = useNotesContext()
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -14,7 +20,20 @@ function ModalAddNote({setShowModal}: ModalProps){
     const formData = new FormData(e.currentTarget)
     const title = formData.get("title") as string
     const content = formData.get("content") as string
-    const rememberCheck = formData.get("checkboxRemember") === "on";
+    const pinnedNote = formData.get("checkboxPinned") === "on";
+
+    if(!title|| !content) {
+      setError("Please fill out all the fields.")
+      return
+    }
+    setLoading(true)
+    console.log(pinnedNote)
+    await notesContext.addNote(Date.now(), pinnedNote, title, content).catch((error) => {
+      setLoading(false)
+      setError(mapFirebaseErrorMessages(error.code))
+    })
+    setLoading(false)
+    setShowModal(false)
   }
 
   const handleClose = () => {
@@ -34,8 +53,9 @@ function ModalAddNote({setShowModal}: ModalProps){
                 <input type="checkbox" id="checkbox-pinned" className={style.checkbox} name='checkboxPinned'/>
                 <label htmlFor="checkbox-pinned">Pinned Note</label>
               </div>
-              <div className={style.buttonWrapper}>
-                <button className="full-button-small" type='submit'>Create Note</button>
+              <div className={style.buttonsContainer}>
+                {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} type='submit'>Save</button>}
+                <div className='error-text'>{error}</div>
               </div>
             </form>
           </div>
