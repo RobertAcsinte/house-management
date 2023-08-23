@@ -3,16 +3,14 @@ import Avatar from '../../assets/avatar.jpeg';
 import style from './AppointmentBox.module.css'
 
 type AppointmentBoxProps = {
-  id: string,
-  appointmentType: AppointmentType,
   name: string,
   startingTime: string,
   endingTime: string,
   showRemove: boolean,
-  removeAppointment: (appointmentType: AppointmentType, date: Date, id: string) => Promise<void>
+  removeAppointment: () => void
 }
 
-function AppointmentBox({id, appointmentType, name, startingTime, endingTime, showRemove, removeAppointment}: AppointmentBoxProps) {
+function AppointmentBox({name, startingTime, endingTime, showRemove, removeAppointment}: AppointmentBoxProps) {
   const dateObjectStart = new Date(startingTime)
   const hoursStart = dateObjectStart.getHours() < 10 ? `0${dateObjectStart.getHours()}` : dateObjectStart.getHours()
   const minutesStart = dateObjectStart.getMinutes() < 10 ? `0${dateObjectStart.getMinutes()}` : dateObjectStart.getMinutes()
@@ -24,7 +22,7 @@ function AppointmentBox({id, appointmentType, name, startingTime, endingTime, sh
   const formattedTimeEnd = `${hoursEnd}:${minutesEnd}`
 
   function onDeleteButton() {
-    removeAppointment(appointmentType, dateObjectStart, id)
+    removeAppointment()
   }
 
   return (

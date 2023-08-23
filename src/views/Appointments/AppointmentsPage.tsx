@@ -13,6 +13,7 @@ import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
 import { ClipLoader } from 'react-spinners';
 import { AppointmentType } from '../../AppointmentType';
 import { useAuthContext } from '../../context/AuthContext';
+import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
 
 function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentType }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -78,6 +79,18 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       calendarDate={selectedDate}
       appointmentType={appointmentType}
      />
+  }
+
+  const onDeleteButton = (appointmentType: AppointmentType, date: Date, id: string) => {
+    setShowModal(true)
+    modal.current = 
+      <ModalConfirm 
+        title='Are you sure you want to cancel this appointment?' 
+        setShowModal={setShowModal} 
+        updateFunction={() => {
+          return appointmentContext.deleteAppointment(appointmentType, date, id)
+        }}
+      />
   }
 
   var disabledArrowBack: boolean = false
@@ -205,13 +218,11 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
     return (
       <AppointmentBox 
         key={element.id} 
-        id={element.id}
-        appointmentType={appointmentType}
         name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} 
         startingTime={element.startingTime} 
         endingTime={element.endingTime}
         showRemove={element.userId === userContext.currentUser?.uid }
-        removeAppointment={appointmentContext.deleteAppointment}
+        removeAppointment={() => onDeleteButton(appointmentType, new Date(element.startingTime), element.id)}
       />
     )
   })
@@ -233,6 +244,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
           :
           <div className={style.appointmentsContainer}>
             {appointmentsUI}
+            {showModal && modal.current}
           </div>
         }</>
       }
