@@ -49,7 +49,6 @@ body, html {
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
-  margin-top: 50px;
 }
 
 .box-container {
@@ -152,38 +151,40 @@ input:focus {
   background-color: var(--black);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
-  margin-top: 40px;
+  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
-  color: white;
+  color: var(--white);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
+  border-color: var(--black);
   border-width: 2px;
-  border-color: var(--orange);
   width: 100%;
   box-sizing: border-box;
 }
 
 .full-button:hover {
   background-color: var(--orange);
+  border-color: var(--orange);
 }
 
 .full-button-small {
   font-family: "Roboto Condensed", sans-serif;
-  background-color: var(--black);
+  background-color: var(--orange-list);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
+  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
-  color: white;
+  color: var(--white);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
-  border-width: 2px;
   border-color: var(--orange);
+  border-width: 2px;
   box-sizing: border-box;
 }
 
@@ -196,12 +197,12 @@ input:focus {
   font-weight: 700;
   cursor: pointer;
   transition: background-color .3s ease-in-out;
-  margin-top: 40px;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
   color: var(--black);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
   border-width: 2px;
   border-color: var(--orange);
@@ -235,6 +236,23 @@ input:focus {
   margin-top: 45px;
 }
 
+.text-button {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color.3s ease-in-out;
+  margin-top: 20px;
+  border-style: none;
+  padding: 15px 20px;
+  color: var(--black);
+  font-size: 1.5rem;
+  border-style: none;
+  box-sizing: border-box;
+}
+
+.text-button:hover {
+  color: var(--orange);
+}
 
 
   /* ------------------------------------------------------ Edit Label ------------------------------------------------------ */
