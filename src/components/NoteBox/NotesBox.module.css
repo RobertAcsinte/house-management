@@ -1,0 +1,26 @@
+.container {
+  background-color: var(--yellow-notes);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin-bottom: 50px;
+  color: var(--black);
+  border-radius: 20px;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 10px 20px;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.date {
+  font-weight: 200;
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+.content {
+  font-size: 1.2rem;
+}

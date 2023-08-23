@@ -1,7 +1,8 @@
-import { child, push, ref, set } from "firebase/database"
-import React, { useContext, useState } from "react"
+import { child, get, onValue, push, ref, set } from "firebase/database"
+import React, { useContext, useEffect, useState } from "react"
 import { db } from "../firebaseConfig"
 import { useHouseContext } from "./HouseContext"
+import { useAuthContext } from "./AuthContext"
 
 interface NoteDataDb {
   id: string,
@@ -25,6 +26,7 @@ export function useNotesContext() {
 
 export function NotesProvider({children} : {children: React.ReactNode}) {
   const houseContext = useHouseContext()
+  const userContext = useAuthContext()
   const [notesDb, setNotesDb] = useState<NoteDataDb[] | null>(null)
 
   function addNote(date: number, pinned: boolean, title: string, content: string): Promise<void>{
@@ -32,10 +34,11 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     return new Promise(async (resolve, reject) => {
       try {
           await set(ref(db, 'notes/' + houseContext.houseInfoDb?.id + "/" + generatedKey), {
+          userId: userContext.currentUser?.uid,
           date: date,
           pinned: pinned,
           title: title,
-          content: content
+          content: content,
         })
         resolve()
       } catch(error) {
@@ -48,6 +51,45 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     notes: notesDb,
     addNote: addNote
   }
+
+  function getNotes(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const notesRef = ref(db, "notes/" + houseContext.houseInfoDb?.id)
+        onValue(notesRef, async (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            const newNotesArray = await Promise.all(Object.keys(data).map(async (noteId) => {
+              const note = data[noteId];
+              const userInfoFetched = await get(child(ref(db), `users/${note.userId}`))
+              return {
+                id: noteId,
+                userId: note.userId,
+                userName: userInfoFetched.val().name,
+                date: note.date,
+                pinned: note.pinned,
+                title: note.title,
+                content: note.content
+              }
+            }))
+            setNotesDb(newNotesArray)
+            resolve()
+          }
+          else {
+            setNotesDb(null)
+            reject("No notes")
+          }
+        })
+      } catch (error) {
+        reject(error);
+      }
+      }) 
+  }
+
+  useEffect(() => {
+    getNotes()
+  }, [])
+
 
   return (
     <NotesContext.Provider value={value}>

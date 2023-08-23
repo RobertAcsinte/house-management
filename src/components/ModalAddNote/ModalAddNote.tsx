@@ -27,7 +27,6 @@ function ModalAddNote({setShowModal}: ModalProps){
       return
     }
     setLoading(true)
-    console.log(pinnedNote)
     await notesContext.addNote(Date.now(), pinnedNote, title, content).catch((error) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(error.code))
