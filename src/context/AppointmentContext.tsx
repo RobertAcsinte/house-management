@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useAuthContext } from "./AuthContext"
 import { useHouseContext } from "./HouseContext"
-import { child, get, onValue, push, ref, set } from "firebase/database"
+import { child, get, onValue, push, ref, remove, set } from "firebase/database"
 import { db } from "../firebaseConfig"
 import { AppointmentType } from "../AppointmentType"
 
@@ -17,6 +17,7 @@ interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
   createAppointment(appointmentType: AppointmentType, startingDate: Date, endingDate: Date): Promise<void>
   getAppointments(appointmentType: AppointmentType, date: string): Promise<void> 
+  deleteAppointment(appointmentType: AppointmentType, date: Date, id: string): Promise<void>
 }
 
 const AppointmentContext = React.createContext({} as AppointmentContextValue)
@@ -109,6 +110,11 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
       })    
   }
 
+  function deleteAppointment(appointmentType: AppointmentType, date: Date, id: string){
+    const appointmentRef = ref(db, appointmentType + '/' + houseContext.houseInfoDb?.id + "/" + date.toLocaleDateString("nl-NL") + "/" + id)
+    return remove(appointmentRef)
+  }
+
   function compareStartingTime(a: AppointmentDb, b: AppointmentDb) {
     if (new Date(a.startingTime).getHours() < new Date(b.startingTime).getHours()) {
       return -1;
@@ -122,7 +128,8 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const value: AppointmentContextValue = {
     appointmentsDb: appointmentsDb,
     createAppointment,
-    getAppointments
+    getAppointments,
+    deleteAppointment
   }
 
   return (

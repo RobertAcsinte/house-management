@@ -205,10 +205,13 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
     return (
       <AppointmentBox 
         key={element.id} 
+        id={element.id}
+        appointmentType={appointmentType}
         name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} 
         startingTime={element.startingTime} 
         endingTime={element.endingTime}
         showRemove={element.userId === userContext.currentUser?.uid }
+        removeAppointment={appointmentContext.deleteAppointment}
       />
     )
   })
