@@ -224,7 +224,6 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
       <div className={style.addContainer}>
-      <AddCircle />
         <button className='text-button' onClick={handleAddButton}>
           Book a timeslot
         </button>

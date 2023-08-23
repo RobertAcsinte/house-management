@@ -241,7 +241,6 @@ input:focus {
   font-weight: 500;
   cursor: pointer;
   transition: color.3s ease-in-out;
-  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
   color: var(--black);

@@ -187,10 +187,12 @@ button[disabled] {
   display: flex;
   justify-content: end;
   align-items: center;
-  margin: 25px 100px;
+  margin: 25px 10%;
   padding: 20px 0px;
   border-radius: 20px;
 }
+
+
 
 
 

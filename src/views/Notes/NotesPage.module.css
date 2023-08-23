@@ -1,7 +1,10 @@
-.buttonContainer {
+.addContainer {
   display: flex;
-  margin: 30px 100px;
   justify-content: end;
+  align-items: center;
+  margin: 25px 10%;
+  padding: 20px 0px;
+  border-radius: 20px;
 }
 
 .notesGrid {
