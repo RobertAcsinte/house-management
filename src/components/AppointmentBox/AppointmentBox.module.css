@@ -1,8 +1,8 @@
 .container {
   display: inline-flex;
   position: relative;
-  background-color: var(--black);
-  color: var(--white);
+  background-color: var(--main);
+  color: var(--background);
   align-items: center;
   box-sizing: border-box;
   padding: 10px 10px;
@@ -17,17 +17,14 @@
   padding: 7px 13px;
   border-radius: 50%;
   font-weight: 700;
-  background-color: var(--black);
+  background-color: red;
   cursor: pointer;
-  border: solid;
-  border-color: var(--orange);
-  border-width: 2px;
+  border: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .removeButton:hover {
-  background-color: var(--orange);
-  border-color: var(--orange);
-
+  background-color: var(--secondary);
 }
 
 .textContainer {

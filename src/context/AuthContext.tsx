@@ -152,7 +152,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
       { loading ? 
       <>
         <div className='center-wrapper'>
-          <ClipLoader color="var(--orange)" size="200px" /> 
+          <ClipLoader color="var(--secondary)" size="200px" /> 
           </div>
       </>
       : children }

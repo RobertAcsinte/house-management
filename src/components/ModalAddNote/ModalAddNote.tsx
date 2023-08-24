@@ -53,7 +53,7 @@ function ModalAddNote({setShowModal}: ModalProps){
                 <label htmlFor="checkbox-pinned">Pinned Note</label>
               </div>
               <div className={style.buttonsContainer}>
-                {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} type='submit'>Save</button>}
+                {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} type='submit'>Save</button>}
                 <div className='error-text'>{error}</div>
               </div>
             </form>

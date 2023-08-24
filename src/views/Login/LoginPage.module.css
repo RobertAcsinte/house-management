@@ -26,13 +26,13 @@
   font-size: 1.2rem;
   cursor: pointer;
   text-decoration: underline;
-  color: var(--black);
+  color: var(--main);
   font-weight: 400;
   transition: color .3s ease-in-out;
 }
 
 .button-forgot-password:hover {
-  color: var(--orange);
+  color: var(--secondary);
 }
 
 .button-create-account {
@@ -47,7 +47,7 @@
 }
 
 label {
-  color: var(--black);
+  color: var(--main);
 }
 
 @media only screen and (max-width: 575px) {

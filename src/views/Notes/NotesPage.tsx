@@ -22,8 +22,10 @@ function NotesPage() {
   return (
     <>
       <Navbar showAllOptions/>
-      <div className={style.buttonContainer}>
-          <button className='full-button-small' onClick={onAddButton}>Add Note</button>
+      <div className={style.addContainer}>
+        <button className='text-button' onClick={onAddButton}>
+          Add a note
+        </button>
       </div>
       <div className={style.notesGrid}>
         {notes}

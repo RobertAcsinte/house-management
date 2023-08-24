@@ -57,7 +57,7 @@ function RegisterPage() {
             <input type="text" placeholder='Name' name='name' />
             <input type="password" placeholder='Password' name='password' />
             <input type="password" placeholder='Repeat Password' name='repeatPassword' />
-            {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--orange)" size="50px" /> </div> : <button type="submit" className='full-button'>Register</button>}
+            {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--secondary)" size="50px" /> </div> : <button type="submit" className='full-button'>Register</button>}
           </form>
           <div className='error-text'>{error}</div>
         </div>

@@ -107,17 +107,17 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
         <React.Fragment key={index}>
           {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
             <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)}>
-              <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <div className={style.dateSmallSelected}>{date.getDate()}-{date.getMonth()}</div>
+              <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <div className={style.dateSmallSelected}>{date.getDate()}-{date.getMonth()+1}</div>
             </div>
             : 
             <>
             {(date.getDate() < new Date().getDate()) && (date.getMonth() === new Date().getMonth()) ? 
               <div key={index} className={style.dateContainerDisabled}>
-                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmallDisabled}>{date.getDate()}-{date.getMonth()}</p>
+                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmallDisabled}>{date.getDate()}-{date.getMonth()+1}</p>
               </div>
               :
               <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)} id="dateContainer">
-                <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <p id="dateSmall" className={style.dateSmall}>{date.getDate()}-{date.getMonth()}</p>
+                <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <p id="dateSmall" className={style.dateSmall}>{date.getDate()}-{date.getMonth()+1}</p>
               </div>
             }
             </>
@@ -144,7 +144,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
         {weekDates.map((date, index) => (
           <React.Fragment key={index}>
             {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
-              <button key={index} className={style.buttonDate} style={{background: 'var(--orange)', color:'var(--white)'} } onClick={() => handleDateButton(date)}>
+              <button key={index} className={style.buttonDate} style={{background: 'var(--secondary)', color:'var(--background)'} } onClick={() => handleDateButton(date)}>
                 {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
               </button>
               : 
@@ -229,7 +229,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
         </button>
       </div>
       {loading ? 
-        <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div> 
+        <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div> 
         : 
         <>{error ?
           <div className='top-wrapper'><p className='error-text'>{error}</p></div>

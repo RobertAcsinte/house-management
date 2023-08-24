@@ -1,9 +1,9 @@
 .container {
-  background-color: var(--yellow-notes);
+  background-color: var(--notes);
   display: flex;
   flex-direction: column;
   width: 300px;
-  color: var(--black);
+  color: var(--main);
   border-radius: 20px;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;

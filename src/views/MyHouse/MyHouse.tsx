@@ -32,12 +32,12 @@ function MyHouse() {
   }
 
   const members = houseContext.houseInfoDb?.users.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--background)'} : {background: 'var(--second-list)', color: 'var(--background)'}
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
 
   const invitations = houseContext.houseInfoDb?.invitationsUsersEmail.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--main)'} : {background: 'var(--second-list)', color: 'var(--background)'}
     return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
   })
 

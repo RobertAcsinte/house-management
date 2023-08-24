@@ -1,6 +1,6 @@
 .addContainer {
   display: flex;
-  justify-content: end;
+  justify-content: start;
   align-items: center;
   margin: 25px 10%;
   padding: 20px 0px;

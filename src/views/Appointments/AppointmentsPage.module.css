@@ -1,11 +1,11 @@
 .arrows svg {
-  color: var(--black);
+  color: var(--main);
   transition: color 0.3s ease-in-out;
   cursor: pointer;
 }
 
 .arrows svg:hover {
-  color: var(--orange);
+  color: var(--secondary);
 }
 
 .arrowsDisabled svg {
@@ -59,12 +59,12 @@
 
 .dateSmallSelected {
   font-size: 1rem;
-  background-color: var(--orange);
+  background-color: var(--secondary);
   margin: 0px 0px;
   padding: 10px 0px;
   border-radius: 50%;
   width: 40px;
-  color: var(--white);
+  color: var(--background);
   text-align: center;
 }
 
@@ -74,7 +74,7 @@
   padding: 10px 0px;
   border-radius: 50%;
   width: 40px;
-  color: var(--black);
+  color: var(--main);
   transition: all 0.3s ease-in-out;
   text-align: center;
 }
@@ -91,8 +91,8 @@
 }
 
 .dateSmall:hover {
-  color:var(--white);
-  background-color: var(--orange);
+  color:var(--background);
+  background-color: var(--secondary);
 }
 
 
@@ -104,19 +104,19 @@
   transition: all .3s ease-in-out;
   padding: 5px 10px;
   margin: 12px 5%;
-  color: var(--black);
+  color: var(--main);
   font-size: 1.2rem;
   border-radius: 50px;
   border-style: none;
   border-width: 2px;
-  border-color: var(--orange);
+  border-color: var(--secondary);
   box-sizing: border-box;
   text-align: center;
 }
 
 .buttonDate:hover {
-  background-color: var(--orange);
-  color: var(--white);
+  background-color: var(--secondary);
+  color: var(--background);
 }
 
 .buttonDate:disabled,
@@ -174,18 +174,18 @@ button[disabled] {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--black);
-  color: var(--white);
+  background-color: var(--main);
+  color: var(--background);
   padding: 20px 20px;
   border-radius: 20px;
   border-style: solid;
-  border-color: var(--orange);
+  border-color: var(--secondary);
   border-width: 2px;
 }
 
 .addContainer {
   display: flex;
-  justify-content: end;
+  justify-content: start;
   align-items: center;
   margin: 25px 10%;
   padding: 20px 0px;
