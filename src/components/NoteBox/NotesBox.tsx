@@ -11,7 +11,8 @@ function NotesBox({title, content, date, user}: NotesBoxProps) {
   return (
     <div className={style.container}>
       <p className={style.title}>{title}</p>
-      <p className={style.date}>{new Date(date).toLocaleDateString("nl-NL")} {new Date(date).getHours()}:{new Date(date).getMinutes()} {user}</p>
+      <b>{user}</b>
+      <p className={style.date}>{new Date(date).toLocaleDateString("nl-NL")} {new Date(date).getHours()}:{new Date(date).getMinutes()}</p>
       <p className={style.content}>{content}</p>
     </div>
   )
