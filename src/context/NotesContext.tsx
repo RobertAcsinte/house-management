@@ -73,6 +73,7 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
                 content: note.content
               }
             }))
+            newNotesArray.sort(comparePinned)
             setNotesDb(newNotesArray)
             resolve()
           }
@@ -85,6 +86,16 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
         reject(error);
       }
       }) 
+  }
+
+  function comparePinned(a: NoteDataDb, b: NoteDataDb) {
+    if (a.pinned < b.pinned) {
+      return 1;
+    }
+    if (a.pinned > b.pinned) {
+      return -1;
+    }
+    return 0;
   }
 
   useEffect(() => {
