@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   background-color: var(--notes);
   display: flex;
   flex-direction: column;
@@ -9,6 +10,12 @@
   box-sizing: border-box;
   padding: 10px 20px;
   height: 300px;
+}
+
+.pin {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .title {

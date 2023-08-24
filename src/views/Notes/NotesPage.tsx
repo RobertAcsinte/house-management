@@ -18,7 +18,7 @@ function NotesPage() {
   const notes = notesContext.notes?.map((note) => {
     return (
         <div className={style.centerGrid}>
-          <NotesBox key={note.id} title={note.title} date={note.date} content={note.content} user={note.userName}/>
+          <NotesBox key={note.id} title={note.title} date={note.date} content={note.content} user={note.userName} pinned={note.pinned}/>
         </div>
       )
     

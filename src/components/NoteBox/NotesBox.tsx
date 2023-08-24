@@ -1,13 +1,15 @@
+import { PushPin } from '@mui/icons-material'
 import style from './NotesBox.module.css'
 
 type NotesBoxProps = {
   title: string,
   content: string,
   date: number,
-  user: string
+  user: string,
+  pinned: boolean
 }
 
-function NotesBox({title, content, date, user}: NotesBoxProps) {
+function NotesBox({title, content, date, user, pinned}: NotesBoxProps) {
   var minutes: string | number = new Date(date).getMinutes() 
   var hours: string | number = new Date(date).getHours() 
 
@@ -21,6 +23,7 @@ function NotesBox({title, content, date, user}: NotesBoxProps) {
 
   return (
     <div className={style.container}>
+      {pinned && <PushPin className={style.pin} />}
       <p className={style.title}>{title}</p>
       <b>{user}</b>
       <p className={style.date}>{new Date(date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
