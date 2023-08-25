@@ -1,17 +1,16 @@
 import { PushPin } from '@mui/icons-material'
 import style from './NotesBox.module.css'
+import { NoteDataDb } from '../../context/NotesContext'
+import Avatar from '../../assets/avatar.jpeg';
 
 type NotesBoxProps = {
-  title: string,
-  content: string,
-  date: number,
-  user: string,
-  pinned: boolean
+  note: NoteDataDb
+  onNoteClick: () => void
 }
 
-function NotesBox({title, content, date, user, pinned}: NotesBoxProps) {
-  var minutes: string | number = new Date(date).getMinutes() 
-  var hours: string | number = new Date(date).getHours() 
+function NotesBox({note, onNoteClick}: NotesBoxProps) {
+  var minutes: string | number = new Date(note.date).getMinutes() 
+  var hours: string | number = new Date(note.date).getHours() 
 
   if(minutes < 10) {
     minutes = "0" + minutes
@@ -22,12 +21,17 @@ function NotesBox({title, content, date, user, pinned}: NotesBoxProps) {
   }
 
   return (
-    <div className={style.container}>
-      {pinned && <PushPin className={style.pin} />}
-      <p className={style.title}>{title}</p>
-      <b>{user}</b>
-      <p className={style.date}>{new Date(date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
-      <p className={style.content}>{content}</p>
+    <div className={style.container} onClick={onNoteClick}>
+      {note.pinned && <PushPin className={style.pin} />}
+      <p className={style.title}>{note.title}</p>
+      <div className={style.noteDetails}>
+          <img className={style.avatar} src={Avatar} alt="avatar" />
+          <div className={style.noteDetailsText}>
+            <p></p><b>{note.userName}</b>
+            <p>{new Date(note.date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
+          </div>
+      </div>
+      <p className={style.content}>{note.content}</p>
     </div>
   )
 }

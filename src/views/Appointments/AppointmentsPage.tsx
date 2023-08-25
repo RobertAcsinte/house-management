@@ -107,17 +107,17 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
         <React.Fragment key={index}>
           {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
             <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)}>
-              <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <div className={style.dateSmallSelected}>{date.getDate()}-{date.getMonth()+1}</div>
+              <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <div className={style.dateSmallSelected}>{date.getDate()}/{date.getMonth()+1}</div>
             </div>
             : 
             <>
             {(date.getDate() < new Date().getDate()) && (date.getMonth() === new Date().getMonth()) ? 
               <div key={index} className={style.dateContainerDisabled}>
-                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmallDisabled}>{date.getDate()}-{date.getMonth()+1}</p>
+                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmallDisabled}>{date.getDate()}/{date.getMonth()+1}</p>
               </div>
               :
               <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)} id="dateContainer">
-                <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <p id="dateSmall" className={style.dateSmall}>{date.getDate()}-{date.getMonth()+1}</p>
+                <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <p id="dateSmall" className={style.dateSmall}>{date.getDate()}/{date.getMonth()+1}</p>
               </div>
             }
             </>

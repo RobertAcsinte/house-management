@@ -6,10 +6,11 @@
   width: 300px;
   color: var(--main);
   border-radius: 20px;
-  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   padding: 10px 20px;
-  height: 300px;
+  height: 220px;
+  cursor: pointer;
 }
 
 .pin {
@@ -32,7 +33,37 @@
   font-size: 1.2rem;  
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 7; /* number of lines to show */
-          line-clamp: 7; 
+  -webkit-line-clamp: 3; /* number of lines to show */
+          line-clamp: 3; 
   -webkit-box-orient: vertical;
+}
+
+.noteDetails {
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: auto;
+}
+
+.noteDetailsText {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: start;
+  width: auto;
+  font-size: 1rem;
+}
+
+.noteDetails p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.avatar {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: contain;
 }

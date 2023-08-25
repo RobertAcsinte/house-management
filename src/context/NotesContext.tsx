@@ -4,7 +4,7 @@ import { db } from "../firebaseConfig"
 import { useHouseContext } from "./HouseContext"
 import { useAuthContext } from "./AuthContext"
 
-interface NoteDataDb {
+export interface NoteDataDb {
   id: string,
   userId: string,
   userName: string

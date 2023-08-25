@@ -39,11 +39,11 @@ body, html {
 }
 
 .center-wrapper {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 20px;
+  margin: 25px 20px;
 }
 
 .top-wrapper {
@@ -171,6 +171,7 @@ input:focus {
   border-width: 2px;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .full-button:hover {
@@ -194,6 +195,7 @@ input:focus {
   border-color: var(--main);
   border-width: 2px;
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .full-button-small:hover {
@@ -216,6 +218,7 @@ input:focus {
   border-color: var(--secondary);
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .empty-button:hover {
@@ -232,6 +235,7 @@ input:focus {
   border: none;
   padding: 20px 20px;
   border-radius: 20px;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3)
 }
 
 .full-button-negative:hover {
