@@ -224,7 +224,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
       <div className={style.addContainer}>
-        <button className='text-button' onClick={handleAddButton}>
+        <button className='full-button-small' onClick={handleAddButton}>
           Book a timeslot
         </button>
       </div>
@@ -232,7 +232,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
         <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div> 
         : 
         <>{error ?
-          <div className='top-wrapper'><p className='error-text'>{error}</p></div>
+          <div className='error-wrapper'>{error}</div>
           :
           <div className={style.appointmentsContainer}>
             {appointmentsUI}
