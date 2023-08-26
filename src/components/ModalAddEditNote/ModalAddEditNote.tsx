@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import style from './ModalAddNote.module.css'
+import style from './ModalAddEditNote.module.css'
 import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages'
 import { useNotesContext } from '../../context/NotesContext'
 import { ClipLoader } from 'react-spinners'
@@ -7,9 +7,13 @@ import { ClipLoader } from 'react-spinners'
 
 type ModalProps =  {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  id?: string,
+  title?: string,
+  content?: string,
+  pinned?: boolean
 }
 
-function ModalAddNote({setShowModal}: ModalProps){
+function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps){
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const notesContext = useNotesContext()
@@ -27,7 +31,7 @@ function ModalAddNote({setShowModal}: ModalProps){
       return
     }
     setLoading(true)
-    await notesContext.addNote(Date.now(), pinnedNote, title, content).catch((error) => {
+    await notesContext.addNote(Date.now(), pinnedNote, title, content, id).catch((error) => {
       setLoading(false)
       setError(mapFirebaseErrorMessages(error.code))
     })
@@ -46,10 +50,10 @@ function ModalAddNote({setShowModal}: ModalProps){
           <div className={style['box-container-modal']}>
             <button className={style.closeButton} onClick={handleClose}>X</button>
             <form onSubmit={onSubmit}>
-              <input type="text" placeholder='Title' name='title'/>
-              <textarea name="content" placeholder='Content' className={style.contentTextarea}></textarea>
+              <input type="text" placeholder='Title' name='title' defaultValue={title}/>
+              <textarea name="content" placeholder='Content' defaultValue={content} className={style.contentTextarea}></textarea>
               <div className={style['checkbox-container']}>
-                <input type="checkbox" id="checkbox-pinned" className={style.checkbox} name='checkboxPinned'/>
+                <input type="checkbox" id="checkbox-pinned" defaultChecked={pinned} className={style.checkbox} name='checkboxPinned'/>
                 <label htmlFor="checkbox-pinned">Pinned Note</label>
               </div>
               <div className={style.buttonsContainer}>
@@ -64,4 +68,4 @@ function ModalAddNote({setShowModal}: ModalProps){
   )
 }
 
-export default ModalAddNote
+export default ModalAddEditNote

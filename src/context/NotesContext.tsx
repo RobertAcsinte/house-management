@@ -16,7 +16,7 @@ export interface NoteDataDb {
 
 interface NotesContextValue {
   notes: NoteDataDb[] | null,
-  addNote(date: number, pinned: boolean, title: string, content: string): Promise<void>,
+  addNote(date: number, pinned: boolean, title: string, content: string, id?: string): Promise<void>,
   deleteNote(id: string): Promise<void>
 }
 
@@ -31,8 +31,11 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
   const userContext = useAuthContext()
   const [notesDb, setNotesDb] = useState<NoteDataDb[] | null>(null)
 
-  function addNote(date: number, pinned: boolean, title: string, content: string): Promise<void>{
-    const generatedKey = push(child(ref(db), 'notes/' + houseContext.houseInfoDb?.id)).key 
+  function addNote(date: number, pinned: boolean, title: string, content: string, id?: string): Promise<void>{
+    var generatedKey = push(child(ref(db), 'notes/' + houseContext.houseInfoDb?.id)).key 
+    if(id) {
+      generatedKey = id
+    }
     return new Promise(async (resolve, reject) => {
       try {
           await set(ref(db, 'notes/' + houseContext.houseInfoDb?.id + "/" + generatedKey), {

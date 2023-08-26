@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import style from './NotesPage.module.css'
-import ModalAddNote from '../../components/ModalAddNote/ModalAddNote'
+import ModalAddNote from '../../components/ModalAddEditNote/ModalAddEditNote'
 import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import NotesBox from '../../components/NoteBox/NotesBox'
 import NoteDetails from '../../components/NoteDetails/NoteDetails'

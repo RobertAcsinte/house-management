@@ -5,6 +5,7 @@ import { ClipLoader } from 'react-spinners'
 import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import Avatar from '../../assets/avatar.jpeg';
 import ModalConfirm from '../ModalConfirm/ModalConfirm'
+import ModalAddNote from '../ModalAddEditNote/ModalAddEditNote'
 
 type NoteDetailsProps =  {
   note: NoteDataDb,
@@ -14,7 +15,7 @@ type NoteDetailsProps =  {
 function NoteDetails({note, setShowModal}: NoteDetailsProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false)
+  const [showModalEdit, setShowModalEdit] = useState<boolean>(false)
   const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
 
@@ -30,13 +31,25 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
   }
 
   const onNoteDelete = () => {
-    setShowModalConfirm(true)
+    setShowModalEdit(true)
     modal.current =
       <ModalConfirm 
         title="Are you sure you want to delete?" 
-        setShowModal={setShowModalConfirm} 
+        setShowModal={setShowModalEdit} 
         updateFunction={() => notesContext.deleteNote(note.id)}
         setFirstShowModal={setShowModal}
+      />
+  }
+
+  const onNoteUpdate = () => {
+    setShowModalEdit(true)
+    modal.current = 
+      <ModalAddNote
+        id={note.id}
+        title={note.title}
+        content={note.content}
+        pinned={note.pinned}
+        setShowModal={setShowModal}
       />
   }
 
@@ -63,13 +76,13 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
             <div className='error-text'>{error}</div>
             <div className={style.buttonsContainer}>
               {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: 
-              <div className=''><button className='full-button' style={{flex:"1"}}>Edit</button>
+              <div className=''><button className='full-button' style={{flex:"1"}} onClick={onNoteUpdate}>Edit</button>
               <button className='empty-button' style={{flex:"1"}} onClick={onNoteDelete}>Delete</button></div>
               }
             </div>
         </div>
       </div>
-      {showModalConfirm && modal.current}
+      {showModalEdit && modal.current}
     </div>
   )
 }
