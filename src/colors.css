@@ -1,8 +1,12 @@
 :root {
-  --white: #f0f0f0;
-  --black: rgba(0, 0, 0, 0.85);
+  --background: #EAEAEA;
+  --main: #252A34;
+  --secondary: rgba(255, 46, 99, 1);
   --black-shadow: rgba(0, 0, 0, 0.15);
-  --orange: rgb(238,100,75);
-  --orange-list: rgba(238, 99, 75, 0.7);
-  --black-list: rgba(0, 0, 0, 0.6);
+  --main-list: rgba(255, 46, 99, 1);
+  --second-list: rgba(20, 30, 70, 1);
+
+  --notes: rgba(248, 241, 219, 1.0);
+
+  --error: rgba(255, 46, 99, 0.8);
 }

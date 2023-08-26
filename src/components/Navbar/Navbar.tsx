@@ -24,7 +24,7 @@ function Navbar({showAllOptions}: NavbarProps) {
   }
 
   const hamburgerMenuColor = {
-    color: showMenu ? "var(--orange)" : "var(--black)"
+    color: showMenu ? "var(--secondary)" : "var(--main)"
   }
 
   const handleHamburgerClick = () => {

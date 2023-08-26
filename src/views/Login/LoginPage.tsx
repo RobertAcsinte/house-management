@@ -48,7 +48,7 @@ import Logo from '../../assets/logo.png';
             </div>
             <button type='button' className={style['button-forgot-password']} onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
           </div>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
         </form>
         <div className='error-text'>{error}</div>
         <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>

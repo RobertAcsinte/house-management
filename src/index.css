@@ -1,11 +1,12 @@
 @import 'colors.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 
 
 body, html {
   font-family: "Roboto Condensed", sans-serif;
-  background-color: var(--white);
-  color: var(--black);
+  background-color: var(--background);
+  color: var(--main);
   min-height: 100vh;
   margin: 0;
 }
@@ -38,18 +39,26 @@ body, html {
 }
 
 .center-wrapper {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 20px;
+  margin: 25px 20px;
 }
 
 .top-wrapper {
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
-  margin-top: 50px;
+}
+
+.error-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  width: 100%;
+  font-size: 3rem;
+  color: var(--error);
 }
 
 .box-container {
@@ -59,7 +68,7 @@ body, html {
   align-items: center;
   box-sizing: border-box;
   width: 700px;
-  background-color: var(--white);
+  background-color: var(--background);
   box-shadow: 0px 0px 50px var(--black-shadow);
   border-radius: 15px;
   margin: 0px 20px;
@@ -69,6 +78,13 @@ body, html {
 @media only screen and (max-width: 575px) {
   .box-container {
     height: auto;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .box-container {
+    height: auto;
+    margin-top: 40px;
   }
 }
 
@@ -105,7 +121,9 @@ body, html {
   font-size: 1.2rem;
 }
 
-
+p {
+  font-size: 1.5rem;
+}
 
   /* ------------------------------------------------------ Forms ------------------------------------------------------ */
 
@@ -123,7 +141,7 @@ input {
   font-family: "Roboto Condensed", sans-serif;
   display: block;
   border: solid;
-  border-color: var(--orange);
+  border-color: var(--secondary);
   color: black;
   font-weight: 400;
   border-width: 1px;
@@ -137,7 +155,7 @@ input {
 
 input:focus {
   outline: none !important;
-  border:1px solid var(--black);
+  border:1px solid var(--main);
 }
 
 
@@ -147,46 +165,51 @@ input:focus {
 
 .full-button {
   font-family: "Roboto Condensed", sans-serif;
-  background-color: var(--black);
+  background-color: var(--main);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
-  margin-top: 40px;
+  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
-  color: white;
+  color: var(--background);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
+  border-color: var(--main);
   border-width: 2px;
-  border-color: var(--orange);
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .full-button:hover {
-  background-color: var(--orange);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 .full-button-small {
   font-family: "Roboto Condensed", sans-serif;
-  background-color: var(--black);
+  background-color: var(--main);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
+  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
-  color: white;
+  color: var(--background);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
+  border-color: var(--main);
   border-width: 2px;
-  border-color: var(--orange);
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .full-button-small:hover {
-  background-color: var(--orange);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 .empty-button {
@@ -194,22 +217,23 @@ input:focus {
   font-weight: 700;
   cursor: pointer;
   transition: background-color .3s ease-in-out;
-  margin-top: 40px;
+  margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
-  color: var(--black);
+  color: var(--main);
   font-size: 1.5rem;
-  border-radius: 20px;
+  border-radius: 40px;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--orange);
+  border-color: var(--secondary);
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .empty-button:hover {
-  background-color: var(--orange);
-  color: var(--white);
+  background-color: var(--secondary);
+  color: var(--background);
 }
 
 .full-button-negative {
@@ -221,6 +245,7 @@ input:focus {
   border: none;
   padding: 20px 20px;
   border-radius: 20px;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3)
 }
 
 .full-button-negative:hover {
@@ -233,6 +258,23 @@ input:focus {
   margin-top: 45px;
 }
 
+.text-button {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color.3s ease-in-out;
+  border-style: none;
+  padding: 15px 20px;
+  color: var(--main);
+  font-size: 1.5rem;
+  border-style: none;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.text-button:hover {
+  color: var(--secondary);
+}
 
 
   /* ------------------------------------------------------ Edit Label ------------------------------------------------------ */
@@ -257,11 +299,11 @@ input:focus {
 .label {
   font-size: 1.5rem;
   flex: 1;
-  color: var(--orange);
+  color: var(--secondary);
 }
 
 .edit-label-icon-subcontainer svg {
-  color: var(--black);
+  color: var(--main);
   padding: 5px 5px;
   border-radius: 50px;
   transform: scale(1.5);
@@ -270,5 +312,5 @@ input:focus {
 }
 
 .edit-label-icon-subcontainer svg:hover {
-  color: var(--orange);
+  color: var(--secondary);
 }

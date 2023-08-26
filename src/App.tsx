@@ -11,6 +11,7 @@ import NoHouse from './views/NoHouse/NoHouse.tsx'
 import MyHouse from './views/MyHouse/MyHouse.tsx'
 import { AppointmentType } from './AppointmentType.tsx'
 import AppointmentsPage from './views/Appointments/AppointmentsPage.tsx'
+import NotesPage from './views/Notes/NotesPage.tsx'
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
       <Route path='/myhouse' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<MyHouse />} />} />
       <Route path='/kitchen' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.kitchen} />} />} />
       <Route path='/bathroom' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.bathroom} />} />} />
+      <Route path='/notes' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<NotesPage />} />} />
 
       <Route path="/account" element={<ProtectedRoute {...authRequiredIsAccountProps} component={<AccountPage />} />} />
 

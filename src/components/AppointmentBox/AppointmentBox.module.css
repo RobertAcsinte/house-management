@@ -1,13 +1,14 @@
 .container {
   display: inline-flex;
   position: relative;
-  background-color: var(--black);
-  color: var(--white);
+  background-color: rgb(20, 70, 74);
+  background-color: rgb(218,83,76);
+  color: var(--background);
   align-items: center;
   box-sizing: border-box;
   padding: 10px 10px;
   border-radius: 20px;
-  box-shadow: 0px 0px 10px var(--black-shadow);
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
 }
 
 .removeButton {
@@ -17,17 +18,14 @@
   padding: 7px 13px;
   border-radius: 50%;
   font-weight: 700;
-  background-color: var(--black);
+  background-color: red;
   cursor: pointer;
-  border: solid;
-  border-color: var(--orange);
-  border-width: 2px;
+  border: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .removeButton:hover {
-  background-color: var(--orange);
-  border-color: var(--orange);
-
+  background-color: var(--secondary);
 }
 
 .textContainer {

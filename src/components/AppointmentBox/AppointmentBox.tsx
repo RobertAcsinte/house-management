@@ -24,7 +24,7 @@ function AppointmentBox({name, startingTime, endingTime, showRemove, removeAppoi
   function onDeleteButton() {
     removeAppointment()
   }
-
+  
   return (
     <div className={style.container}>
       {showRemove && <div className={style.removeButton} onClick={onDeleteButton}>X</div>}

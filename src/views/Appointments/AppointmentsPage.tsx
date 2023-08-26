@@ -2,7 +2,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import style from './AppointmentsPage.module.css'
 import React from 'react';
-import { Add, ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Add, AddCircle, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { MobileTimePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
@@ -58,7 +58,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 865) {
+    if(window.innerWidth <= 800) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -102,62 +102,54 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
 
   const weekDaysBig = 
     <div className={style.weekContainer}>
-      <button disabled={disabledArrowBack} onClick={handlePreviousWeekButton} className={style.buttonDate}>
-        <ArrowBack />
-      </button>
+      {disabledArrowBack ? <div className={style.arrowsDisabled}><ArrowBack /></div> : <div className={style.arrows} onClick={handlePreviousWeekButton}><ArrowBack /></div>}
       {weekDates.map((date, index) => (
         <React.Fragment key={index}>
           {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
-            <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}} onClick={() => handleDateButton(date)}>
-              {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
-            </button>
+            <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)}>
+              <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <div className={style.dateSmallSelected}>{date.getDate()}/{date.getMonth()+1}</div>
+            </div>
             : 
             <>
             {(date.getDate() < new Date().getDate()) && (date.getMonth() === new Date().getMonth()) ? 
-              <button disabled key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
-                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
-              </button>
+              <div key={index} className={style.dateContainerDisabled}>
+                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmallDisabled}>{date.getDate()}/{date.getMonth()+1}</p>
+              </div>
               :
-              <button key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
-                {date.toLocaleDateString(undefined, { weekday: 'short'})}  <p className={style.dateSmall}>{date.toLocaleDateString("de-DE")}</p>
-              </button>
+              <div key={index} className={style.dateContainer} onClick={() => handleDateButton(date)} id="dateContainer">
+                <span>{date.toLocaleDateString(undefined, { weekday: 'short'})}</span> <p id="dateSmall" className={style.dateSmall}>{date.getDate()}/{date.getMonth()+1}</p>
+              </div>
             }
             </>
           }
         </React.Fragment>
       ))}
-      <button onClick={handleNextWeekButton} className={style.buttonDate}>
-        <ArrowForward />
-      </button>
+      <div className={style.arrows} onClick={handleNextWeekButton}><ArrowForward /></div>
     </div>  
 
   const weekDaysSmall = 
     <div className={style.weekContainerSmall}>
       <div className={style.arrowContainer}>
-        <button disabled={disabledArrowBack} onClick={handlePreviousWeekButton} className={style.buttonDate}>
-          <ArrowBack />
-        </button>
-        <div className={style.dateContainer}>
+      {disabledArrowBack ? <div className={style.arrowsDisabled}><ArrowBack /></div> : <div className={style.arrows} onClick={handlePreviousWeekButton}><ArrowBack /></div>}
+        <div className={style.dateContainerMobile}>
           {weekDates.length > 0 && (
             <>
               {weekDates[0].toLocaleDateString("de-DE").slice(0, 10)} - {weekDates[weekDates.length-1].toLocaleDateString("de-DE").slice(0, 10)}
             </>
           )}
         </div>
-        <button onClick={handleNextWeekButton} className={style.buttonDate}>
-          <ArrowForward />
-        </button>
+        <div className={style.arrows} onClick={handleNextWeekButton}><ArrowForward /></div>
       </div>
-      <div className={style.daysContainer}>
+      <div className={style.daysContainerMobile}>
         {weekDates.map((date, index) => (
           <React.Fragment key={index}>
             {date.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) ?
-              <button key={index} className={style.buttonDate} style={{background: 'var(--orange)'}} onClick={() => handleDateButton(date)}>
+              <button key={index} className={style.buttonDate} style={{background: 'var(--secondary)', color:'var(--background)'} } onClick={() => handleDateButton(date)}>
                 {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
               </button>
               : 
               <>
-              {date.getDate() < new Date().getDate() ? 
+              {(date.getDate() < new Date().getDate()) && (date.getMonth() === new Date().getMonth()) ? 
                 <button disabled key={index} className={style.buttonDate} onClick={() => handleDateButton(date)}>
                   {date.toLocaleDateString(undefined, { weekday: 'narrow'})}
                 </button>
@@ -232,12 +224,12 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
       <div className={style.addContainer}>
-        <button className='full-button-small' onClick={handleAddButton}>
+        <button className='text-button' onClick={handleAddButton}>
           Book a timeslot
         </button>
       </div>
       {loading ? 
-        <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div> 
+        <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div> 
         : 
         <>{error ?
           <div className='top-wrapper'><p className='error-text'>{error}</p></div>

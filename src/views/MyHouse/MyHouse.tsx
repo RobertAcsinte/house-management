@@ -32,15 +32,14 @@ function MyHouse() {
   }
 
   const members = houseContext.houseInfoDb?.users.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'} : {background: 'var(--second-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'}
     return <p className={style.userContainer} style={styleColor} key={value.uid}>{value.name}</p>
   })
 
   const invitations = houseContext.houseInfoDb?.invitationsUsersEmail.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--orange-list)', color: 'var(--black)'} : {background: 'var(--black-list)', color: 'var(--white)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--main)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'} : {background: 'var(--second-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'}
     return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
   })
-  console.log("my house")
 
   return (
     <>

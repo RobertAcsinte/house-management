@@ -87,7 +87,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
           {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>Save</button>}
           </div>
         </div>
       </div>

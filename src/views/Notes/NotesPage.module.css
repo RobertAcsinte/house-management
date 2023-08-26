@@ -1,0 +1,25 @@
+.addContainer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-left: 10%;
+  border-radius: 20px;
+}
+
+.notesGrid {
+  margin-top: 0px;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.centerGrid {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

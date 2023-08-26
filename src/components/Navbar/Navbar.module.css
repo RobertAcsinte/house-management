@@ -19,6 +19,7 @@
   font-size: 1.5rem;
   height: 150px;
   align-items: center;
+  font-weight: 700;
 }
 
 .logo {
@@ -37,18 +38,19 @@
 a {
   cursor: pointer;
   margin-left: 20px;
-  color: var(--black);
+  color: var(--main);
   text-decoration: none;
   padding: 20px 20px;
   transition: color .3s ease-in-out;
 }
 
 a:hover {
-  color: var(--orange);
+  color: var(--secondary);
 }
 
 .active {
-  color: var(--orange);
+  color: var(--secondary);
+  font-weight: 700;
 }
 
 @media only screen and (max-width: 1630px) {

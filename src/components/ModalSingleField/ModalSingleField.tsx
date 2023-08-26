@@ -49,7 +49,7 @@ function ModalSingleField({modalTitle, fieldHint, buttonText, setShowModal, upda
           <input ref={inputElement} placeholder={fieldHint}/>
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>{buttonText}</button>}
+          {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>{buttonText}</button>}
           </div>
         </div>
       </div>

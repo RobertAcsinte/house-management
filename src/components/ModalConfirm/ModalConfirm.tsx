@@ -6,10 +6,11 @@ import { ClipLoader } from 'react-spinners'
 type ModalProps =  {
   title: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  updateFunction: () => Promise<any> 
+  updateFunction: () => Promise<any>,
+  setFirstShowModal? : React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
+function ModalConfirm({title, setShowModal, updateFunction, setFirstShowModal}: ModalProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -18,6 +19,9 @@ function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
       updateFunction().then(() => {
         setShowModal(false)
         setLoading(false)
+        if(setFirstShowModal) {
+          setFirstShowModal(false)
+        }
       }).catch((error) => {
         setError((error))
         setLoading(false)
@@ -35,7 +39,7 @@ function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
           <div className={style['large-title-modal']}>{title}</div>
             <div className='error-text'>{error}</div>
             <div className={style.buttonsContainer}>
-              {loading ? <div className='spinner-button'><ClipLoader color="var(--orange)" size="50px" /> </div>: 
+              {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: 
               <div><button className='full-button' style={{flex:"1"}} onClick={handleButtonClickConfirm}>Confirm</button>
               <button className='empty-button' style={{flex:"1"}} onClick={handleButtonClickClose}>Cancel</button></div>
               }
