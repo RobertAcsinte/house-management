@@ -17,7 +17,8 @@ export interface NoteDataDb {
 interface NotesContextValue {
   notes: NoteDataDb[] | null,
   addNote(date: number, pinned: boolean, title: string, content: string, id?: string): Promise<void>,
-  deleteNote(id: string): Promise<void>
+  deleteNote(id: string): Promise<void>,
+  error: string | null
 }
 
 const NotesContext = React.createContext({} as NotesContextValue)
@@ -30,6 +31,7 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
   const houseContext = useHouseContext()
   const userContext = useAuthContext()
   const [notesDb, setNotesDb] = useState<NoteDataDb[] | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   function addNote(date: number, pinned: boolean, title: string, content: string, id?: string): Promise<void>{
     var generatedKey = push(child(ref(db), 'notes/' + houseContext.houseInfoDb?.id)).key 
@@ -57,7 +59,7 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
       try {
         const notesRef = ref(db, "notes/" + houseContext.houseInfoDb?.id)
         onValue(notesRef, async (snapshot) => {
-          const data = snapshot.val();
+          const data = snapshot.val()
           if (data) {
             const newNotesArray = await Promise.all(Object.keys(data).map(async (noteId) => {
               const note = data[noteId];
@@ -75,10 +77,12 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
             newNotesArray.sort(comparePinned)
             setNotesDb(newNotesArray)
             resolve()
+            setError(null)
           }
           else {
             setNotesDb(null)
-            reject("No notes")
+            reject("It's empty here...")
+            setError("It's empty here...")
           }
         })
       } catch (error) {
@@ -103,13 +107,22 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
   }
 
   useEffect(() => {
-    getNotes()
+    const fetchNotes = async () => {
+      try {
+        await getNotes()
+        setError(null)
+      } catch(error) {
+        setError(error as string)
+      }
+    }
+    fetchNotes()
   }, [])
 
   const value: NotesContextValue = {
     notes: notesDb,
     addNote: addNote,
-    deleteNote: deleteNote
+    deleteNote: deleteNote,
+    error: error
   }
 
   return (

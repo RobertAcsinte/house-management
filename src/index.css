@@ -52,6 +52,15 @@ body, html {
   padding-bottom: 20px;
 }
 
+.error-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  width: 100%;
+  font-size: 3rem;
+  color: var(--error);
+}
+
 .box-container {
   position: relative;
   display: flex;
@@ -200,6 +209,7 @@ input:focus {
 
 .full-button-small:hover {
   background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 .empty-button {

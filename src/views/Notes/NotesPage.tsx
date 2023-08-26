@@ -36,12 +36,15 @@ function NotesPage() {
     <>
       <Navbar showAllOptions/>
       <div className={style.addContainer}>
-        <button className='text-button' onClick={onAddButton}>
+        <button className='full-button-small' onClick={onAddButton}>
           Add a note
         </button>
       </div>
       <div className={style.notesGrid}>
           {notes}
+      </div>
+      <div className='error-wrapper'>
+        {notesContext.error}
       </div>
       {showModal && modal.current}
     </>

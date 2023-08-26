@@ -1,10 +1,12 @@
 :root {
   --background: #EAEAEA;
   --main: #252A34;
-  --secondary: #FF2E63;
+  --secondary: rgba(255, 46, 99, 1);
   --black-shadow: rgba(0, 0, 0, 0.15);
   --main-list: rgba(255, 46, 99, 1);
   --second-list: rgba(20, 30, 70, 1);
 
   --notes: rgba(248, 241, 219, 1.0);
+
+  --error: rgba(255, 46, 99, 0.8);
 }
