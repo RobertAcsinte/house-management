@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import style from './NoteDetails.module.css'
 import { useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import Avatar from '../../assets/avatar.jpeg';
+import ModalConfirm from '../ModalConfirm/ModalConfirm'
 
 type NoteDetailsProps =  {
   note: NoteDataDb,
@@ -13,6 +14,8 @@ type NoteDetailsProps =  {
 function NoteDetails({note, setShowModal}: NoteDetailsProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false)
+  const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
 
   var minutes: string | number = new Date(note.date).getMinutes() 
@@ -27,14 +30,14 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
   }
 
   const onNoteDelete = () => {
-      setLoading(true)
-      notesContext.deleteNote(note.id).then(() => {
-        setShowModal(false)
-        setLoading(false)
-      }).catch((error) => {
-        setError((error))
-        setLoading(false)
-      })
+    setShowModalConfirm(true)
+    modal.current =
+      <ModalConfirm 
+        title="Are you sure you want to delete?" 
+        setShowModal={setShowModalConfirm} 
+        updateFunction={() => notesContext.deleteNote(note.id)}
+        setFirstShowModal={setShowModal}
+      />
   }
 
 
@@ -66,6 +69,7 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
             </div>
         </div>
       </div>
+      {showModalConfirm && modal.current}
     </div>
   )
 }

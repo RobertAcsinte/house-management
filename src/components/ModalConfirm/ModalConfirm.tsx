@@ -6,10 +6,11 @@ import { ClipLoader } from 'react-spinners'
 type ModalProps =  {
   title: string,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  updateFunction: () => Promise<any> 
+  updateFunction: () => Promise<any>,
+  setFirstShowModal? : React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
+function ModalConfirm({title, setShowModal, updateFunction, setFirstShowModal}: ModalProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -18,6 +19,9 @@ function ModalConfirm({title, setShowModal, updateFunction}: ModalProps) {
       updateFunction().then(() => {
         setShowModal(false)
         setLoading(false)
+        if(setFirstShowModal) {
+          setFirstShowModal(false)
+        }
       }).catch((error) => {
         setError((error))
         setLoading(false)
