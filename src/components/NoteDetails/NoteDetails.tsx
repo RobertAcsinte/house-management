@@ -2,7 +2,7 @@ import React from 'react'
 import style from './NoteDetails.module.css'
 import { useState } from 'react'
 import { ClipLoader } from 'react-spinners'
-import { NoteDataDb } from '../../context/NotesContext'
+import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import Avatar from '../../assets/avatar.jpeg';
 
 type NoteDetailsProps =  {
@@ -13,6 +13,7 @@ type NoteDetailsProps =  {
 function NoteDetails({note, setShowModal}: NoteDetailsProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const notesContext = useNotesContext()
 
   var minutes: string | number = new Date(note.date).getMinutes() 
   var hours: string | number = new Date(note.date).getHours() 
@@ -25,16 +26,17 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
     hours = "0" + hours
   }
 
-  const handleButtonClickConfirm = () => {
-      // setLoading(true)
-      // updateFunction().then(() => {
-      //   setShowModal(false)
-      //   setLoading(false)
-      // }).catch((error) => {
-      //   setError((error))
-      //   setLoading(false)
-      // })
+  const onNoteDelete = () => {
+      setLoading(true)
+      notesContext.deleteNote(note.id).then(() => {
+        setShowModal(false)
+        setLoading(false)
+      }).catch((error) => {
+        setError((error))
+        setLoading(false)
+      })
   }
+
 
   const handleButtonClickClose = () => {
     setShowModal(false)
@@ -58,8 +60,8 @@ function NoteDetails({note, setShowModal}: NoteDetailsProps) {
             <div className='error-text'>{error}</div>
             <div className={style.buttonsContainer}>
               {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: 
-              <div className=''><button className='full-button' style={{flex:"1"}} onClick={handleButtonClickConfirm}>Edit</button>
-              <button className='empty-button' style={{flex:"1"}} onClick={handleButtonClickClose}>Delete</button></div>
+              <div className=''><button className='full-button' style={{flex:"1"}}>Edit</button>
+              <button className='empty-button' style={{flex:"1"}} onClick={onNoteDelete}>Delete</button></div>
               }
             </div>
         </div>

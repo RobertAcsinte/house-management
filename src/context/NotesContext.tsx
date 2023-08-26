@@ -1,4 +1,4 @@
-import { child, get, onValue, push, ref, set } from "firebase/database"
+import { child, get, onValue, push, ref, remove, set } from "firebase/database"
 import React, { useContext, useEffect, useState } from "react"
 import { db } from "../firebaseConfig"
 import { useHouseContext } from "./HouseContext"
@@ -16,7 +16,8 @@ export interface NoteDataDb {
 
 interface NotesContextValue {
   notes: NoteDataDb[] | null,
-  addNote(date: number, pinned: boolean, title: string, content: string): Promise<void>
+  addNote(date: number, pinned: boolean, title: string, content: string): Promise<void>,
+  deleteNote(id: string): Promise<void>
 }
 
 const NotesContext = React.createContext({} as NotesContextValue)
@@ -46,11 +47,6 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
         reject(error)
       }
     })
-  }
-
-  const value: NotesContextValue = {
-    notes: notesDb,
-    addNote: addNote
   }
 
   function getNotes(): Promise<void> {
@@ -98,10 +94,20 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     return 0;
   }
 
+  function deleteNote(id: string): Promise<void>{
+    const noteRef = ref(db, "notes/" + houseContext.houseInfoDb?.id + "/" + id)
+    return remove(noteRef)
+  }
+
   useEffect(() => {
     getNotes()
   }, [])
 
+  const value: NotesContextValue = {
+    notes: notesDb,
+    addNote: addNote,
+    deleteNote: deleteNote
+  }
 
   return (
     <NotesContext.Provider value={value}>

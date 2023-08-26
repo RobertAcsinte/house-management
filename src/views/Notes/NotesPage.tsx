@@ -10,7 +10,6 @@ function NotesPage() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
-  const inputRef = useRef(null);
 
   const onAddButton = () => {
     setShowModal(true)

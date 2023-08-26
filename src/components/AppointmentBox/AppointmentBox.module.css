@@ -1,7 +1,8 @@
 .container {
   display: inline-flex;
   position: relative;
-  background-color: var(--main);
+  background-color: rgb(20, 70, 74);
+  background-color: rgb(218,83,76);
   color: var(--background);
   align-items: center;
   box-sizing: border-box;
