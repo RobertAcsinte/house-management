@@ -3,6 +3,7 @@ import Avatar from '../../assets/avatar.jpeg';
 import style from './AppointmentBox.module.css'
 
 type AppointmentBoxProps = {
+  background: string,
   name: string,
   startingTime: string,
   endingTime: string,
@@ -10,7 +11,7 @@ type AppointmentBoxProps = {
   removeAppointment: () => void
 }
 
-function AppointmentBox({name, startingTime, endingTime, showRemove, removeAppointment}: AppointmentBoxProps) {
+function AppointmentBox({background, name, startingTime, endingTime, showRemove, removeAppointment}: AppointmentBoxProps) {
   const dateObjectStart = new Date(startingTime)
   const hoursStart = dateObjectStart.getHours() < 10 ? `0${dateObjectStart.getHours()}` : dateObjectStart.getHours()
   const minutesStart = dateObjectStart.getMinutes() < 10 ? `0${dateObjectStart.getMinutes()}` : dateObjectStart.getMinutes()
@@ -26,7 +27,7 @@ function AppointmentBox({name, startingTime, endingTime, showRemove, removeAppoi
   }
   
   return (
-    <div className={style.container}>
+    <div className={style.container} style={{background: background}}>
       {showRemove && <div className={style.removeButton} onClick={onDeleteButton}>X</div>}
       <img className={style.avatar} src={Avatar} alt="avatar" />
       <div className={style.textContainer}>
