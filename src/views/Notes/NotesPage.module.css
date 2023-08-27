@@ -9,17 +9,30 @@
 }
 
 .notesGrid {
-  margin-top: 0px;
+  margin-top: 50px;
   margin-left: 10%;
   margin-right: 10%;
   margin-bottom: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+  column-gap: 0px;
+  row-gap: 50px;
 }
 
 .centerGrid {
   display: flex;
-  justify-content: center;
+
   width: 100%;
+}
+
+@media screen and (max-width: 1224px) {
+  .centerGrid {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 799px) {
+  .notesGrid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 }
