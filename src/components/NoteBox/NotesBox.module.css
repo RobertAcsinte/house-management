@@ -3,13 +3,13 @@
   background-color: var(--notes);
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
   color: var(--main);
   border-radius: 20px;
   box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   padding: 10px 20px;
-  height: 220px;
+  height: 230px;
   cursor: pointer;
 }
 
@@ -30,6 +30,7 @@
 }
 
 .content {
+  padding-top: 10px;
   font-size: 1.2rem;  
   overflow: hidden;
   display: -webkit-box;

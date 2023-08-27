@@ -22,6 +22,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  
 
   const appointmentContext = useAppointmentContext()
   const userContext = useAuthContext()
@@ -58,7 +59,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 800) {
+    if(window.innerWidth <= 775) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -204,6 +205,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       }
     }
   }, [appointmentContext.appointmentsDb, appointmentType])
+
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (

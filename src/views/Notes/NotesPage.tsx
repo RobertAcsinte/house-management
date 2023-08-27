@@ -10,7 +10,7 @@ function NotesPage() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
-  const [isMobile, setIsMobile] = useState<boolean>(false)
+
 
   const onAddButton = () => {
     setShowModal(true)
@@ -21,29 +21,6 @@ function NotesPage() {
     setShowModal(true)
     modal.current = <NoteDetails setShowModal={setShowModal} note={note}/>
     document.body.style.overflow = 'hidden';
-  }
-
-  const handleResize = () => {
-    if(window.innerWidth <= 800) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(false)
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize)
-  }, [])
-
-  var gridStyle = 'repeat(auto-fit, minmax(200px, 300px))'
-  var gridGap = '40px'
-
-  if(notesContext.notes){
-    if(notesContext.notes.length > 2 || isMobile) {
-      gridStyle = 'repeat(auto-fit, minmax(300px, 1fr))'
-      gridGap = '20px'
-    } 
-    
   }
 
   const notes = notesContext.notes?.map((note) => {
@@ -64,7 +41,7 @@ function NotesPage() {
           Add a note
         </button>
       </div>
-      <div className={style.notesGrid} style={{gridTemplateColumns: gridStyle, columnGap: gridGap}}>
+      <div className={style.notesGrid} >
           {notes}
       </div>
       <div className='error-wrapper'>
