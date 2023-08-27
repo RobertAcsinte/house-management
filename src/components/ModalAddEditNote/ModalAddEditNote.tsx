@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import style from './ModalAddEditNote.module.css'
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages'
+import mapErrorMessages from '../../mapErrorMessages'
 import { useNotesContext } from '../../context/NotesContext'
 import { ClipLoader } from 'react-spinners'
 
@@ -33,7 +33,7 @@ function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps
     setLoading(true)
     await notesContext.addNote(Date.now(), pinnedNote, title, content, id).catch((error) => {
       setLoading(false)
-      setError(mapFirebaseErrorMessages(error.code))
+      setError(mapErrorMessages(error.code))
     })
     setLoading(false)
     setShowModal(false)

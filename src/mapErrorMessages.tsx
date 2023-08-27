@@ -1,4 +1,4 @@
-function mapFirebaseErrorMessages(authCode: string) {
+function mapErrorMessages(authCode: string) {
   switch (authCode) {
     case "auth/weak-password":
       return "The password must be at least 6 characters long."
@@ -24,7 +24,7 @@ function mapFirebaseErrorMessages(authCode: string) {
     case "WEAK_PASSWORD : Password should be at least 6 characters":
       return "Password should be at least 6 characters."
 
-    case "No appointments":
+    case "empty":
       return "It's empty here..."
 
     case "The starting date cannot be later than the ending date!":
@@ -35,4 +35,4 @@ function mapFirebaseErrorMessages(authCode: string) {
   }
 }
 
-export default mapFirebaseErrorMessages
+export default mapErrorMessages

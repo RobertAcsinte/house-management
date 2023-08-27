@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import mapErrorMessages from '../../mapErrorMessages';
 import Logo from '../../assets/logo.png';
 
 
@@ -28,7 +28,7 @@ import Logo from '../../assets/logo.png';
     setLoading(true)
     await context?.login(email, password, rememberCheck).catch((error) => {
       setLoading(false)
-      setError(mapFirebaseErrorMessages(error.code))
+      setError(mapErrorMessages(error.code))
     })
     setLoading(false)
   }

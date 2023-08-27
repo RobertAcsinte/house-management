@@ -1,7 +1,7 @@
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import mapErrorMessages from '../../mapErrorMessages';
 import Modal from '../../components/ModalInfo/ModalInfo';
 import Logo from '../../assets/logo.png';
 
@@ -30,7 +30,7 @@ function ResetPassword() {
     } catch(error) {
       setLoading(false)
       if(typeof error === "string") {
-        setError(mapFirebaseErrorMessages(error))
+        setError(mapErrorMessages(error))
       }
     }
   }

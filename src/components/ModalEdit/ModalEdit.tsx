@@ -2,7 +2,7 @@ import React from 'react'
 import style from './ModalEdit.module.css'
 import { useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import mapErrorMessages from '../../mapErrorMessages';
 import { ClipLoader } from 'react-spinners';
 
 type ModalProps =  {
@@ -38,14 +38,14 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
         if(inputElementPassword.current?.value) {
           setLoading(true)
           const successLogin = await reAuth(inputElementPassword.current.value).catch((error) => {
-            setError(mapFirebaseErrorMessages(error.code))
+            setError(mapErrorMessages(error.code))
           })
           if(successLogin) {
             updateFunction(inputElementEdit.current.value).then(() => {
               setShowModal(false)
               setLoading(false)
             }).catch((error) => {
-              repeatPasswordField ? setError(mapFirebaseErrorMessages(error.code)) : setError(mapFirebaseErrorMessages(error))
+              repeatPasswordField ? setError(mapErrorMessages(error.code)) : setError(mapErrorMessages(error))
               setLoading(false)
             })
           } else {
@@ -62,7 +62,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
           setShowModal(false)
           setLoading(false)
         }).catch((error) => {
-          setError(mapFirebaseErrorMessages(error))
+          setError(mapErrorMessages(error))
           setLoading(false)
         })
       }
