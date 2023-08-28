@@ -1,0 +1,59 @@
+.wrapper {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.1);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(6px);
+}
+
+.box-container-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0px 20px;
+  padding: 50px 20px;
+  background-color: var(--background);
+  box-shadow: 0px 0px 50px var(--black-shadow);
+  border-radius: 15px;
+}
+
+.large-title-modal {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin-top: 20px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom {
+  margin-top: 20px;
+  border: none;
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: var(--secondary);
+  color: var(--background);
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.custom:hover{
+  background-color: var(--main);
+}
+

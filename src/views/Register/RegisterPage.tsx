@@ -3,6 +3,7 @@ import { ClipLoader } from 'react-spinners';
 import mapErrorMessages from '../../mapErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
 import Logo from '../../assets/logo.png';
+import { updateProfile } from 'firebase/auth';
 
 
 function RegisterPage() {
@@ -29,12 +30,26 @@ function RegisterPage() {
     }
 
     setLoading(true)
+
+
     const userCredential = await context.register(email, password).catch((registerError) => {
       setLoading(false)
       setError(mapErrorMessages(registerError.code))
     })
 
     if (userCredential) {
+      const url = await context.getAvatarURL("default").catch((avatarError) => {
+        setLoading(false)
+        setError(mapErrorMessages(avatarError.code))
+      })
+
+      if(url) {
+        await updateProfile(userCredential.user, { photoURL: url}).catch((avatarError) => {
+          setLoading(false)
+          setError(mapErrorMessages(avatarError.code))
+        })
+      }
+
       await context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
         setError(mapErrorMessages(registerError.code))

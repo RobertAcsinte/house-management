@@ -2,9 +2,12 @@ import Navbar from '../../components/Navbar/Navbar'
 import { useAuthContext } from '../../context/AuthContext';
 import style from "./AccountPage.module.css"
 import Modal from '../../components/ModalEdit/ModalEdit';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Edit } from '@mui/icons-material';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
+import { updateProfile } from 'firebase/auth';
+import { ClipLoader } from 'react-spinners';
+import ModalChangePhoto from '../../components/ModalChangePhoto/ModalChangePhoto';
 
 function AccountPage() {
   const context = useAuthContext();
@@ -32,19 +35,27 @@ function AccountPage() {
     }
   }
 
+  const onChangePhoto = () => {
+    setShowModal(true)
+    modal.current = <ModalChangePhoto setShowModal={setShowModal}/>
+  }
+
   const onLogoutButton = async () => {
     setShowModal(true)
     modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
   }
 
+  var photoURL: string = context.currentUser!.photoURL!
+  
   return (
     <>
       <Navbar showAllOptions/>
 
       <div className='top-wrapper'>
       <div className='box-container'>
-        <div className='large-title-form'>Account info</div>
-
+        <div className='large-title-form' style={{marginBottom:'10px'}}>Account info</div>
+        <img className={style.avatar} src= {photoURL}/>
+        <button className='full-button-small' onClick={onChangePhoto}>Change</button>
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Name</div>

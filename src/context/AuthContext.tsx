@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { ClipLoader } from 'react-spinners';
-import { auth, db } from "../firebaseConfig"
-import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
+import { auth, db, storageFirebase } from "../firebaseConfig"
+import { User, UserCredential, browserLocalPersistence, updateProfile } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
+import { getDownloadURL, getStorage, ref as ref_storage } from "firebase/storage";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
@@ -21,6 +22,7 @@ interface AuthContextValue {
   login(email: string, password: string, stayLogged: boolean): Promise<UserCredential>
   logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
+  getAvatarURL(url: string): Promise<string> 
   saveUserDb(userId: string, email: string, name: string): Promise<void>
   resetPassword(email: string): Promise<void>
   getUserData(uid: string): void
@@ -44,6 +46,16 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
+
+  function getAvatarURL(url: string): Promise<string> {
+    const storageRef = ref_storage(storageFirebase)
+    const pathReference = ref_storage(storageRef, '/'+ url + '.png');
+    return getDownloadURL(pathReference)
+  }
+
+  // useEffect(() => {
+  //   uploadDefaultAvatar()
+  // }, [])
 
   function login(email: string, password: string, stayLogged: boolean): Promise<UserCredential> {
     if(stayLogged) {
@@ -114,12 +126,31 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return reauthenticateWithCredential(currentUser.current!, EmailAuthProvider.credential(currentUser.current!.email!, password))
   }
 
+  // function uploadFile() {
+
+  // }
+
+  // function getFile() {
+  //   const storageRef = ref_storage(storageFirebase)
+
+  //   const pathReference = ref_storage(storageRef, '/profile.png');
+
+  //   getDownloadURL(pathReference).then((url) => {
+  //     console.log(url)
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   getFile()
+  // }, [])
+
   const value: AuthContextValue = {
     currentUser: currentUser.current,
     currentUserDataDb: currentUserDataDb,
     login,
     logout,
     register,
+    getAvatarURL,
     saveUserDb,
     resetPassword,
     getUserData,

@@ -1,3 +1,10 @@
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
 .label {
   font-size: 1.5rem;
   flex: 1;
