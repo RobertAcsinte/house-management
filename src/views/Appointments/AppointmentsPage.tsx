@@ -9,7 +9,7 @@ import ModalProps from '../../components/ModalTimePicker/ModalTimePicker';
 import { AppointmentDb, useAppointmentContext } from '../../context/AppointmentContext';
 import { useHouseContext } from '../../context/HouseContext';
 import AppointmentBox from '../../components/AppointmentBox/AppointmentBox';
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import mapErrorMessages from '../../mapErrorMessages';
 import { ClipLoader } from 'react-spinners';
 import { AppointmentType } from '../../AppointmentType';
 import { useAuthContext } from '../../context/AuthContext';
@@ -20,8 +20,7 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
   const [weekDates, setWeekDates] = useState<Date[]>([])
   const [firstDateOfWeekNumber, setFirstDateOfTheWeekNumber] = useState<number>(new Date().getDate())
   const [isMobile, setIsMobile] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   
 
   const appointmentContext = useAppointmentContext()
@@ -76,7 +75,6 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
     <ModalProps 
       fieldTitle='Make an appoitment' 
       setShowModal={setShowModal}
-      setErrorNoAppointments={setError}
       calendarDate={selectedDate}
       appointmentType={appointmentType}
      />
@@ -182,30 +180,12 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
       try {
         await appointmentContext.getAppointments(appointmentType, selectedDate.toLocaleDateString("nl-NL"))
         setLoading(false)
-        setError(null)
       } catch(error: any) {
         setLoading(false)
-        setError(mapFirebaseErrorMessages(error))
       }
     }
     fetchAppointments()
   }, [houseContext.houseInfoDb, selectedDate, appointmentType])
-
-  //this is only if while there are no appointments and another user makes one in the meantime, 
-  //it won't show it because error is not null from the no appointments message 
-  //so this way if the appoitments are empty and one appears in the meantime, error becomes null
-  useEffect(() => {
-    if(appointmentContext.appointmentsDb !== null && appointmentContext.appointmentsDb.length > 0) {
-      setError(null)
-    } else {
-      //set an error for no appointments only if there is not already an error set by the previous useEffect
-      //to not miss another error codes or cause unecessery re-renders
-      if(error === null) {
-        setError("There are no appointments made for this day. Create one!")
-      }
-    }
-  }, [appointmentContext.appointmentsDb, appointmentType])
-
 
   const appointmentsUI = appointmentContext.appointmentsDb?.map((element) => {
     return (
@@ -230,19 +210,23 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
           Book a timeslot
         </button>
       </div>
-      {loading ? 
-        <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div> 
-        : 
-        <>{error ?
-          <div className='error-wrapper'>{error}</div>
-          :
-          <div className={style.appointmentsContainer}>
-            {appointmentsUI}
-            {showModal && modal.current}
-          </div>
-        }</>
+      {loading ?
+        <div className='spinner-button'>
+          <ClipLoader color="var(--secondary)" size="200px" />
+        </div>
+        :
+        <>
+          {appointmentContext.error ?
+            <div className='error-wrapper'>
+              {appointmentContext.error}
+            </div>
+            :
+            <div className={style.appointmentsContainer}>
+              {appointmentsUI}
+            </div>
+          }
+        </>
       }
-
       {showModal && modal.current}
     </>
   )

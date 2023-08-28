@@ -4,6 +4,7 @@ import { useHouseContext } from "./HouseContext"
 import { child, get, onValue, push, ref, remove, set } from "firebase/database"
 import { db } from "../firebaseConfig"
 import { AppointmentType } from "../AppointmentType"
+import mapErrorMessages from "../mapErrorMessages"
 
 export interface AppointmentDb {
   id: string
@@ -15,6 +16,9 @@ export interface AppointmentDb {
 
 interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
+  appointmentsDbTodayKitchen: AppointmentDb[] | null,
+  appointmentsDbTodayBathroom: AppointmentDb[] | null,
+  error: string | null,
   createAppointment(appointmentType: AppointmentType, startingDate: Date, endingDate: Date): Promise<void>
   getAppointments(appointmentType: AppointmentType, date: string): Promise<void> 
   deleteAppointment(appointmentType: AppointmentType, date: Date, id: string): Promise<void>
@@ -28,6 +32,9 @@ export function useAppointmentContext() {
 
 export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const [appointmentsDb, setAppointmentsDb] = useState<AppointmentDb[] | null>(null)
+  const [appointmentsDbTodayKitchen, setAppointmentsDbTodayKitchen] = useState<AppointmentDb[] | null>(null)
+  const [appointmentsDbTodayBathroom, setAppointmentsDbTodayBathroom] = useState<AppointmentDb[] | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const authContext = useAuthContext()
   const houseContext = useHouseContext()
@@ -97,15 +104,28 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
             }))
             newAppointmentsArray.sort(compareStartingTime)
             setAppointmentsDb(newAppointmentsArray)
+            if(appointmentType === AppointmentType.bathroom) {
+              setAppointmentsDbTodayBathroom(newAppointmentsArray)
+            } else if(appointmentType === AppointmentType.kitchen) {
+              setAppointmentsDbTodayKitchen(newAppointmentsArray)
+            }
+            setError(null)
             resolve()
           }
           else {
             setAppointmentsDb(null)
-            reject("No appointments")
+            if(appointmentType === AppointmentType.bathroom) {
+              setAppointmentsDbTodayBathroom(null)
+            } else if(appointmentType === AppointmentType.kitchen) {
+              setAppointmentsDbTodayKitchen(null)
+            }
+            reject()
+            setError(mapErrorMessages("empty"))
           }
         })
       } catch (error) {
-        reject(error);
+        reject();
+        setError(mapErrorMessages((error as any).code))
       }
       })    
   }
@@ -127,6 +147,9 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   
   const value: AppointmentContextValue = {
     appointmentsDb: appointmentsDb,
+    appointmentsDbTodayKitchen: appointmentsDbTodayKitchen,
+    appointmentsDbTodayBathroom: appointmentsDbTodayBathroom,
+    error: error,
     createAppointment,
     getAppointments,
     deleteAppointment

@@ -1,0 +1,17 @@
+.notesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 50px;
+  row-gap: 50px;
+}
+
+.centerGrid {
+  display: flex;
+  width: 100%;
+}
+
+.empty {
+  font-size: 2rem;
+  color: var(--error);
+  font-weight: 500;
+}

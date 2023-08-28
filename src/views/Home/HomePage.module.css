@@ -1,0 +1,50 @@
+.wrapper {
+  margin: 0px 160px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+@media screen and (max-width: 1370px) {
+  .wrapper {
+    margin: 0px 70px;
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .wrapper {
+    margin: 0px 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.category {
+  margin: 40px 0px;
+  font-size: 2rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.notesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 50px;
+  row-gap: 50px;
+}
+
+.centerGrid {
+  display: flex;
+  width: 100%;
+}
+
+.empty {
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: var(--error);
+  font-weight: 500;
+}
+
+
+

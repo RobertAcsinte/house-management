@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { db } from "../firebaseConfig"
 import { useHouseContext } from "./HouseContext"
 import { useAuthContext } from "./AuthContext"
+import mapErrorMessages from "../mapErrorMessages"
 
 export interface NoteDataDb {
   id: string,
@@ -16,6 +17,7 @@ export interface NoteDataDb {
 
 interface NotesContextValue {
   notes: NoteDataDb[] | null,
+  getNotes(): Promise<void> ,
   addNote(date: number, pinned: boolean, title: string, content: string, id?: string): Promise<void>,
   deleteNote(id: string): Promise<void>,
   error: string | null
@@ -81,12 +83,13 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
           }
           else {
             setNotesDb(null)
-            reject("It's empty here...")
-            setError("It's empty here...")
+            reject()
+            setError(mapErrorMessages("empty"))
           }
         })
       } catch (error) {
-        reject(error);
+        reject();
+        setError(mapErrorMessages((error as any).code))
       }
       }) 
   }
@@ -106,20 +109,9 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     return remove(noteRef)
   }
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        await getNotes()
-        setError(null)
-      } catch(error) {
-        setError(error as string)
-      }
-    }
-    fetchNotes()
-  }, [])
-
   const value: NotesContextValue = {
     notes: notesDb,
+    getNotes: getNotes,
     addNote: addNote,
     deleteNote: deleteNote,
     error: error

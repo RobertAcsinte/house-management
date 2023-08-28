@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
-import mapFirebaseErrorMessages from '../../mapFirebaseErrorMessages';
+import mapErrorMessages from '../../mapErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
 import Logo from '../../assets/logo.png';
 
@@ -31,17 +31,17 @@ function RegisterPage() {
     setLoading(true)
     const userCredential = await context.register(email, password).catch((registerError) => {
       setLoading(false)
-      setError(mapFirebaseErrorMessages(registerError.code))
+      setError(mapErrorMessages(registerError.code))
     })
 
     if (userCredential) {
       await context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
-        setError(mapFirebaseErrorMessages(registerError.code))
+        setError(mapErrorMessages(registerError.code))
       })
       await context.login(email, password, true).catch((loginError) => {
         setLoading(false)
-        setError(mapFirebaseErrorMessages(loginError.code))
+        setError(mapErrorMessages(loginError.code))
       })
       setLoading(false)
     }

@@ -1,0 +1,11 @@
+.appointmentsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.empty {
+  font-size: 2rem;
+  color: var(--error);
+  font-weight: 500;
+}

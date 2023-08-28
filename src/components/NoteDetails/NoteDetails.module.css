@@ -7,6 +7,7 @@
   left: 0;
   right: 0;
   backdrop-filter: blur(6px);
+  z-index: 999;
 }
 
 .box-container-modal {
