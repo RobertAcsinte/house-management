@@ -37,7 +37,11 @@ function AccountPage() {
 
   const onChangePhoto = () => {
     setShowModal(true)
-    modal.current = <ModalChangePhoto setShowModal={setShowModal}/>
+    modal.current = 
+    <ModalChangePhoto 
+      setShowModal={setShowModal} 
+      uploadFile={context.uploadFile}
+    />
   }
 
   const onLogoutButton = async () => {

@@ -1,39 +1,44 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import style from './ModalChangePhoto.module.css'
 import { ClipLoader } from 'react-spinners'
 import { useAuthContext } from '../../context/AuthContext'
+import { UploadResult } from 'firebase/storage'
 
 type ModalProps =  {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  updateFunction?: () => Promise<any>
+  uploadFile(file: Blob | Uint8Array | ArrayBuffer): Promise<any>
 }
 
-function ModalChangePhoto({setShowModal, updateFunction}: ModalProps) {
+function ModalChangePhoto({setShowModal, uploadFile}: ModalProps) {
   const context = useAuthContext();
   const [photoURL, setPhotoURL] = useState<string>(context.currentUser!.photoURL!)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-
+  const fileRef = useRef<Blob | Uint8Array | ArrayBuffer>()
 
   const handleButtonClickConfirm = () => {
     setLoading(true)
-    // updateFunction().then(() => {
-    //   setShowModal(false)
-    //   setLoading(false)
-    // }).catch((error) => {
-    //   setError((error))
-    //   setLoading(false)
-    // })
+    if(fileRef.current !== undefined) {
+      uploadFile(fileRef.current).then(() => {
+        setShowModal(false)
+        setLoading(false)
+      }).catch((error) => {
+        setError((error))
+        setLoading(false)
+      })
+    } else {
+      setError("No file selected")
+      setLoading(false)
+    }
 }
 
 const handleButtonClickClose = () => {
   setShowModal(false)
 }
-console.log(photoURL)
 
 const loadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-
   if (event.target.files && event.target.files[0]) {
+    fileRef.current = event.target.files[0]
     setPhotoURL(URL.createObjectURL(event.target.files[0]));
   }
 }
