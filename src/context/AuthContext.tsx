@@ -50,7 +50,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   function getAvatarURL(url: string): Promise<string> {
     const storageRef = ref_storage(storageFirebase)
-    const pathReference = ref_storage(storageRef, '/'+ url + '.png');
+    const pathReference = ref_storage(storageRef, '/'+ url);
     return getDownloadURL(pathReference)
   }
 

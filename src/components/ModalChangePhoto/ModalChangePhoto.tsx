@@ -3,6 +3,8 @@ import style from './ModalChangePhoto.module.css'
 import { ClipLoader } from 'react-spinners'
 import { useAuthContext } from '../../context/AuthContext'
 import { UploadResult } from 'firebase/storage'
+import { updateProfile } from 'firebase/auth'
+import mapErrorMessages from '../../mapErrorMessages'
 
 type ModalProps =  {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,9 +21,21 @@ function ModalChangePhoto({setShowModal, uploadFile}: ModalProps) {
   const handleButtonClickConfirm = () => {
     setLoading(true)
     if(fileRef.current !== undefined) {
-      uploadFile(fileRef.current).then(() => {
-        setShowModal(false)
-        setLoading(false)
+      uploadFile(fileRef.current).then(async () => {
+        if(context.currentUser) {
+          const url = await context.getAvatarURL(context.currentUser?.uid).catch((avatarError) => {
+            setLoading(false)
+            setError(mapErrorMessages(avatarError.code))
+          })
+          if(url) {
+            updateProfile(context.currentUser, { photoURL: url}).then(() => {
+              setShowModal(false)
+              setLoading(false)
+            }).catch((error) => {
+              setError(error)
+            })
+          }
+        }
       }).catch((error) => {
         setError((error))
         setLoading(false)
