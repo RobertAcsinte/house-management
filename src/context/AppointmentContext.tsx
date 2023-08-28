@@ -16,6 +16,8 @@ export interface AppointmentDb {
 
 interface AppointmentContextValue {
   appointmentsDb: AppointmentDb[] | null,
+  appointmentsDbTodayKitchen: AppointmentDb[] | null,
+  appointmentsDbTodayBathroom: AppointmentDb[] | null,
   error: string | null,
   createAppointment(appointmentType: AppointmentType, startingDate: Date, endingDate: Date): Promise<void>
   getAppointments(appointmentType: AppointmentType, date: string): Promise<void> 
@@ -30,6 +32,8 @@ export function useAppointmentContext() {
 
 export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   const [appointmentsDb, setAppointmentsDb] = useState<AppointmentDb[] | null>(null)
+  const [appointmentsDbTodayKitchen, setAppointmentsDbTodayKitchen] = useState<AppointmentDb[] | null>(null)
+  const [appointmentsDbTodayBathroom, setAppointmentsDbTodayBathroom] = useState<AppointmentDb[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const authContext = useAuthContext()
@@ -100,11 +104,21 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
             }))
             newAppointmentsArray.sort(compareStartingTime)
             setAppointmentsDb(newAppointmentsArray)
+            if(appointmentType === AppointmentType.bathroom) {
+              setAppointmentsDbTodayBathroom(newAppointmentsArray)
+            } else if(appointmentType === AppointmentType.kitchen) {
+              setAppointmentsDbTodayKitchen(newAppointmentsArray)
+            }
             setError(null)
             resolve()
           }
           else {
             setAppointmentsDb(null)
+            if(appointmentType === AppointmentType.bathroom) {
+              setAppointmentsDbTodayBathroom(null)
+            } else if(appointmentType === AppointmentType.kitchen) {
+              setAppointmentsDbTodayKitchen(null)
+            }
             reject()
             setError(mapErrorMessages("empty"))
           }
@@ -133,6 +147,8 @@ export function AppointmentProvider({ children }: {children: React.ReactNode}) {
   
   const value: AppointmentContextValue = {
     appointmentsDb: appointmentsDb,
+    appointmentsDbTodayKitchen: appointmentsDbTodayKitchen,
+    appointmentsDbTodayBathroom: appointmentsDbTodayBathroom,
     error: error,
     createAppointment,
     getAppointments,
