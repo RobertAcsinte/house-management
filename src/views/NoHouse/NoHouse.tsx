@@ -78,7 +78,7 @@ function NoHouse() {
                     Array.from(invites).map(([key, value]) => (
                       <div className={style.inviteList} key={key}>
                         <p className={style.houseNameInvite}>{`${value}`}<span className={style.idSpan}>{key}</span></p>
-                        <button className='full-button-small' onClick={() => {onAcceptInvite(key)}}>Join</button>
+                        <button className='full-button-small' style={{background: 'var(--background)', color: 'var(--main)', margin: '0'}} onClick={() => {onAcceptInvite(key)}}>Join</button>
                       </div>
                     ))
                     }
