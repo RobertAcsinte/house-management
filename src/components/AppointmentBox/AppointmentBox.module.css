@@ -37,10 +37,23 @@
 
 .avatar {
   width: 70px;
-  height: auto;
+  height: 70px;
   margin-right: 10px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerButton {
+  display: block;
+  text-align: center;
+  margin-right: 10px;
 }
 
 .name {
