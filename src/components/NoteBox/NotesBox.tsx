@@ -37,7 +37,9 @@ function NotesBox({note, onNoteClick}: NotesBoxProps) {
         setPhotoURL(defaultPhoto)
       }
     }
-    getPhoto()
+    getPhoto().catch(() => {
+      setPhotoURL("../../../public/default.png")
+    })
   }, [])
 
   return (

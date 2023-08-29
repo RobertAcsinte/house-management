@@ -39,12 +39,14 @@ function AppointmentBox({background, name, userId, startingTime, endingTime, sho
 
   useEffect(() => {
     const getPhoto = async () => {
-      const defaultPhoto = await context.getAvatarURL(userId)
+      const defaultPhoto = await context.getAvatarURL(userId).catch()
       if(defaultPhoto) {
         setPhotoURL(defaultPhoto)
       }
     }
-    getPhoto()
+    getPhoto().catch(() => {
+      setPhotoURL("../../../public/default.png")
+    })
   }, [])
 
   
