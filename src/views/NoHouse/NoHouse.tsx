@@ -86,7 +86,12 @@ function NoHouse() {
                 )
               }
               </div>
-
+            }
+            {
+              !authContext.currentUserDataDb?.invitationsReceivedHouseId &&
+              <div className={style.inviteContainer}>
+                You did not receive an invitation yet. Ask your roommates for one!
+              </div>
             }
         </div>
       {showModal && modal.current}

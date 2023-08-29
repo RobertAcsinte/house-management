@@ -32,12 +32,13 @@ p {
   width: 700px;
   max-width: 100%;
   margin-top: 50px;
-  padding: 50px 0px;
+  padding: 50px 20px;
   border-radius: 20px;
   background-color: var(--secondary);
   color: var(--background);
   font-size: 1.5rem;
   font-weight: 700;
+  box-sizing: border-box;
 }
 
 .inviteList {
