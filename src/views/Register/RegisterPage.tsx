@@ -48,7 +48,10 @@ function RegisterPage() {
           setError(error)
         })
       } else {
-        await updateProfile(userCredential.user, { photoURL: photoURL}).catch((error) => {
+        const path = "../../../public/default.png"
+        const response = await fetch(path);
+        const blob = await response.blob();
+        await context.uploadAvatar(blob).catch((error) => {
           setLoading(false)
           setError(error)
         })
