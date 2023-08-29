@@ -1,0 +1,30 @@
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin-top: 20px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: var(--secondary);
+  color: var(--background);
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.custom:hover{
+  background-color: var(--main);
+}

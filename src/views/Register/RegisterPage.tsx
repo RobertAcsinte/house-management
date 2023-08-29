@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import mapErrorMessages from '../../mapErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
 import Logo from '../../assets/logo.png';
+import { updateProfile } from 'firebase/auth';
+import style from './RegisterPage.module.css'
 
 
 function RegisterPage() {
@@ -10,6 +12,9 @@ function RegisterPage() {
   const context = useAuthContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const [imgLoading, setImgLoading] = useState(true)
+  const [photoURL, setPhotoURL] = useState<string>()
+  const [file, setFile] = useState<Blob | Uint8Array | ArrayBuffer>()
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,12 +34,29 @@ function RegisterPage() {
     }
 
     setLoading(true)
+
+
     const userCredential = await context.register(email, password).catch((registerError) => {
       setLoading(false)
       setError(mapErrorMessages(registerError.code))
     })
 
     if (userCredential) {
+      if(file) {
+        await context.uploadAvatar(file).catch((error) => {
+          setLoading(false)
+          setError(error)
+        })
+      } else {
+        const path = "../../../public/default.png"
+        const response = await fetch(path);
+        const blob = await response.blob();
+        await context.uploadAvatar(blob).catch((error) => {
+          setLoading(false)
+          setError(error)
+        })
+      }
+      
       await context.saveUserDb(userCredential.user.uid, email, name).catch((registerError) => {
         setLoading(false)
         setError(mapErrorMessages(registerError.code))
@@ -47,11 +69,42 @@ function RegisterPage() {
     }
   }
 
+  function handleLoad () {
+    setImgLoading(false)
+  }
+
+  const loadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0])
+      setPhotoURL(URL.createObjectURL(event.target.files[0]));
+      setError(null)
+    }
+  }
+
+  useEffect(() => {
+    const getDefaultPhoto = async () => {
+      const defaultPhoto = await context.getAvatarURL("default.png").catch(setError)
+      if(defaultPhoto) {
+        setPhotoURL(defaultPhoto)
+      }
+    }
+    getDefaultPhoto()
+  }, [])
+
   return (
     <>
       <div className='center-wrapper-nonav'>
         <div className='box-container'>
-          <img className='logo-form' src={Logo} alt="logo" />
+          <div style={{display: imgLoading ? "block" : "none"}}>
+            <div className='spinner-button'>
+              <ClipLoader color="var(--secondary)" size="50px" />
+            </div>
+          </div>
+          <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+          <label className={style.custom}>
+          <input type="file" onChange={loadFile} accept="image/*"/>
+          Select photo
+          </label>
           <form onSubmit={event => onSubmit(event)}>
             <input type="text" placeholder='Email' name='email' />
             <input type="text" placeholder='Name' name='name' />

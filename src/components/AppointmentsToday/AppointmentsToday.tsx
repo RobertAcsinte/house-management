@@ -48,7 +48,8 @@ function AppointmentsToday({ appointmentType }: { appointmentType: AppointmentTy
       <AppointmentBox
         background = {appointmentType === AppointmentType.bathroom ? "var(--bathroom)" : "var(--kitchen)"}
         key={element.id} 
-        name={element.userId === userContext.currentUser?.uid ? "You" : element.userName} 
+        name={element.userId === userContext.currentUser?.uid ? "You" : element.userName}
+        userId={element.userId}
         startingTime={element.startingTime} 
         endingTime={element.endingTime}
         showRemove={element.userId === userContext.currentUser?.uid }

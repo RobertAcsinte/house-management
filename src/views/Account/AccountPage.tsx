@@ -2,15 +2,19 @@ import Navbar from '../../components/Navbar/Navbar'
 import { useAuthContext } from '../../context/AuthContext';
 import style from "./AccountPage.module.css"
 import Modal from '../../components/ModalEdit/ModalEdit';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Edit } from '@mui/icons-material';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
+import { updateProfile } from 'firebase/auth';
+import { ClipLoader } from 'react-spinners';
+import ModalChangePhoto from '../../components/ModalChangePhoto/ModalChangePhoto';
 
 function AccountPage() {
   const context = useAuthContext();
   
   const { currentUserDataDb } = context;
   const [showModal, setShowModal] = useState(false)
+  const [imgLoading, setImgLoading] = useState(true)
 
   const modal = useRef<JSX.Element | null>(null)
 
@@ -32,19 +36,41 @@ function AccountPage() {
     }
   }
 
+  const onChangePhoto = () => {
+    setShowModal(true)
+    modal.current = 
+    <ModalChangePhoto 
+      setShowModal={setShowModal} 
+      uploadFile={context.uploadAvatar}
+    />
+  }
+
   const onLogoutButton = async () => {
     setShowModal(true)
     modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
   }
 
+
+  var photoURL: string = context.currentUser!.photoURL!
+
+  function handleLoad () {
+    setImgLoading(false)
+  }
+  
   return (
     <>
       <Navbar showAllOptions/>
 
       <div className='top-wrapper'>
       <div className='box-container'>
-        <div className='large-title-form'>Account info</div>
-
+        <div className='large-title-form' style={{marginBottom:'10px'}}>Account info</div>
+        <div style={{display: imgLoading ? "block" : "none"}}>
+          <div className='spinner-button'>
+            <ClipLoader color="var(--secondary)" size="50px" />
+          </div>
+        </div>
+        <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+        <button className='full-button-small' onClick={onChangePhoto}>Change</button>
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className='label'>Name</div>

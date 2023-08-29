@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { ClipLoader } from 'react-spinners';
-import { auth, db } from "../firebaseConfig"
-import { User, UserCredential, browserLocalPersistence } from "firebase/auth"
+import { auth, db, storageFirebase } from "../firebaseConfig"
+import { User, UserCredential, browserLocalPersistence, updateProfile } from "firebase/auth"
 import { ref, set, onValue } from "firebase/database";
+import { UploadResult, getDownloadURL, getStorage, ref as ref_storage, uploadBytes } from "firebase/storage";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, browserSessionPersistence, setPersistence, updateEmail, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/cordova";
 
@@ -21,6 +22,8 @@ interface AuthContextValue {
   login(email: string, password: string, stayLogged: boolean): Promise<UserCredential>
   logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
+  getAvatarURL(url: string): Promise<string> 
+  uploadAvatar(file: Blob | Uint8Array | ArrayBuffer): Promise<void>
   saveUserDb(userId: string, email: string, name: string): Promise<void>
   resetPassword(email: string): Promise<void>
   getUserData(uid: string): void
@@ -43,6 +46,28 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
 
   function register(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password)
+  }
+
+  function getAvatarURL(filename: string): Promise<string> {
+    const storageRef = ref_storage(storageFirebase)
+    const pathReference = ref_storage(storageRef, '/'+ filename);
+    return getDownloadURL(pathReference)
+  }
+
+  function uploadAvatar(file: Blob | Uint8Array | ArrayBuffer): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if(currentUser.current) {
+        const imgRef = ref_storage(storageFirebase, currentUser.current?.uid);
+        await uploadBytes(imgRef, file).catch((error) => {reject(error)})
+        const downloadURL = await getAvatarURL(currentUser?.current?.uid).catch((error) => reject(error))
+        if(downloadURL) {
+          await updateProfile(currentUser.current, { photoURL: downloadURL}).catch((error) => reject(error))
+          resolve()
+        }
+      } else {
+        reject("User not found")
+      }
+    })
   }
 
   function login(email: string, password: string, stayLogged: boolean): Promise<UserCredential> {
@@ -120,6 +145,8 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     login,
     logout,
     register,
+    getAvatarURL,
+    uploadAvatar,
     saveUserDb,
     resetPassword,
     getUserData,
