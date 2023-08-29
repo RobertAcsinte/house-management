@@ -23,7 +23,7 @@ interface AuthContextValue {
   logout(): Promise<void>
   register: (email: string, password: string) => Promise<UserCredential>
   getAvatarURL(url: string): Promise<string> 
-  uploadFile(file: Blob | Uint8Array | ArrayBuffer): Promise<any>
+  uploadAvatar(file: Blob | Uint8Array | ArrayBuffer): Promise<void>
   saveUserDb(userId: string, email: string, name: string): Promise<void>
   resetPassword(email: string): Promise<void>
   getUserData(uid: string): void
@@ -54,9 +54,21 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return getDownloadURL(pathReference)
   }
 
-  // useEffect(() => {
-  //   uploadDefaultAvatar()
-  // }, [])
+  function uploadAvatar(file: Blob | Uint8Array | ArrayBuffer): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if(currentUser.current) {
+        const imgRef = ref_storage(storageFirebase, currentUser.current?.uid);
+        await uploadBytes(imgRef, file).catch((error) => {reject(error)})
+        const downloadURL = await getAvatarURL(currentUser?.current?.uid).catch((error) => reject(error))
+        if(downloadURL) {
+          await updateProfile(currentUser.current, { photoURL: downloadURL}).catch((error) => reject(error))
+          resolve()
+        }
+      } else {
+        reject("User not found")
+      }
+    })
+  }
 
   function login(email: string, password: string, stayLogged: boolean): Promise<UserCredential> {
     if(stayLogged) {
@@ -127,20 +139,11 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return reauthenticateWithCredential(currentUser.current!, EmailAuthProvider.credential(currentUser.current!.email!, password))
   }
 
-  function uploadFile(file: Blob | Uint8Array | ArrayBuffer): Promise<any> {
-    if(currentUser) {
-      const imgRef = ref_storage(storageFirebase, currentUser.current?.uid);
-      return uploadBytes(imgRef, file)
-    } else {
-      return new Promise((resolve, reject) => {
-        reject()
-      })
-    }
 
       // uploadBytes(imgRef, file).then((snapshot) => {
       //   console.log('Uploaded a blob or file!');
       // });
-  }
+
 
   // function getFile() {
   //   const storageRef = ref_storage(storageFirebase)
@@ -163,7 +166,7 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     logout,
     register,
     getAvatarURL,
-    uploadFile,
+    uploadAvatar,
     saveUserDb,
     resetPassword,
     getUserData,

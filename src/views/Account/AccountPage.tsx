@@ -41,7 +41,7 @@ function AccountPage() {
     modal.current = 
     <ModalChangePhoto 
       setShowModal={setShowModal} 
-      uploadFile={context.uploadFile}
+      uploadFile={context.uploadAvatar}
     />
   }
 

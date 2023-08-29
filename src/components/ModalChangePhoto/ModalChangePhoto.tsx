@@ -8,7 +8,7 @@ import mapErrorMessages from '../../mapErrorMessages'
 
 type ModalProps =  {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
-  uploadFile(file: Blob | Uint8Array | ArrayBuffer): Promise<any>
+  uploadFile(file: Blob | Uint8Array | ArrayBuffer): Promise<void>
 }
 
 function ModalChangePhoto({setShowModal, uploadFile}: ModalProps) {
@@ -16,34 +16,24 @@ function ModalChangePhoto({setShowModal, uploadFile}: ModalProps) {
   const [photoURL, setPhotoURL] = useState<string>(context.currentUser!.photoURL!)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const fileRef = useRef<Blob | Uint8Array | ArrayBuffer>()
+  const [file, setFile] = useState<Blob | Uint8Array | ArrayBuffer>()
 
   const handleButtonClickConfirm = () => {
     setLoading(true)
-    if(fileRef.current !== undefined) {
-      uploadFile(fileRef.current).then(async () => {
-        if(context.currentUser) {
-          const url = await context.getAvatarURL(context.currentUser?.uid).catch((avatarError) => {
-            setLoading(false)
-            setError(mapErrorMessages(avatarError.code))
-          })
-          if(url) {
-            updateProfile(context.currentUser, { photoURL: url}).then(() => {
-              setShowModal(false)
-              setLoading(false)
-            }).catch((error) => {
-              setError(error)
-            })
-          }
-        }
+    if(file !== undefined) {
+      setError(null)
+      uploadFile(file).then(() => {
+        setShowModal(false)
+        setLoading(false)
       }).catch((error) => {
-        setError((error))
+        setError(error)
         setLoading(false)
       })
     } else {
-      setError("No file selected")
+      setError("You did not change the image.")
       setLoading(false)
     }
+
 }
 
 const handleButtonClickClose = () => {
@@ -52,8 +42,9 @@ const handleButtonClickClose = () => {
 
 const loadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
   if (event.target.files && event.target.files[0]) {
-    fileRef.current = event.target.files[0]
+    setFile(event.target.files[0])
     setPhotoURL(URL.createObjectURL(event.target.files[0]));
+    setError(null)
   }
 }
 
