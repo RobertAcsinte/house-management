@@ -14,6 +14,7 @@ function AccountPage() {
   
   const { currentUserDataDb } = context;
   const [showModal, setShowModal] = useState(false)
+  const [imgLoading, setImgLoading] = useState(true)
 
   const modal = useRef<JSX.Element | null>(null)
 
@@ -49,7 +50,11 @@ function AccountPage() {
     modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
   }
 
-  var photoURL: string = context.currentUser!.photoURL!
+  var photoURL: string = context.currentUser!.photoURL ? context.currentUser!.photoURL : "default.png"
+
+  function handleLoad () {
+    setImgLoading(false)
+  }
   
   return (
     <>
@@ -58,7 +63,12 @@ function AccountPage() {
       <div className='top-wrapper'>
       <div className='box-container'>
         <div className='large-title-form' style={{marginBottom:'10px'}}>Account info</div>
-        <img className={style.avatar} src= {photoURL}/>
+        <div style={{display: imgLoading ? "block" : "none"}}>
+          <div className='spinner-button'>
+            <ClipLoader color="var(--secondary)" size="50px" />
+          </div>
+        </div>
+        <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
         <button className='full-button-small' onClick={onChangePhoto}>Change</button>
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
