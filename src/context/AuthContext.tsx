@@ -48,9 +48,9 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
-  function getAvatarURL(url: string): Promise<string> {
+  function getAvatarURL(filename: string): Promise<string> {
     const storageRef = ref_storage(storageFirebase)
-    const pathReference = ref_storage(storageRef, '/'+ url);
+    const pathReference = ref_storage(storageRef, '/'+ filename);
     return getDownloadURL(pathReference)
   }
 
@@ -138,26 +138,6 @@ export function AuthProvider({ children }: {children: React.ReactNode}) {
   function reauthenticateUser(password: string): Promise<UserCredential> {
     return reauthenticateWithCredential(currentUser.current!, EmailAuthProvider.credential(currentUser.current!.email!, password))
   }
-
-
-      // uploadBytes(imgRef, file).then((snapshot) => {
-      //   console.log('Uploaded a blob or file!');
-      // });
-
-
-  // function getFile() {
-  //   const storageRef = ref_storage(storageFirebase)
-
-  //   const pathReference = ref_storage(storageRef, '/profile.png');
-
-  //   getDownloadURL(pathReference).then((url) => {
-  //     console.log(url)
-  //   })
-  // }
-
-  // useEffect(() => {
-  //   getFile()
-  // }, [])
 
   const value: AuthContextValue = {
     currentUser: currentUser.current,

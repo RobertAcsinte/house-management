@@ -50,7 +50,8 @@ function AccountPage() {
     modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
   }
 
-  var photoURL: string = context.currentUser!.photoURL ? context.currentUser!.photoURL : "default.png"
+
+  var photoURL: string = context.currentUser!.photoURL!
 
   function handleLoad () {
     setImgLoading(false)
