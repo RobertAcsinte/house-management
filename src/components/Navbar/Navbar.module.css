@@ -1,5 +1,5 @@
 .hamburgerMenu {
-  display: none;
+display: none;
   text-align: end;
   top: 20px;
   right: 20px;
@@ -30,9 +30,26 @@
 }
 
 .nameContainer {
-    flex: 1;
-    text-align: end;
-    padding: 20px 20px;
+  display: flex;
+  flex: 1;
+  text-align: end;
+  justify-content: end;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.nameContainer a {
+  padding: 0;
+  margin: 0;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin-right: 10px;
 }
 
 a {
@@ -53,6 +70,7 @@ a:hover {
   font-weight: 700;
 }
 
+
 @media only screen and (max-width: 1630px) {
   a {
     margin-left: 10px;
@@ -60,7 +78,7 @@ a:hover {
   }
 }
 
-@media only screen and (max-width: 1370px) {
+@media only screen and (max-width: 1384px) {
   .navbarContainer {
     padding-left: 50px;
     padding-right: 50px;
@@ -73,7 +91,7 @@ a:hover {
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1035px) {
   .hamburgerMenu {
     display: block;
     padding-top: 20px;
