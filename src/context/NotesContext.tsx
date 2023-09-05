@@ -60,11 +60,9 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     return new Promise(async (resolve, reject) => {
       try {
         const notesRef = ref(db, "notes/" + houseContext.houseInfoDb?.id)
-        console.log(houseContext.houseInfoDb?.id)
         onValue(notesRef, async (snapshot) => {
           const data = snapshot.val()
           if (data) {
-            console.log(data)
             const newNotesArray = await Promise.all(Object.keys(data).map(async (noteId) => {
               const note = data[noteId];
               const userInfoFetched = await get(child(ref(db), `users/${note.userId}`))

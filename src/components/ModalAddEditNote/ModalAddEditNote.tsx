@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import style from './ModalAddEditNote.module.css'
 import mapErrorMessages from '../../mapErrorMessages'
 import { useNotesContext } from '../../context/NotesContext'
@@ -42,6 +42,16 @@ function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps
   const handleClose = () => {
     setShowModal(false)
   }
+
+  useEffect(() => {
+    const close = (e: any) => {
+      if(e.key === 'Escape'){
+        setShowModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+},[])
 
   return (
     <>

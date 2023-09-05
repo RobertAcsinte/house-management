@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './ModalInfo.module.css'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,6 +15,16 @@ function ModalInfo({title, setShowModal, navigateRoute}: ModalProps) {
     setShowModal(false)
     navigate(navigateRoute)
   }
+
+  useEffect(() => {
+    const close = (e: any) => {
+      if(e.key === 'Escape'){
+        setShowModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+  },[])
 
   return (
     <div className={style.wrapper}>

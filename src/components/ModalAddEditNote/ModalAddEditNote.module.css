@@ -27,7 +27,7 @@
   top: -15px;
   right: -15px;
   transition: background-color .3s ease-in-out;
-  background-color: var(--secondary);
+  background-color: red;
   color: white;
   font-weight: 700;
   font-size: 1.2rem;

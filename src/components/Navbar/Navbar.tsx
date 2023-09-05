@@ -52,7 +52,9 @@ function Navbar({showAllOptions}: NavbarProps) {
 
   return (
     <>
-      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}><MenuIcon style={hamburgerMenuColor}></MenuIcon></div>
+      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}>
+        <MenuIcon style={hamburgerMenuColor}></MenuIcon>
+      </div>
       <div className={style.navbarContainer} style={showMenuStyle}>
       <img className={style.logo} src={Logo} alt="logo" onClick={() => {navigate("/")}}/>
         {showAllOptions && <div className={style.linksContainer}>

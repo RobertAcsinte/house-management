@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './ModalConfirm.module.css'
 import { useState } from 'react'
 import { ClipLoader } from 'react-spinners'
@@ -31,6 +31,16 @@ function ModalConfirm({title, setShowModal, updateFunction, setFirstShowModal}: 
   const handleButtonClickClose = () => {
     setShowModal(false)
   }
+
+  useEffect(() => {
+    const close = (e: any) => {
+      if(e.key === 'Escape'){
+        setShowModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+},[])
 
   return (
     <div className={style.wrapper}>

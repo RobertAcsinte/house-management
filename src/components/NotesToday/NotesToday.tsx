@@ -19,7 +19,6 @@ function NotesToday() {
     }
   })
 
-  console.log(notesContext.notes)
   const notes = notesContext.notes?.map((note) => {
     if(note.pinned) {
       return (

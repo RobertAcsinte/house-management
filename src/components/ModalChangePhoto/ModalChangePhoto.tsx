@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import style from './ModalChangePhoto.module.css'
 import { ClipLoader } from 'react-spinners'
 import { useAuthContext } from '../../context/AuthContext'
@@ -48,7 +48,15 @@ const loadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
   }
 }
 
-
+useEffect(() => {
+  const close = (e: any) => {
+    if(e.key === 'Escape'){
+      setShowModal(false)
+    }
+  }
+  window.addEventListener('keydown', close)
+return () => window.removeEventListener('keydown', close)
+},[])
 
 return (
   <div className={style.wrapper}>

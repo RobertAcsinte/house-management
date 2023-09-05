@@ -1,5 +1,5 @@
 .hamburgerMenu {
-display: none;
+  display: none;
   text-align: end;
   top: 20px;
   right: 20px;
@@ -96,7 +96,6 @@ a:hover {
     padding-top: 20px;
     margin-right: 20px;
     cursor: pointer;
-    color: orange;
   }
 
 
