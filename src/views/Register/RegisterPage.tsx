@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import mapErrorMessages from '../../mapErrorMessages';
 import { useAuthContext } from '../../context/AuthContext';
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/logo.svg';
 import { updateProfile } from 'firebase/auth';
 import style from './RegisterPage.module.css'
 

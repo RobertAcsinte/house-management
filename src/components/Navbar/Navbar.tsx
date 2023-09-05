@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import style from './Navbar.module.css'
 import { useState, useEffect } from 'react';
-import Logo from '../../assets/logo-low.png';
+import Logo from '../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuthContext } from '../../context/AuthContext';

@@ -23,8 +23,7 @@ display: none;
 }
 
 .logo {
-  width: 150px;
-  height: 150px;
+  width: 220px;
   object-fit: cover;
   cursor: pointer;
 }
