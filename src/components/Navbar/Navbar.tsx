@@ -21,7 +21,7 @@ function Navbar({showAllOptions}: NavbarProps) {
 
   //used to have the hamburger menu closed if the window is small and the navbar is hamburger
   const showMenuStyle = {
-    display: window.innerWidth > 1035 ? "flex" : showMenu ? "flex" : "none"
+    display: window.innerWidth > 1235 ? "flex" : showMenu ? "flex" : "none"
   }
 
   const hamburgerMenuColor = {
@@ -33,7 +33,7 @@ function Navbar({showAllOptions}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 1035) {
+    if(window.innerWidth <= 1235) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -96,14 +96,16 @@ function Navbar({showAllOptions}: NavbarProps) {
         </div>}
 
         <div className={style.nameContainer}>
-        <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
-          <NavLink
-            to="/account" 
-            className={({ isActive }) =>
-            isActive ? style.active : style.inactive}>
-              
-              {userName}
-          </NavLink>
+          <div className={style.wrapperName}>
+            <NavLink
+              to="/account" 
+              className={({ isActive }) =>
+              isActive ? style.active : style.inactive}>
+                
+                {userName}
+            </NavLink>
+            <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+          </div>
         </div>
       </div>
     </>

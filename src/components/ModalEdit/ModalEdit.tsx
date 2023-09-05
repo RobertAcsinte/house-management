@@ -92,7 +92,7 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>
-          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle} type={newValueFieldStyle}/>
+          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle} type={newValueFieldStyle} maxLength={40}/>
           {repeatPasswordField && <input type="password" placeholder='Repeat password' ref={inputElementRepeatPassword}/> }
           {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>

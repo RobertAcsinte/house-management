@@ -17,6 +17,7 @@ function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const notesContext = useNotesContext()
+  
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -41,12 +42,14 @@ function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps
 
   const handleClose = () => {
     setShowModal(false)
+    document.body.style.overflow = 'scroll';
   }
 
   useEffect(() => {
     const close = (e: any) => {
       if(e.key === 'Escape'){
         setShowModal(false)
+        document.body.style.overflow = 'scroll';
       }
     }
     window.addEventListener('keydown', close)
@@ -56,11 +59,11 @@ function ModalAddEditNote({setShowModal, id, title, content, pinned}: ModalProps
   return (
     <>
       <div className={style.wrapper}>
-        <div className='center-wrapper' style={{height:"100%"}}>
+        <div className='center-wrapper'>
           <div className={style['box-container-modal']}>
             <button className={style.closeButton} onClick={handleClose}>X</button>
-            <form onSubmit={onSubmit}>
-              <input type="text" placeholder='Title' name='title' defaultValue={title}/>
+            <form onSubmit={onSubmit} style={{width:'100%'}}>
+              <input type="text" placeholder='Title' name='title' defaultValue={title} maxLength={50} style={{fontWeight:'700'}}/>
               <textarea name="content" placeholder='Content' defaultValue={content} className={style.contentTextarea}></textarea>
               <div className={style['checkbox-container']}>
                 <input type="checkbox" id="checkbox-pinned" defaultChecked={pinned} className={style.checkbox} name='checkboxPinned'/>

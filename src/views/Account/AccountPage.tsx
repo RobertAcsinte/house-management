@@ -78,7 +78,6 @@ function AccountPage() {
           </div>
             <p>{currentUserDataDb?.name}</p>
         </div>  
-
         <div className='edit-label-container'>
           <div className='edit-label-icon-subcontainer'>
               <div className={style.label}>Email</div>

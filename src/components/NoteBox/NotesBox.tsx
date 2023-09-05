@@ -54,7 +54,7 @@ function NotesBox({note, onNoteClick}: NotesBoxProps) {
         </div>
           <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}} alt="avatar" />
           <div className={style.noteDetailsText}>
-            <p></p><b>{note.userName}</b>
+            <p><b>{note.userName}</b></p>
             <p>{new Date(note.date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
           </div>
       </div>
