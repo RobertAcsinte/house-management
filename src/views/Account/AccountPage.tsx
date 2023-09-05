@@ -59,7 +59,7 @@ function AccountPage() {
   
   return (
     <>
-      <Navbar showAllOptions/>
+    {currentUserDataDb?.houseId ? <Navbar showAllOptions/> : <Navbar showAllOptions={false}/>}
 
       <div className='top-wrapper'>
       <div className='box-container'>
