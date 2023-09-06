@@ -96,6 +96,9 @@ function Navbar({showAllOptions}: NavbarProps) {
         </div>}
 
         <div className={style.nameContainer}>
+          <div className={style.avatarContainer} style={{display: imgLoading ? "none" : "block"}}>
+            <img className={style.avatar} src= {photoURL} onLoad={handleLoad}/>
+          </div>
           <div className={style.wrapperName}>
             <NavLink
               to="/account" 
@@ -104,7 +107,6 @@ function Navbar({showAllOptions}: NavbarProps) {
                 
                 {userName}
             </NavLink>
-            <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
           </div>
         </div>
       </div>

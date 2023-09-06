@@ -37,14 +37,14 @@
   padding: 20px 20px;
 }
 
-.nameContainer a {
-  padding: 0;
-  margin: 0;
+.avatarContainer {
+  width: 75px;
+  height: 75px;
 }
 
 .avatar {
-  width: 75px;
-  height: 75px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
   object-position: top;
@@ -70,16 +70,17 @@ a:hover {
 
 .wrapperName {
   display: flex;
-  width: 350px;
+  width: 250px;
   align-items: center;
   justify-content: center;
 }
 
 .wrapperName a {
-  width: 250px;
   display: inline-block;
   word-wrap: break-word;
-  margin-right: 10px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 
