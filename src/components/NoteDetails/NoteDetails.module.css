@@ -31,7 +31,7 @@
   background-color: red;
   font-size: 1.2rem;
   color: var(--background);
-  padding: 5px 10px;
+  padding: 4px 10px;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -45,6 +45,7 @@
 .large-title-modal {
   font-size: 2rem;
   font-weight: 700;
+  text-align: center;
   display: inline-block;
   word-wrap: break-word;
   width: 90%;

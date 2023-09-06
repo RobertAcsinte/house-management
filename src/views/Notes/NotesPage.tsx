@@ -65,7 +65,7 @@ function NotesPage() {
   return (
     <>
       <Navbar showAllOptions />
-      <div className={style.wrapper}>
+      <div className="wrapper-content">
         <div className={style.addContainer}>
           <button className='full-button-small' onClick={onAddButton}>
             Add a note

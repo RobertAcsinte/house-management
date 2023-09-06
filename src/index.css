@@ -20,6 +20,15 @@ body, html {
 
   /* ------------------------------------------------------ Layouts ------------------------------------------------------ */
 
+  .wrapper-content {
+    margin: 0px 12%;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+
 .wrapper {
   display: flex;
   flex-direction: column;

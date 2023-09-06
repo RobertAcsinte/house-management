@@ -50,6 +50,7 @@
   justify-content: start;
   width: 60%;
   font-size: 1rem;
+  overflow: hidden;
 }
 
 .noteDetailsText p {
@@ -81,5 +82,13 @@
 .spinnerButton {
   display: block;
   text-align: center;
+  margin-right: 10px;
+}
+
+.img {
+  display: inline-block;
+  width: 70px;
+  min-width: 70px;
+  height: 70px;
   margin-right: 10px;
 }
