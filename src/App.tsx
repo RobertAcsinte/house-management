@@ -12,13 +12,14 @@ import MyHouse from './views/MyHouse/MyHouse.tsx'
 import { AppointmentType } from './AppointmentType.tsx'
 import AppointmentsPage from './views/Appointments/AppointmentsPage.tsx'
 import NotesPage from './views/Notes/NotesPage.tsx'
+import LandingPage from './views/Landing/LandingPage.tsx'
 
 
 function App() {
 
   const authRequiredNoHouseProps: Omit<ProtectedRouteProps, 'component'> = {
     redirectPathAuthCondition: '/login',
-    redirectPathHouseCondition: '/',
+    redirectPathHouseCondition: '/today',
     requiresLoggedIn: true,
     requiresHouseJoined: false,
     isAccount: false
@@ -33,8 +34,8 @@ function App() {
   };
 
   const notAuthRequiredProps: Omit<ProtectedRouteProps, 'component'> = {
-    redirectPathAuthCondition: '/',
-    redirectPathHouseCondition: '/',
+    redirectPathAuthCondition: '/today',
+    redirectPathHouseCondition: '/today',
     requiresLoggedIn: false,
     requiresHouseJoined: false,
     isAccount: false
@@ -42,16 +43,25 @@ function App() {
 
   const authRequiredIsAccountProps: Omit<ProtectedRouteProps, 'component'> = {
     redirectPathAuthCondition: '/login',
-    redirectPathHouseCondition: '/',
+    redirectPathHouseCondition: '/today',
     requiresLoggedIn: true,
     requiresHouseJoined: false,
     isAccount: true
+  };
+
+  const landingProps: Omit<ProtectedRouteProps, 'component'> = {
+    redirectPathAuthCondition: '/today',
+    redirectPathHouseCondition: '/',
+    requiresLoggedIn: false,
+    requiresHouseJoined: false,
+    isAccount: false
   };
   
   return (
     <>
     <Routes>
-      <Route path='/' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
+    <Route path='/' element={<ProtectedRoute {...landingProps} component={<LandingPage />} />} />
+      <Route path='/today' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
       <Route path='/myhouse' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<MyHouse />} />} />
       <Route path='/kitchen' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.kitchen} />} />} />
       <Route path='/bathroom' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.bathroom} />} />} />

@@ -1,0 +1,39 @@
+.wrapperCenter{
+  margin: 100px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.motto {
+  max-width: 800px;
+  height: auto;
+  overflow: hidden;
+}
+
+.motto p {
+  text-align: center;
+  width: 100%;
+  font-weight: 700;
+  font-size: 3rem;
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+.mottoDescription {
+  max-width: 600px;
+  height: auto;
+  overflow: hidden;
+  margin-top: 30px;
+}
+
+.mottoDescription p {
+  text-align: center;
+  width: 100%;
+  font-weight: 200;
+  font-size: 1.5rem;
+  display: inline-block;
+  word-wrap: break-word;
+}
