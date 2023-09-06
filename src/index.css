@@ -44,7 +44,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 20px;
+  margin: 0px 5px;
 }
 
 .center-wrapper {
@@ -80,7 +80,7 @@ body, html {
   background-color: var(--background);
   box-shadow: 0px 0px 50px var(--black-shadow);
   border-radius: 15px;
-  margin: 0px 20px;
+  margin: 0px 0px;
   padding-bottom: 20px;
   
 }
