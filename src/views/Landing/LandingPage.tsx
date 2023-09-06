@@ -1,8 +1,10 @@
+import NavbarLanding from '../../components/NavbarLanding/NavbarLanding'
 import style from './LandingPage.module.css'
 
 function LandingPage() {
   return (
     <>
+    <NavbarLanding />
     <div className='wrapper-content'>
       <div className={style.wrapperCenter}>
         <div className={style.motto}>
