@@ -11,20 +11,19 @@ function LandingPage() {
   return (
     <>
     <NavbarLanding />
-    <div className='wrapper-content'>
+    <div className='wrapper-content' style={{marginBottom:"0"}}>
       <div className={style.wrapperCenter}>
-      <div className={style.imageContainer}>
-        <img className={style.image} src={Logo} alt="logo"/>
-      </div>
-        <div className={style.title}>
-          <p>Effortless communication and coordination among housemates.</p>
-        </div>
-        <div className={style.subTitle}>
-          <p>Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. 
-            Say goodbye to misunderstandings and hello to seamless housemate harmony!</p>
+        <div className={style.containerFeature}>
+          <div className={style.title}>
+            <p>Effortless communication and coordination among housemates.</p>
+          </div>
+          <div className={style.subTitle}>
+            <p>Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. 
+              Say goodbye to misunderstandings and hello to seamless housemate harmony!</p>
+          </div>
         </div>
 
-        <div className={style.containerFeature}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
           <div className={style.title}>
             <p>Join a house</p>
           </div>
@@ -48,7 +47,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={style.containerFeature}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
           <div className={style.title}>
             <p>Create notes for everyone</p>
           </div>
@@ -74,7 +73,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={style.containerFeature}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
           <div className={style.title}>
             <p>Manage your house</p>
           </div>
