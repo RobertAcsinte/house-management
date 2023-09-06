@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './ModalSingleField.module.css'
 import { useRef, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
@@ -40,13 +40,23 @@ function ModalSingleField({modalTitle, fieldHint, buttonText, setShowModal, upda
     setShowModal(false)
   }
 
+  useEffect(() => {
+    const close = (e: any) => {
+      if(e.key === 'Escape'){
+        setShowModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+  },[])
+
   return (
     <div className={style.wrapper}>
       <div className='center-wrapper'>
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{modalTitle}</div>
-          <input ref={inputElement} placeholder={fieldHint}/>
+          <input ref={inputElement} placeholder={fieldHint} maxLength={45}/>
           <div className='error-text'>{error}</div>
           <div className={style.buttonsContainer}>
           {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button className='full-button' style={{flex:"1"}} onClick={handleButtonClick}>{buttonText}</button>}

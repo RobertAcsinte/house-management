@@ -5,6 +5,12 @@
   row-gap: 50px;
 }
 
+@media only screen and (max-width: 380px) {
+  .notesGrid {
+    grid-template-columns: 100%;
+  }
+}
+
 .centerGrid {
   display: flex;
   width: 100%;

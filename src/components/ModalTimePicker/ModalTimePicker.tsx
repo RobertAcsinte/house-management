@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import style from './ModalTimePicker.module.css'
 import { useRef, useState } from 'react'
 import mapErrorMessages from '../../mapErrorMessages';
@@ -72,6 +72,16 @@ function ModalTimePicker({fieldTitle, setShowModal, calendarDate, appointmentTyp
         endingTime.current = newDate
       }}
     />
+
+    useEffect(() => {
+      const close = (e: any) => {
+        if(e.key === 'Escape'){
+          setShowModal(false)
+        }
+      }
+      window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+    },[])
 
   return (
     <div className={style.wrapper}>

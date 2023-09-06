@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import style from './Navbar.module.css'
 import { useState, useEffect } from 'react';
-import Logo from '../../assets/logo-low.png';
+import Logo from '../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuthContext } from '../../context/AuthContext';
@@ -17,10 +17,11 @@ function Navbar({showAllOptions}: NavbarProps) {
   const navigate = useNavigate()
   const context = useAuthContext();
   const userName = context.currentUserDataDb!.name
+  const [imgLoading, setImgLoading] = useState(true)
 
   //used to have the hamburger menu closed if the window is small and the navbar is hamburger
   const showMenuStyle = {
-    display: window.innerWidth > 1000 ? "flex" : showMenu ? "flex" : "none"
+    display: window.innerWidth > 1235 ? "flex" : showMenu ? "flex" : "none"
   }
 
   const hamburgerMenuColor = {
@@ -32,11 +33,17 @@ function Navbar({showAllOptions}: NavbarProps) {
   }
 
   const handleResize = () => {
-    if(window.innerWidth <= 1000) {
+    if(window.innerWidth <= 1235) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
     }
+  }
+
+  var photoURL: string = context.currentUser!.photoURL!
+
+  function handleLoad () {
+    setImgLoading(false)
   }
 
   useEffect(() => {
@@ -45,7 +52,9 @@ function Navbar({showAllOptions}: NavbarProps) {
 
   return (
     <>
-      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}><MenuIcon style={hamburgerMenuColor}></MenuIcon></div>
+      <div className={style.hamburgerMenu} onClick={handleHamburgerClick}>
+        <MenuIcon style={hamburgerMenuColor}></MenuIcon>
+      </div>
       <div className={style.navbarContainer} style={showMenuStyle}>
       <img className={style.logo} src={Logo} alt="logo" onClick={() => {navigate("/")}}/>
         {showAllOptions && <div className={style.linksContainer}>
@@ -87,12 +96,18 @@ function Navbar({showAllOptions}: NavbarProps) {
         </div>}
 
         <div className={style.nameContainer}>
-          <NavLink
-            to="/account" 
-            className={({ isActive }) =>
-            isActive ? style.active : style.inactive}>
-              {userName}
-          </NavLink>
+          <div className={style.avatarContainer} style={{display: imgLoading ? "none" : "block"}}>
+            <img className={style.avatar} src= {photoURL} onLoad={handleLoad}/>
+          </div>
+          <div className={style.wrapperName}>
+            <NavLink
+              to="/account" 
+              className={({ isActive }) =>
+              isActive ? style.active : style.inactive}>
+                
+                {userName}
+            </NavLink>
+          </div>
         </div>
       </div>
     </>

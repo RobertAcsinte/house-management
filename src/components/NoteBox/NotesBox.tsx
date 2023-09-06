@@ -37,7 +37,9 @@ function NotesBox({note, onNoteClick}: NotesBoxProps) {
         setPhotoURL(defaultPhoto)
       }
     }
-    getPhoto()
+    getPhoto().catch(() => {
+      setPhotoURL("../../../public/default.png")
+    })
   }, [])
 
   return (
@@ -50,11 +52,13 @@ function NotesBox({note, onNoteClick}: NotesBoxProps) {
             <ClipLoader color="var(--secondary)" size="45px" />
           </div>
         </div>
+        <div className={style.imgContainer}>
           <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}} alt="avatar" />
-          <div className={style.noteDetailsText}>
-            <p></p><b>{note.userName}</b>
-            <p>{new Date(note.date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
-          </div>
+        </div>
+        <div className={style.noteDetailsText}>
+          <p><b>{note.userName}</b></p>
+          <p>{new Date(note.date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>
+        </div>
       </div>
       <p className={style.content}>{note.content}</p>
     </div>

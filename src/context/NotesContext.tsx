@@ -109,6 +109,10 @@ export function NotesProvider({children} : {children: React.ReactNode}) {
     return remove(noteRef)
   }
 
+  useEffect(() => {
+    getNotes()
+  }, [houseContext.houseInfoDb])
+
   const value: NotesContextValue = {
     notes: notesDb,
     getNotes: getNotes,

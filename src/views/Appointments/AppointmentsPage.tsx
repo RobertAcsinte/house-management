@@ -204,31 +204,34 @@ function AppointmentsPage({ appointmentType }: { appointmentType: AppointmentTyp
 
   return (
     <>
+    
       <Navbar showAllOptions/>
       {isMobile ? weekDaysSmall : weekDaysBig}
-      <div className={style.addContainer}>
-        <button className='full-button-small' onClick={handleAddButton}>
-          Book a timeslot
-        </button>
-      </div>
-      {loading ?
-        <div className='spinner-button'>
-          <ClipLoader color="var(--secondary)" size="200px" />
+      <div className='wrapper-content'>
+        <div className={style.addContainer}>
+          <button className='full-button-small' onClick={handleAddButton}>
+            Book a timeslot
+          </button>
         </div>
-        :
-        <>
-          {appointmentContext.error ?
-            <div className='error-wrapper'>
-              {appointmentContext.error}
-            </div>
-            :
-            <div className={style.appointmentsContainer}>
-              {appointmentsUI}
-            </div>
-          }
-        </>
-      }
-      {showModal && modal.current}
+        {loading ?
+          <div className='spinner-button'>
+            <ClipLoader color="var(--secondary)" size="200px" />
+          </div>
+          :
+          <>
+            {appointmentContext.error ?
+              <div className='error-wrapper'>
+                {appointmentContext.error}
+              </div>
+              :
+              <div className={style.appointmentsContainer}>
+                {appointmentsUI}
+              </div>   
+            }
+          </>
+        }
+        {showModal && modal.current}
+      </div>
     </>
   )
 }

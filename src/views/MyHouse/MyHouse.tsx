@@ -37,7 +37,7 @@ function MyHouse() {
   })
 
   const invitations = houseContext.houseInfoDb?.invitationsUsersEmail.map((value, index) => {
-    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--main)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'} : {background: 'var(--second-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'}
+    const styleColor = index % 2 === 0 ? {background: 'var(--main-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'} : {background: 'var(--second-list)', color: 'var(--background)', boxShadow:'1px 1px 20px rgba(0, 0, 0, .2)'}
     return <p className={style.userContainer} style={styleColor} key={value}>{value}</p>
   })
 

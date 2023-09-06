@@ -20,6 +20,15 @@ body, html {
 
   /* ------------------------------------------------------ Layouts ------------------------------------------------------ */
 
+  .wrapper-content {
+    margin: 0px 12%;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -35,7 +44,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 20px;
+  margin: 0px 5px;
 }
 
 .center-wrapper {
@@ -71,13 +80,15 @@ body, html {
   background-color: var(--background);
   box-shadow: 0px 0px 50px var(--black-shadow);
   border-radius: 15px;
-  margin: 0px 20px;
+  margin: 0px 0px;
   padding-bottom: 20px;
+  
 }
 
 @media only screen and (max-width: 575px) {
   .box-container {
     height: auto;
+    width: 90%;
   }
 }
 
@@ -141,7 +152,7 @@ input {
   font-family: "Roboto Condensed", sans-serif;
   display: block;
   border: solid;
-  border-color: var(--secondary);
+  border-color: transparent;
   color: black;
   font-weight: 400;
   border-width: 1px;
@@ -155,7 +166,7 @@ input {
 
 input:focus {
   outline: none !important;
-  border:1px solid var(--main);
+  border: 2px solid var(--secondary);
 }
 
 
@@ -168,7 +179,7 @@ input:focus {
   background-color: var(--main);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  transition: all .3s;
   margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
@@ -193,7 +204,7 @@ input:focus {
   background-color: var(--main);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color.3s ease-in-out, border-color.3s ease-in-out;
+  transition: all .3s ease-in-out;
   margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
@@ -216,7 +227,7 @@ input:focus {
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
+  transition: all .3s ease-in-out;
   margin-top: 20px;
   border-style: none;
   padding: 15px 20px;
@@ -262,7 +273,7 @@ input:focus {
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 500;
   cursor: pointer;
-  transition: color.3s ease-in-out;
+  transition: all .3s ease-in-out;
   border-style: none;
   padding: 15px 20px;
   color: var(--main);
@@ -286,6 +297,12 @@ input:focus {
   flex-direction: column;
   padding: 0px 20px;
   margin-bottom: 10px;
+}
+
+.edit-label-container p {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .edit-label-icon-subcontainer {

@@ -39,12 +39,14 @@ function AppointmentBox({background, name, userId, startingTime, endingTime, sho
 
   useEffect(() => {
     const getPhoto = async () => {
-      const defaultPhoto = await context.getAvatarURL(userId)
+      const defaultPhoto = await context.getAvatarURL(userId).catch()
       if(defaultPhoto) {
         setPhotoURL(defaultPhoto)
       }
     }
-    getPhoto()
+    getPhoto().catch(() => {
+      setPhotoURL("../../../public/default.png")
+    })
   }, [])
 
   
@@ -56,7 +58,9 @@ function AppointmentBox({background, name, userId, startingTime, endingTime, sho
           <ClipLoader color="var(--background)" size="63px" />
         </div>
       </div>
-      <img className={style.avatar} src={photoURL} onLoad={handleLoad} style={{ display: imgLoading ? "none" : "block" }} alt="avatar" />
+      <div className={style.imageContainer} style={{ display: imgLoading ? "none" : "block" }} >
+        <img className={style.avatar} src={photoURL} onLoad={handleLoad} style={{ display: imgLoading ? "none" : "block" }} alt="avatar" />
+      </div>
       <div className={style.textContainer}>
         <p className={style.name}>{name}</p>
         <p className={style.time}>{formattedTimeStart} - {formattedTimeEnd}</p>

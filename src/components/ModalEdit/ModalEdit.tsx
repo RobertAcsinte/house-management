@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './ModalEdit.module.css'
 import { useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
@@ -76,13 +76,23 @@ function ModalEdit({fieldTitle, fieldHint, setShowModal, reAuth, repeatPasswordF
     setShowModal(false)
   }
 
+  useEffect(() => {
+    const close = (e: any) => {
+      if(e.key === 'Escape'){
+        setShowModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+},[])
+
   return (
     <div className={style.wrapper}>
       <div className='center-wrapper' style={{height:"100%"}}>
         <div className={style['box-container-modal']}>
           <button className={style.closeButton} onClick={handleClose}>X</button>
           <div className={style['large-title-modal']}>{fieldTitle}</div>
-          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle} type={newValueFieldStyle}/>
+          <input defaultValue={fieldHint} ref={inputElementEdit} placeholder={fieldTitle} type={newValueFieldStyle} maxLength={40}/>
           {repeatPasswordField && <input type="password" placeholder='Repeat password' ref={inputElementRepeatPassword}/> }
           {reAuth && <input type="password" placeholder='Current password' ref={inputElementPassword}/> }
           <div className='error-text'>{error}</div>

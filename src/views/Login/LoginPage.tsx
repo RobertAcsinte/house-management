@@ -4,7 +4,7 @@ import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import mapErrorMessages from '../../mapErrorMessages';
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/logo.svg';
 
 
  function LoginPage() {

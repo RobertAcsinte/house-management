@@ -78,7 +78,7 @@ function NoHouse() {
                     Array.from(invites).map(([key, value]) => (
                       <div className={style.inviteList} key={key}>
                         <p className={style.houseNameInvite}>{`${value}`}<span className={style.idSpan}>{key}</span></p>
-                        <button className='full-button-small' onClick={() => {onAcceptInvite(key)}}>Join</button>
+                        <button className='full-button-small' style={{background: 'var(--background)', color: 'var(--main)', margin: '0'}} onClick={() => {onAcceptInvite(key)}}>Join</button>
                       </div>
                     ))
                     }
@@ -86,7 +86,12 @@ function NoHouse() {
                 )
               }
               </div>
-
+            }
+            {
+              !authContext.currentUserDataDb?.invitationsReceivedHouseId &&
+              <div className={style.inviteContainer}>
+                You did not receive an invitation yet. Ask your roommates for one!
+              </div>
             }
         </div>
       {showModal && modal.current}
