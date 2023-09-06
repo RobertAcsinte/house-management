@@ -58,7 +58,7 @@ function AppointmentBox({background, name, userId, startingTime, endingTime, sho
           <ClipLoader color="var(--background)" size="63px" />
         </div>
       </div>
-      <div className={style.imageContainer}>
+      <div className={style.imageContainer} style={{ display: imgLoading ? "none" : "block" }} >
         <img className={style.avatar} src={photoURL} onLoad={handleLoad} style={{ display: imgLoading ? "none" : "block" }} alt="avatar" />
       </div>
       <div className={style.textContainer}>

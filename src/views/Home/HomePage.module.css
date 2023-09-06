@@ -25,6 +25,8 @@
   font-size: 2rem;
   font-weight: 700;
   display: inline-block;
+  display: inline-block;
+  word-wrap: break-word;
 }
 
 .notesGrid {

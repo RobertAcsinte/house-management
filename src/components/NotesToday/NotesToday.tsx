@@ -4,9 +4,11 @@ import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import NotesBox from '../NoteBox/NotesBox'
 import NoteDetails from '../NoteDetails/NoteDetails'
 import { ClipLoader } from 'react-spinners'
+import ModalAddEditNote from '../ModalAddEditNote/ModalAddEditNote'
 
 function NotesToday() {
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [showModalEdit, setShowModalEdit] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
@@ -33,8 +35,22 @@ function NotesToday() {
   
   const onNoteClick = (note: NoteDataDb) => {
     setShowModal(true)
-    modal.current = <NoteDetails setShowModal={setShowModal} note={note}/>
+    modal.current = <NoteDetails setShowModal={setShowModal} note={note} onNoteUpdateFunction={onNoteUpdate}/>
     document.body.style.overflow = 'hidden';
+  }
+
+  const onNoteUpdate = (note: NoteDataDb) => {
+    setShowModal(false)
+    setShowModalEdit(true)
+    document.body.style.overflow = 'hidden';
+    modal.current = 
+      <ModalAddEditNote
+        id={note.id}
+        title={note.title}
+        content={note.content}
+        pinned={note.pinned}
+        setShowModal={setShowModalEdit}
+      />
   }
 
   useEffect(() => {
@@ -67,6 +83,7 @@ function NotesToday() {
         </>
       }
       {showModal && modal.current}
+      {showModalEdit && modal.current}
     </>
   )
 }
