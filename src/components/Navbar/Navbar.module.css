@@ -70,9 +70,9 @@ a:hover {
 
 .wrapperName {
   display: flex;
-  width: 250px;
   align-items: center;
-  justify-content: center;
+  margin-left: 10px;
+  max-width: 250px;
 }
 
 .wrapperName a {
