@@ -6,6 +6,7 @@ import { NoteDataDb, useNotesContext } from '../../context/NotesContext'
 import Avatar from '../../assets/avatar.jpeg';
 import ModalConfirm from '../ModalConfirm/ModalConfirm'
 import ModalAddNote from '../ModalAddEditNote/ModalAddEditNote'
+import { useAuthContext } from '../../context/AuthContext'
 
 type NoteDetailsProps =  {
   note: NoteDataDb,
@@ -17,8 +18,11 @@ function NoteDetails({note, setShowModal, onNoteUpdateFunction}: NoteDetailsProp
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [showModalEdit, setShowModalEdit] = useState<boolean>(false)
+  const [imgLoading, setImgLoading] = useState(true)
+  const [photoURL, setPhotoURL] = useState<string>()
   const modal = useRef<JSX.Element | null>(null)
   const notesContext = useNotesContext()
+  const context = useAuthContext()
 
   var minutes: string | number = new Date(note.date).getMinutes() 
   var hours: string | number = new Date(note.date).getHours() 
@@ -52,6 +56,22 @@ function NoteDetails({note, setShowModal, onNoteUpdateFunction}: NoteDetailsProp
     document.body.style.overflow = 'scroll';
   }
 
+  function handleLoad () {
+    setImgLoading(false)
+  }
+
+  useEffect(() => {
+    const getPhoto = async () => {
+      const defaultPhoto = await context.getAvatarURL(note.userId)
+      if(defaultPhoto) {
+        setPhotoURL(defaultPhoto)
+      }
+    }
+    getPhoto().catch(() => {
+      setPhotoURL("../../../public/default.png")
+    })
+  }, [])
+
   useEffect(() => {
     const close = (e: any) => {
       if(e.key === 'Escape'){
@@ -71,7 +91,14 @@ function NoteDetails({note, setShowModal, onNoteUpdateFunction}: NoteDetailsProp
           <div className={style['large-title-modal']}>{note.title}</div>
 
           <div className={style.noteDetails}>
-            <img className={style.avatar} src={Avatar} alt="avatar" />
+          <div className={style.spinner} style={{ display: imgLoading ? "flex" : "none" }}>
+            <div className={style.spinnerButton}>
+              <ClipLoader color="var(--background)" size="65px" />
+            </div>
+          </div>
+          <div className={style.imgContainer}>
+            <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}} alt="avatar" />
+          </div>
             <div className={style.noteDetailsText}>
             <p><b>{note.userName}</b></p>
             <p>{new Date(note.date).toLocaleDateString("nl-NL")} {hours}:{minutes}</p>

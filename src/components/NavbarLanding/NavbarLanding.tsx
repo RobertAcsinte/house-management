@@ -49,7 +49,7 @@ function NavbarLanding() {
 
         <div className={style.nameContainer}>
           <div className={style.wrapperName}>
-            <button className='full-button-small' onClick={() => navigate("/today")}>Dashboard</button>
+            <button className='full-button-small' onClick={() => navigate("/login")}>Dashboard</button>
           </div>
         </div>
       </div>
