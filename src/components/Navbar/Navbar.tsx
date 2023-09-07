@@ -60,7 +60,7 @@ function Navbar({showAllOptions}: NavbarProps) {
         {showAllOptions && <div className={style.linksContainer}>
 
           <NavLink
-          to="/" 
+          to="/today" 
           className={({ isActive }) =>
           isActive ? style.active : style.inactive}>
             Today

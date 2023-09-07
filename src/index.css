@@ -9,6 +9,7 @@ body, html {
   color: var(--main);
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
 }
 
 #root {
@@ -240,6 +241,7 @@ input:focus {
   width: 100%;
   box-sizing: border-box;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
 }
 
 .empty-button:hover {
