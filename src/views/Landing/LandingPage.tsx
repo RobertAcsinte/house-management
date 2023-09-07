@@ -23,7 +23,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)", boxShadow: "1px 1px 50px rgba(0, 0, 0, 0.3)"}}>
           <div className={style.title}>
             <p>Join a house</p>
           </div>
@@ -47,7 +47,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)", boxShadow: "1px 1px 50px rgba(0, 0, 0, 0.3)"}}>
           <div className={style.title}>
             <p>Create notes for everyone</p>
           </div>
@@ -73,7 +73,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)"}}>
+        <div className={style.containerFeature} style={{background: "var(--secondary", color: "var(--background)", boxShadow: "1px 1px 50px rgba(0, 0, 0, 0.3)"}}>
           <div className={style.title}>
             <p>Manage your house</p>
           </div>
