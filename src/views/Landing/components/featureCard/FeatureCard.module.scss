@@ -1,0 +1,37 @@
+@use '../../../../colors';
+@use '../../../../base';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    color: colors.$primary-color;
+
+    &:nth-child(2n) {
+        background-color: colors.$secondary-color;
+        color: colors.$background;
+    }
+
+    .wrapper {
+        width: 800px;
+        max-width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 3rem;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 300;
+    }
+
+    .image {
+        max-width: 100%;
+        object-fit: cover;
+    }
+}
