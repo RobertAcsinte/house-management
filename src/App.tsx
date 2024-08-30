@@ -58,24 +58,24 @@ function App() {
   };
   
   return (
-    <>
-    <Routes>
-    <Route path='/' element={<ProtectedRoute {...landingProps} component={<LandingPage />} />} />
-      <Route path='/today' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
-      <Route path='/myhouse' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<MyHouse />} />} />
-      <Route path='/kitchen' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.kitchen} />} />} />
-      <Route path='/bathroom' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.bathroom} />} />} />
-      <Route path='/notes' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<NotesPage />} />} />
 
-      <Route path="/account" element={<ProtectedRoute {...authRequiredIsAccountProps} component={<AccountPage />} />} />
+      <Routes>
+        <Route path='/' element={<ProtectedRoute {...landingProps} component={<LandingPage />} />} />
+          <Route path='/today' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<HomePage />} />} />
+          <Route path='/myhouse' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<MyHouse />} />} />
+          <Route path='/kitchen' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.kitchen} />} />} />
+          <Route path='/bathroom' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<AppointmentsPage appointmentType={AppointmentType.bathroom} />} />} />
+          <Route path='/notes' element={<ProtectedRoute {...authRequiredJoinedHouseProps} component={<NotesPage />} />} />
 
-      <Route path="/register" element={<ProtectedRoute {...notAuthRequiredProps} component={<RegisterPage />} />} />
-      <Route path="/login" element={<ProtectedRoute {...notAuthRequiredProps} component={<LoginPage />} />} />
-      <Route path="/resetpassword" element={<ProtectedRoute {...notAuthRequiredProps} component={<ResetPassword />} />} />
+          <Route path="/account" element={<ProtectedRoute {...authRequiredIsAccountProps} component={<AccountPage />} />} />
 
-      <Route path='/nohouse' element={<ProtectedRoute {...authRequiredNoHouseProps} component={<NoHouse />} />} />
-    </Routes>
-    </>
+          <Route path="/register" element={<ProtectedRoute {...notAuthRequiredProps} component={<RegisterPage />} />} />
+          <Route path="/login" element={<ProtectedRoute {...notAuthRequiredProps} component={<LoginPage />} />} />
+          <Route path="/resetpassword" element={<ProtectedRoute {...notAuthRequiredProps} component={<ResetPassword />} />} />
+
+          <Route path='/nohouse' element={<ProtectedRoute {...authRequiredNoHouseProps} component={<NoHouse />} />} />
+      </Routes>
+
   )
 }
 
