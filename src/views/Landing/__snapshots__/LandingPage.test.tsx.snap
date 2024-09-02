@@ -281,6 +281,287 @@ exports[`Snapshot 1`] = `
 }
 `;
 
+exports[`Snapshot LandingPage 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            Effortless communication and coordination among housemates.
+          </h1>
+          <h2>
+            Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. Say goodbye to misunderstandings and hello to seamless housemate harmony!
+          </h2>
+        </div>
+      </div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            Join a house
+          </h1>
+          <h2>
+            You can create a new house, join an existing house by its id or get invited to one by an already existing user!
+          </h2>
+          <img
+            alt="Description of the feature"
+            class="_image_e55ede"
+            src="/src/assets/nohouse.png"
+          />
+        </div>
+      </div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            See what's going on today
+          </h1>
+          <h2>
+            On the today page, you will always see the pinned notes of the house and the appointments that were made for the current day for the house facilities
+          </h2>
+          <img
+            alt="Description of the feature"
+            class="_image_e55ede"
+            src="/src/assets/today.png"
+          />
+        </div>
+      </div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            Create notes for everyone
+          </h1>
+          <h2>
+            Do you have a package to receive and you want to let others know? Or is there an important announce to be made? Just create a note and it will be available for everyone. The pinned ones will always be on top and on Today page
+          </h2>
+          <img
+            alt="Description of the feature"
+            class="_image_e55ede"
+            src="/src/assets/notes.png"
+          />
+        </div>
+      </div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            Make a reservation
+          </h1>
+          <h2>
+            Do you have classes in the morning and you do not know when to wake up to shower so you do not have to wait for others and be late? Or do you want to be sure that when you arrive home you will have time to cook? Book a timeslot. This way everyone can sync in using the shared facilities of the house!
+          </h2>
+          <img
+            alt="Description of the feature"
+            class="_image_e55ede"
+            src="/src/assets/appointments.png"
+          />
+        </div>
+      </div>
+      <div
+        class="_container_e55ede"
+      >
+        <div
+          class="_wrapper_e55ede"
+        >
+          <h1>
+            Manage your house
+          </h1>
+          <h2>
+            You can always manage the house that you are part of. You can change the name of it, add members and see the pending invitations!
+          </h2>
+          <img
+            alt="Description of the feature"
+            class="_image_e55ede"
+            src="/src/assets/myhouse.png"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          Effortless communication and coordination among housemates.
+        </h1>
+        <h2>
+          Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. Say goodbye to misunderstandings and hello to seamless housemate harmony!
+        </h2>
+      </div>
+    </div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          Join a house
+        </h1>
+        <h2>
+          You can create a new house, join an existing house by its id or get invited to one by an already existing user!
+        </h2>
+        <img
+          alt="Description of the feature"
+          class="_image_e55ede"
+          src="/src/assets/nohouse.png"
+        />
+      </div>
+    </div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          See what's going on today
+        </h1>
+        <h2>
+          On the today page, you will always see the pinned notes of the house and the appointments that were made for the current day for the house facilities
+        </h2>
+        <img
+          alt="Description of the feature"
+          class="_image_e55ede"
+          src="/src/assets/today.png"
+        />
+      </div>
+    </div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          Create notes for everyone
+        </h1>
+        <h2>
+          Do you have a package to receive and you want to let others know? Or is there an important announce to be made? Just create a note and it will be available for everyone. The pinned ones will always be on top and on Today page
+        </h2>
+        <img
+          alt="Description of the feature"
+          class="_image_e55ede"
+          src="/src/assets/notes.png"
+        />
+      </div>
+    </div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          Make a reservation
+        </h1>
+        <h2>
+          Do you have classes in the morning and you do not know when to wake up to shower so you do not have to wait for others and be late? Or do you want to be sure that when you arrive home you will have time to cook? Book a timeslot. This way everyone can sync in using the shared facilities of the house!
+        </h2>
+        <img
+          alt="Description of the feature"
+          class="_image_e55ede"
+          src="/src/assets/appointments.png"
+        />
+      </div>
+    </div>
+    <div
+      class="_container_e55ede"
+    >
+      <div
+        class="_wrapper_e55ede"
+      >
+        <h1>
+          Manage your house
+        </h1>
+        <h2>
+          You can always manage the house that you are part of. You can change the name of it, add members and see the pending invitations!
+        </h2>
+        <img
+          alt="Description of the feature"
+          class="_image_e55ede"
+          src="/src/assets/myhouse.png"
+        />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
 exports[`toUpperCase 1`] = `
 {
   "asFragment": [Function],
