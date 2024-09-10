@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 $font-stack: "Roboto Condensed", sans-serif;
+$box-padding: 20px;
+$shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+$border-radius: 50px;
 
 @mixin phone {
   @media (max-width: 599px) { @content; }
@@ -26,6 +29,77 @@ body {
   /* ---Layouts --- */
 
 .wrapper {
-  margin: 0 10%;
+  margin: 0 5%;
+  height: 100vh;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 500px;
+  width: 500px;
+  max-width: 100%;
+  padding: $box-padding;
+  background-color: colors.$background;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  
+
+  .logo {
+    width: 180px;
+    max-width: 100%;
+  }
+
+  form {
+    width: 400px;
+    max-width: 100%;
+  }
+
+  .input-field {
+    display: block;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 10px 0;
+    padding: 15px;
+    border: none;
+    border-radius: $border-radius;
+    font-size: 1rem;
+
+    &:first-child {
+      margin-top: 30px;
+    }
+
+    &:focus {
+      outline: none !important;
+      border: 2px solid colors.$secondary-color;
+    }
+  }  
+}
+
+.text-button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 1rem;
+  transition: color .3s ease-in-out;
+  text-align: end;
+  flex: 1;
+  
+  &:hover {
+    color: colors.$secondary-color;
+    cursor: pointer;
+  }
 }
 

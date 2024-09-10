@@ -1,4 +1,4 @@
-import style from './LoginPage.module.css'
+import style from './LoginPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
@@ -35,25 +35,26 @@ import Logo from '../../assets/logo.svg';
 
   return (
     <>
-    <div className='center-wrapper-nonav'>
-      <div className='box-container'>
-        <img className='logo-form' src={Logo} alt="logo" />
-        <form onSubmit={onSubmit}>
-          <input type="text" placeholder='Email' name='email'/>
-          <input type="password" placeholder='Password' name='password'/>
-          <div className={style['login-extra-container']}>
-            <div className={style['checkbox-container']}>
-              <input type="checkbox" id="checkbox-remember" className={style.checkbox} name='checkboxRemember'/>
-              <label htmlFor="checkbox-remember">Remember me</label>
+      <div className='wrapper center'>
+        <div className='box'>
+
+          <img className='logo' src={Logo} alt="logo" />
+          <form onSubmit={onSubmit}>
+            <input className="input-field" type="text" placeholder='Email' name='email'/>
+            <input className="input-field" type="password" placeholder='Password' name='password'/>
+            <div className={style['actions-container']}>
+              <div>
+                <input type="checkbox" id="checkbox-remember" className={style.checkbox} name='checkboxRemember'/>
+                <label htmlFor="checkbox-remember">Remember me</label>
+              </div>
+              <button type='button' className='text-button' onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
             </div>
-            <button type='button' className={style['button-forgot-password']} onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
-          </div>
-          {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
-        </form>
-        <div className='error-text'>{error}</div>
-        <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
+            {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
+          </form>
+          <div className='error-text'>{error}</div>
+          <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
+        </div>
       </div>
-    </div>
     </>   
   )
 }

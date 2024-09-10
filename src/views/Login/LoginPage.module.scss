@@ -1,0 +1,65 @@
+@use '../../colors';
+@use '../../base';
+
+
+.actions-container {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+// .login-extra-container {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .button-forgot-password {
+//   font-family: "Roboto Condensed", sans-serif;
+//   border: none;
+//   background-color: inherit;
+//   font-size: 1.2rem;
+//   cursor: pointer;
+//   text-decoration: underline;
+//   color: var(--main);
+//   font-weight: 400;
+//   transition: color .3s ease-in-out;
+// }
+
+// .button-forgot-password:hover {
+//   color: var(--secondary);
+// }
+
+// .button-create-account {
+//   font-family: "Roboto Condensed", sans-serif;
+//   border: none;
+//   background-color: inherit;
+//   font-size: 1.2rem;
+//   cursor: pointer;
+//   font-weight: 600;
+//   margin-top: 20px;
+//   color: var(--buton-text);
+// }
+
+// label {
+//   color: var(--main);
+// }
+
+// @media only screen and (max-width: 575px) {
+//   .login-extra-container {
+//     justify-content: start;
+//   }
+
+//   .button-forgot-password {
+//     flex: 1;
+//   }
+
+//   .checkbox-container {
+//     flex: 1;
+//   }
+// }
