@@ -37,22 +37,21 @@ import Logo from '../../assets/logo.svg';
     <>
       <div className='wrapper center'>
         <div className='box'>
-
           <img className='logo' src={Logo} alt="logo" />
           <form onSubmit={onSubmit}>
             <input className="input-field" type="text" placeholder='Email' name='email'/>
             <input className="input-field" type="password" placeholder='Password' name='password'/>
             <div className={style['actions-container']}>
-              <div>
+              <div className={style['checkbox-container']}>
                 <input type="checkbox" id="checkbox-remember" className={style.checkbox} name='checkboxRemember'/>
                 <label htmlFor="checkbox-remember">Remember me</label>
               </div>
-              <button type='button' className='text-button' onClick={() => {navigate("/resetpassword")}}>Forgot your password?</button>
+              <button type='button' className='text-button' onClick={() => {navigate("/resetpassword")}}>Reset password </button>
             </div>
-            {loading ? <div className='spinner-button'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <div style={{textAlign: "center", width: "100%"}}><button type="submit" value="Login" className='full-button' >Login</button></div>}
+            {loading ? <div className='spinner-container'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button type="submit" value="Login" className='button-primary'>Login</button>}
           </form>
           <div className='error-text'>{error}</div>
-          <button type='button' className={style['button-create-account']} onClick={() => navigate("/register")}>You don't have an account? <span style={{textDecoration: 'underline'}}>Click here!</span></button>
+          <button type='button' id={style['register-button']} className='text-button' onClick={() => {navigate("/register")}}>You don't have an account? <span>Click here!</span></button>
         </div>
       </div>
     </>   
