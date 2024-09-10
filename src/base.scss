@@ -1,7 +1,10 @@
 @use 'colors';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-$font-stack: "Roboto Condensed", sans-serif;
+$font-stack: "Roboto", sans-serif;
+$box-padding: 20px;
+$shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+$border-radius: 50px;
 
 @mixin phone {
   @media (max-width: 599px) { @content; }
@@ -18,14 +21,126 @@ $font-stack: "Roboto Condensed", sans-serif;
 
 body {
   font: 100% $font-stack;
+  font-weight: 400;
   color: colors.$primary-color;
   margin: 0;
   background-color: colors.$background;
 }
 
-  /* ---Layouts --- */
+input, textarea, button {
+  font-family: inherit;
+  font-weight: 400;
+  color: colors.$primary-color;
+}
+
 
 .wrapper {
-  margin: 0 10%;
+  margin: 0 5%;
+  height: 100vh;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  max-width: 100%;
+  padding: $box-padding;
+  background-color: colors.$background;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  
+
+  .logo {
+    width: 180px;
+    max-width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    max-width: 100%;
+  }
+
+  .input-field {
+    display: block;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 10px 0;
+    padding: 15px;
+    border: 2px solid rgb(224, 224, 224);
+    border-radius: $border-radius;
+    font-size: 1rem;
+
+    &:first-of-type {
+      margin-top: 30px;
+    }
+
+    &:last-of-type{
+      margin-bottom: 0px;
+    }
+
+    &:focus {
+      outline: none !important;
+      border: 2px solid colors.$secondary-color;
+    }
+  }  
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+}
+
+.text-button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 1rem;
+  transition: color .3s ease-in-out;
+  text-align: end;
+  flex: 1;
+  
+  &:hover {
+    color: colors.$secondary-color;
+    cursor: pointer;
+  }
+}
+
+.button-primary {
+  background-color: colors.$primary-color;
+  color: colors.$background;
+  border: none;
+  padding: 17px;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  box-shadow: $shadow;
+
+  &:hover {
+    background-color: colors.$secondary-color;
+  }
+}
+
 
