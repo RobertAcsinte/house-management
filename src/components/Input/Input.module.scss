@@ -1,0 +1,38 @@
+@use '../../base';
+@use '../../colors';
+
+.input-container {
+    &:first-of-type {
+        margin-top: 30px;
+      }
+  
+      &:last-of-type{
+        margin-bottom: 0px;
+      }
+
+      .input-field {
+        display: block;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        margin: 10px 0;
+        padding: 15px;
+        border: 2px solid rgb(224, 224, 224);
+        border-radius: base.$border-radius;
+        font-size: 1rem;
+    
+        &:focus {
+          outline: none !important;
+          border: 2px solid colors.$secondary-color;
+        }
+      }  
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.error {
+    color: red;
+}
