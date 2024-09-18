@@ -1,5 +1,7 @@
 import { useFormContext } from "react-hook-form"
 import style from './Input.module.scss'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
 
 type InputProps = {
     type: string,
@@ -35,7 +37,11 @@ export const Input = ({ type, id, placeholder, validation, name, label }: InputP
 
     return (
         <div className={style[type !== 'checkbox' ? 'input-container' : 'checkbox-container']}>
-            <div className={style.error}>{isInvalid && inputError.error.message}</div>
+            {isInvalid && (
+                <div className={style.error}>
+                    <FontAwesomeIcon icon={faCircleExclamation}/> {inputError.error.message}
+                </div>
+            )}
             <input 
                 id={id}
                 className={style[type !== 'checkbox' ? 'input-field' : 'checkbox']}    
