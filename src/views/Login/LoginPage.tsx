@@ -6,7 +6,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import mapErrorMessages from '../../mapErrorMessages';
 import Logo from '../../assets/logo.svg';
 import Input from '../../components/Input/Input';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { email_validation, password_validation } from '../../utils/validations';
 
 type Inputs = {
