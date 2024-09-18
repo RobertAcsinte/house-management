@@ -6,7 +6,7 @@ export const email_validation = {
     validation: {
       required: {
         value: true,
-        message: 'required',
+        message: 'This field is required',
       },
       maxLength: {
         value: 30,
@@ -23,11 +23,11 @@ export const email_validation = {
     validation: {
       required: {
         value: true,
-        message: 'required',
+        message: 'This field is required',
       },
       minLength: {
         value: 6,
-        message: 'min 6 characters',
+        message: 'The password must have at least 6 characters',
       },
     },
   }
