@@ -78,6 +78,7 @@ input, textarea, button {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: colors.$secondary-color;
   }
 
   .error-text {
