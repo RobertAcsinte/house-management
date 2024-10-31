@@ -39,7 +39,6 @@ input, textarea, button {
 
 .wrapper {
   margin: 0 5%;
-  height: 100vh;
 }
 
 .center {
@@ -47,6 +46,7 @@ input, textarea, button {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 100vh;
 }
 
 .visually-hidden {
