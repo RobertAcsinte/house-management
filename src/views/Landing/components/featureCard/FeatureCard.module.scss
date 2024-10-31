@@ -1,13 +1,13 @@
 @use '../../../../colors';
 @use '../../../../base';
 
-.container {
+section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    padding: 10px 10px;
+    padding: 10px;
     color: colors.$primary-color;
 
     &:nth-child(2n) {
@@ -15,19 +15,32 @@
         color: colors.$background;
     }
 
-    .wrapper {
+    .wrapperSection {
         width: 800px;
         max-width: 100%;
     }
 
-    h1 {
+    .title {
         text-align: center;
-        font-size: 3rem;
+        font-size: 2rem;
+
+        @include base.tablet {
+            font-size: 3em;
+        }
     }
 
-    h2 {
+    .description {
         text-align: center;
+        font-size: 1.2rem;
         font-weight: 300;
+
+        @include base.tablet {
+            font-size: 1.5em;
+        }
+
+        &:first-of-type {
+            margin-bottom: 30px;
+        }
     }
 
     .image {

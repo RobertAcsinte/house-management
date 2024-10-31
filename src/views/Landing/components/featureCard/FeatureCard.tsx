@@ -8,17 +8,17 @@ type FeatureCardProps = {
 
 const FeatureCard = ({title, description, image}: FeatureCardProps) => {
     return (
-        <div className={style.container}>
-            <div className={style.wrapper}>
-                <h1>
+        <section>
+            <div className={style.wrapperSection}>
+                <h1 className={style.title}>
                     {title}
                 </h1>
-                <h2>
+                <p className={style.description}>
                     {description}
-                </h2>
+                </p>
                 {image && <img className={style.image} src={image} alt="Description of the feature"/>}
             </div>
-        </div>
+        </section>
     )
 };
 
