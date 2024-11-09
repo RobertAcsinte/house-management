@@ -10,54 +10,57 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { email_validation, password_validation } from '../../utils/validations';
 
 type Inputs = {
-  email: string,
-  password:string,
-  checkboxRemember: boolean
+    email: string,
+    password:string,
+    checkboxRemember: boolean
 }
 
- function LoginPage() {
-  const context = useAuthContext()
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+function LoginPage() {
+    const context = useAuthContext()
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
 
-  const methods = useForm<Inputs>()
+    const methods = useForm<Inputs>()
 
-  const onSubmitHook = methods.handleSubmit(async (data: Inputs) => {
-    setLoading(true)
-    await context?.login(data.email, data.password, data.checkboxRemember).catch((error) => {
-      setLoading(false)
-      setError(mapErrorMessages(error.code))
+    const onSubmit = methods.handleSubmit(async (data: Inputs) => {
+        setLoading(true)
+        await context?.login(data.email, data.password, data.checkboxRemember).catch((error) => {
+            setLoading(false)
+            setError(mapErrorMessages(error.code))
+        })
+        setLoading(false)
     })
-    setLoading(false)
-  })
 
-  return (
-    <>
-      <div className='wrapper center'>
-        <div className='box'>
-          <img className='logo' src={Logo} alt="logo" />
-          <FormProvider {...methods}>
-            <form
-              onSubmit={e => e.preventDefault()}
-              noValidate
-              className="container"
-            >
-              <Input {...email_validation} />
-              <Input {...password_validation} />
-              <div className={style['actions-container']}>
-                <Input type='checkbox' id='checkbox-remember' name='checkboxRemember' label='Remember me'/>
-                <button type='button' className='text-button' onClick={() => {navigate("/resetpassword")}}>Reset password </button>
-              </div>
-              {loading ? <div className='spinner-container'><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button type="submit" value="Login" className='button-primary' onClick={onSubmitHook}>Login</button>}
-            </form>
-          </FormProvider>
-          <div className='error-text'>{error}</div>
-          <button type='button' id={style['register-button']} className='text-button' onClick={() => {navigate("/register")}}>You don't have an account? <span>Click here!</span></button>
-        </div>
-      </div>
-    </>   
-  )
+    return (
+        <main>
+            <h1 className="visually-hidden">WeShare Login Page</h1>
+            <section className='wrapper center'>
+                <div className='box'>
+                    <img className='logo' src={Logo} alt="WeShare logo"/>
+                    <FormProvider {...methods}>
+                        <form onSubmit={onSubmit}>
+                            <Input {...email_validation} />
+                            <Input {...password_validation} />
+                            <div className={style['actions-container']}>
+                                <Input type='checkbox' id='checkbox-remember' name='checkboxRemember' label='Remember me'/>
+                                <button type='button' className='text-button' onClick={() => navigate("/resetpassword")}>Reset password</button>
+                            </div>
+                            {loading ? (
+                                <div className='spinner-container'>
+                                    <ClipLoader color="var(--secondary)" size="50px"/>
+                                </div>
+                            ) : (
+                                <button type="submit" value="Login" className='button-primary'>Login</button>
+                            )}
+                        </form>
+                    </FormProvider>
+                    <p className='error-text' role="alert">{error}</p>
+                    <button type='button' id={style['register-button']} className='text-button' onClick={() => navigate("/register")}>No account? <span>Click here!</span></button>
+                </div>
+            </section>
+        </main>
+    )
 }
 
 export default LoginPage

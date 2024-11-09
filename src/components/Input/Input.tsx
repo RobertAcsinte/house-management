@@ -7,7 +7,7 @@ type InputProps = {
     type: string,
     id: string,
     placeholder?: string,
-    validation?: any,
+    validation?: object,
     name: string,
     customStyle?: string,
     label?: string
@@ -17,7 +17,7 @@ type InputError = {
     error: {
         message: string,
         type: string,
-        ref: any
+        ref: unknown
     }
 }
 
@@ -25,28 +25,32 @@ export const Input = ({ type, id, placeholder, validation, name, label }: InputP
     const {
         register,
         formState: { errors },
-      } = useFormContext()
-    
+    } = useFormContext()
+
+    console.log(validation)
+    console.log(errors)
+
     const inputError = Object.keys(errors)
         .filter(key => key.includes(name))
         .reduce((cur, key) => {
             return Object.assign(cur, {error: errors[key]})
         }, {} as InputError)
 
-    const isInvalid = (Object.keys(inputError).length > 0) ? true : false
+
+    const isInvalid = Object.keys(inputError).length > 0
 
     return (
         <div className={style[type !== 'checkbox' ? 'input-container' : 'checkbox-container']}>
             {isInvalid && (
                 <div className={style.error}>
-                    <FontAwesomeIcon icon={faCircleExclamation}/> {inputError.error.message}
+                    <FontAwesomeIcon icon={faCircleExclamation}/> <span role="alert">{inputError.error.message}</span>
                 </div>
             )}
-            <input 
+            <input
                 id={id}
-                className={style[type !== 'checkbox' ? 'input-field' : 'checkbox']}    
+                className={style[type !== 'checkbox' ? 'input-field' : 'checkbox']}
                 type={type}
-                placeholder={placeholder} 
+                placeholder={placeholder}
                 {...register(name, validation)}
             />
             {type === 'checkbox' && <label htmlFor={id}>{label}</label>}
