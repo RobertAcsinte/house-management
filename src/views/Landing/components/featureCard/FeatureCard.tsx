@@ -8,7 +8,7 @@ type FeatureCardProps = {
 
 const FeatureCard = ({title, description, image}: FeatureCardProps) => {
     return (
-        <section>
+        <section className={style.featureCardSection}>
             <div className={style.wrapperSection}>
                 <h1 className={style.title}>
                     {title}
