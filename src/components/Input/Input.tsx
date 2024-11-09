@@ -27,15 +27,11 @@ export const Input = ({ type, id, placeholder, validation, name, label }: InputP
         formState: { errors },
     } = useFormContext()
 
-    console.log(validation)
-    console.log(errors)
-
     const inputError = Object.keys(errors)
         .filter(key => key.includes(name))
         .reduce((cur, key) => {
             return Object.assign(cur, {error: errors[key]})
         }, {} as InputError)
-
 
     const isInvalid = Object.keys(inputError).length > 0
 
