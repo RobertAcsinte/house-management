@@ -8,6 +8,8 @@ import Logo from '../../assets/logo.svg';
 import Input from '../../components/Input/Input';
 import { FormProvider, useForm } from 'react-hook-form';
 import { email_validation, password_validation } from '../../utils/validations';
+import {useAppDispatch} from "../../withTypes.ts";
+import {loginUser} from "../../features/users/usersSlice.ts";
 
 type Inputs = {
     email: string,
@@ -23,13 +25,16 @@ function LoginPage() {
 
     const methods = useForm<Inputs>()
 
+    const dispatch = useAppDispatch()
+
     const onSubmit = methods.handleSubmit(async (data: Inputs) => {
-        setLoading(true)
-        await context?.login(data.email, data.password, data.checkboxRemember).catch((error) => {
-            setLoading(false)
-            setError(mapErrorMessages(error.code))
-        })
-        setLoading(false)
+        // setLoading(true)
+        // await context?.login(data.email, data.password, data.checkboxRemember).catch((error) => {
+        //     setLoading(false)
+        //     setError(mapErrorMessages(error.code))
+        // })
+        // setLoading(false)
+        dispatch(loginUser({email: data.email, password: data.password}))
     })
 
     return (
