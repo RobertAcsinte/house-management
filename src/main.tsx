@@ -12,11 +12,18 @@ import { NotesProvider } from './context/NotesContext.tsx'
 import { Provider } from 'react-redux'
 import store from './store.ts'
 import {auth} from "./firebaseConfig.tsx";
-import {loadUserCached} from "./features/users/usersSlice.ts";
+import {loadUserCached, User} from "./features/users/usersSlice.ts";
 
 
  auth.onAuthStateChanged(user => {
-     user && store.dispatch(loadUserCached(user))
+     if(user) {
+         const userData: User = {
+             uid: user.uid,
+             displayName: user.displayName,
+             email: user.email
+         }
+         user && store.dispatch(loadUserCached(userData))
+     }
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

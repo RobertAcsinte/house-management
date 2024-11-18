@@ -9,7 +9,7 @@ import {auth} from "../../firebaseConfig.tsx";
 import mapErrorMessages from "../../mapErrorMessages.tsx";
 
 
-interface User {
+export interface User {
     uid: string
     email: string | null
     displayName: string | null
