@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "../../withTypes.ts";
 import {
     browserLocalPersistence, browserSessionPersistence,
@@ -16,7 +16,7 @@ interface User {
 
 interface UserState {
     user: User | null,
-    status: 'idle' | 'pending' | 'finished' | 'failed',
+    status: 'idle' | 'pending' | 'fulfilled' | 'rejected',
     error: string | null
 }
 
@@ -56,24 +56,24 @@ const usersSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 const {uid, email, displayName, stayLogged} = action.payload
                 state.user = {uid, email, displayName}
+                state.status = 'fulfilled'
                 stayLogged ? setPersistence(auth, browserLocalPersistence) : setPersistence(auth, browserSessionPersistence)
             })
-            .addCase(loginUser.pending, state => {
-                state.status = 'pending'
-            })
-            .addCase(loginUser.rejected, (state, action) => {
-                state.error = action.error.message ?? 'Unknown Error'
-            })
-
             .addCase(logoutUser.fulfilled, state => {
                 state.user = null
             })
-            .addCase(logoutUser.pending, state => {
-                state.status = 'pending'
-            })
-            .addCase(logoutUser.rejected, (state, action) => {
-                state.error = action.error.message ?? 'Unknown Error'
-            })
+            .addMatcher(
+                isAnyOf(loginUser.pending, logoutUser.pending),
+                (state) => {
+                    state.status = 'pending'
+                }
+            )
+            .addMatcher(
+                isAnyOf(loginUser.rejected, logoutUser.rejected),
+                (state, action) => {
+                    state.error = action.error.message ?? 'Unknown Error'
+                }
+            )
     }
 })
 
