@@ -39,7 +39,12 @@ export const loginUser = createAppAsyncThunk(
 const usersSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {},
+    reducers: {
+        loadUserCached(state, action) {
+            const {uid, email, displayName} = action.payload
+            state.user = {uid, email, displayName}
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
