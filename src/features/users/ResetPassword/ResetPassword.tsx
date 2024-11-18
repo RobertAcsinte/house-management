@@ -1,9 +1,9 @@
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
-import { useAuthContext } from '../../context/AuthContext';
-import mapErrorMessages from '../../mapErrorMessages';
-import Modal from '../../components/ModalInfo/ModalInfo';
-import Logo from '../../assets/logo.svg';
+import { useAuthContext } from '../../../context/AuthContext.tsx';
+import mapErrorMessages from '../../../mapErrorMessages.tsx';
+import Modal from '../../../components/ModalInfo/ModalInfo.tsx';
+import Logo from '../../../assets/logo.svg';
 
 function ResetPassword() {
   const context = useAuthContext()
