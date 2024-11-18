@@ -4,51 +4,68 @@ import { useAuthContext } from '../../../context/AuthContext.tsx';
 import mapErrorMessages from '../../../mapErrorMessages.tsx';
 import Modal from '../../../components/ModalInfo/ModalInfo.tsx';
 import Logo from '../../../assets/logo.svg';
+import {FormProvider, useForm} from "react-hook-form";
+import Input from "../../../components/Input/Input.tsx";
+import {email_validation, password_validation} from "../../../utils/validations.tsx";
+import {useAppSelector} from "../../../withTypes.ts";
+
 
 function ResetPassword() {
-  const context = useAuthContext()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-  const [showModal, setShowModal] = useState(false)
+  const methods = useForm<{email: string}>()
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const {error, status} = useAppSelector(state => state.user)
 
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get("email") as string
+  // const context = useAuthContext()
+  // const [loading, setLoading] = useState<boolean>(false)
+  // const [error, setError] = useState<string | null>(null)
+  // const [showModal, setShowModal] = useState(false)
 
-    if(!email) {
-      setError("Please fill out the email field.")
-      return
-    }
-    setLoading(true)
+  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
 
-    try {
-      await context.resetPassword(email)
-      setLoading(false)
-      setShowModal(true)
-    } catch(error) {
-      setLoading(false)
-      if(typeof error === "string") {
-        setError(mapErrorMessages(error))
-      }
-    }
-  }
+  //   const formData = new FormData(e.currentTarget)
+  //   const email = formData.get("email") as string
+  //
+  //   if(!email) {
+  //     setError("Please fill out the email field.")
+  //     return
+  //   }
+  //   setLoading(true)
+  //
+  //   try {
+  //     await context.resetPassword(email)
+  //     setLoading(false)
+  //     setShowModal(true)
+  //   } catch(error) {
+  //     setLoading(false)
+  //     if(typeof error === "string") {
+  //       setError(mapErrorMessages(error))
+  //     }
+  //   }
+  // }
 
   return (
-    <>
-    <div className='center-wrapper-nonav'>
-      <div className='box-container'>
-      <img className='logo-form' src={Logo} alt="logo" />
-        <form onSubmit={event => onSubmit(event)}>
-          <input type="text" placeholder='Email' name='email'/>
-          {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--secondary)" size="50px" /> </div>: <button type="submit" className='full-button'>Send reset link</button>} 
-        </form>
-        <div className='error-text'>{error}</div>
-      </div>
-    </div>
-    {showModal && <Modal navigateRoute={'/'} title={'Confirmation sent, please check your email.'} setShowModal={setShowModal}></Modal>}
-    </>   
+      <main>
+        <h1 className="visually-hidden">WeShare Login Reset Password Page</h1>
+        <section className='wrapper center'>
+          <div className='box'>
+            <img className='logo' src={Logo} alt="WeShare logo"/>
+            <FormProvider {...methods}>
+              <form onSubmit={onSubmit}>
+                <Input {...email_validation} />
+                {status === "pending" ? (
+                    <div className='spinner-container'>
+                      <ClipLoader color="var(--secondary)" size="50px"/>
+                    </div>
+                ) : (
+                    <button type="submit" value="Login" className='button-primary'>Reset Password</button>
+                )}
+              </form>
+            </FormProvider>
+            {status === "rejected" && <p className='error-text' role="alert">{error}</p>}
+          </div>
+        </section>
+      </main>
   )
 }
 
