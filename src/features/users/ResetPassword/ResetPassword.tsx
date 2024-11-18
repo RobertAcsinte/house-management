@@ -41,7 +41,7 @@ function ResetPassword() {
             {status === "rejected" && <p className='error-text' role="alert">{error}</p>}
           </div>
         </section>
-        <Modal navigateRoute={'/'} text={'Confirmation sent, please check your email.'}></Modal>
+        {status === "fulfilled" && <Modal navigateRoute={'/'} text={'Confirmation sent, please check your email.'}></Modal>}
       </main>
   )
 }
