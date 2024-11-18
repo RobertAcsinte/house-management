@@ -32,7 +32,14 @@ export const loginUser = createAppAsyncThunk(
     async(loginData: {email: string, password: string, stayLogged: boolean}) => {
         const {email, password, stayLogged} = loginData
         const response = await signInWithEmailAndPassword(auth, email, password)
-        return {...response.user, stayLogged}
+        type userData = User & {stayLogged: boolean}
+        const userData: userData = {
+            uid: response.user.uid,
+            email: response.user.email,
+            displayName: response.user.displayName,
+            stayLogged
+        }
+        return userData
     }
 )
 
