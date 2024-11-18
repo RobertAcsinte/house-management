@@ -1,4 +1,4 @@
-function mapErrorMessages(authCode: string) {
+function mapErrorMessages(authCode: string): string {
   switch (authCode) {
     case "auth/weak-password":
       return "The password must be at least 6 characters long."

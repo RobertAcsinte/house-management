@@ -6,6 +6,7 @@ import {
     signInWithEmailAndPassword, signOut
 } from "firebase/auth";
 import {auth} from "../../firebaseConfig.tsx";
+import mapErrorMessages from "../../mapErrorMessages.tsx";
 
 
 interface User {
@@ -57,10 +58,11 @@ const usersSlice = createSlice({
                 const {uid, email, displayName, stayLogged} = action.payload
                 state.user = {uid, email, displayName}
                 state.status = 'fulfilled'
+                state.error = null
                 stayLogged ? setPersistence(auth, browserLocalPersistence) : setPersistence(auth, browserSessionPersistence)
             })
-            .addCase(logoutUser.fulfilled, state => {
-                state.user = null
+            .addCase(logoutUser.fulfilled, () => {
+                return initialState
             })
             .addMatcher(
                 isAnyOf(loginUser.pending, logoutUser.pending),
@@ -71,7 +73,8 @@ const usersSlice = createSlice({
             .addMatcher(
                 isAnyOf(loginUser.rejected, logoutUser.rejected),
                 (state, action) => {
-                    state.error = action.error.message ?? 'Unknown Error'
+                    state.error = mapErrorMessages(action.error.code ?? 'Unknown Error')
+                    state.status = 'rejected'
                 }
             )
     }
