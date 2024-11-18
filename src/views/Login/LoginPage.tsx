@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
 import { useState } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
-import mapErrorMessages from '../../mapErrorMessages';
 import Logo from '../../assets/logo.svg';
 import Input from '../../components/Input/Input';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -28,13 +27,7 @@ function LoginPage() {
     const dispatch = useAppDispatch()
 
     const onSubmit = methods.handleSubmit(async (data: Inputs) => {
-        // setLoading(true)
-        // await context?.login(data.email, data.password, data.checkboxRemember).catch((error) => {
-        //     setLoading(false)
-        //     setError(mapErrorMessages(error.code))
-        // })
-        // setLoading(false)
-        dispatch(loginUser({email: data.email, password: data.password}))
+        dispatch(loginUser({email: data.email, password: data.password, stayLogged: data.checkboxRemember}))
     })
 
     return (

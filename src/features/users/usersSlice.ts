@@ -1,10 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "../../withTypes.ts";
 import {
-    browserLocalPersistence,
-    browserSessionPersistence,
+    browserLocalPersistence, browserSessionPersistence,
     setPersistence,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword, signOut
 } from "firebase/auth";
 import {auth} from "../../firebaseConfig.tsx";
 
@@ -12,7 +11,7 @@ import {auth} from "../../firebaseConfig.tsx";
 interface User {
     uid: string
     email: string | null
-    displayName: string | null,
+    displayName: string | null
 }
 
 interface UserState {
@@ -52,7 +51,7 @@ const usersSlice = createSlice({
                 state.user = {uid, email, displayName}
                 stayLogged ? setPersistence(auth, browserLocalPersistence) : setPersistence(auth, browserSessionPersistence)
             })
-            .addCase(loginUser.pending, (state) => {
+            .addCase(loginUser.pending, state => {
                 state.status = 'pending'
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -61,4 +60,5 @@ const usersSlice = createSlice({
     }
 })
 
+export const {loadUserCached} = usersSlice.actions
 export default usersSlice.reducer
