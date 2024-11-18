@@ -1,7 +1,7 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import RegisterPage from './views/Register/RegisterPage.tsx'
-import LoginPage from './views/Login/LoginPage.tsx'
+import LoginPage from './features/users/Login/LoginPage.tsx'
 import HomePage from './views/Home/HomePage.tsx'
 import ResetPassword from './views/ResetPassword/ResetPassword.tsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx'

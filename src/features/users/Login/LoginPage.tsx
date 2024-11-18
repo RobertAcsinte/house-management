@@ -1,12 +1,12 @@
 import style from './LoginPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
-import Logo from '../../assets/logo.svg';
-import Input from '../../components/Input/Input';
+import Logo from '../../../assets/logo.svg';
+import Input from '../../../components/Input/Input.tsx';
 import { FormProvider, useForm } from 'react-hook-form';
-import { email_validation, password_validation } from '../../utils/validations';
-import {useAppDispatch, useAppSelector} from "../../withTypes.ts";
-import {loginUser} from "../../features/users/usersSlice.ts";
+import { email_validation, password_validation } from '../../../utils/validations.tsx';
+import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
+import {loginUser} from "../usersSlice.ts";
 
 type Inputs = {
     email: string,
