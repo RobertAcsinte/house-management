@@ -1,0 +1,28 @@
+@use '../../colors';
+@use '../../base';
+
+.wrapper-modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.1);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(6px);
+}
+
+.box-container-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  background-color: colors.$background;
+  box-shadow: base.$shadow;
+  border-radius: base.$border-radius;
+}
+
+.text-modal {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+}

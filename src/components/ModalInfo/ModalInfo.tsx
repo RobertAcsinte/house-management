@@ -1,40 +1,40 @@
 import React, { useEffect } from 'react'
-import style from './ModalInfo.module.css'
+import style from './ModalInfo.module.scss'
 import { useNavigate } from 'react-router-dom'
 
 type ModalProps =  {
-  title: string,
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+  text: string,
   navigateRoute: string
 }
 
-function ModalInfo({title, setShowModal, navigateRoute}: ModalProps) {
+function ModalInfo({text, navigateRoute}: ModalProps) {
   const navigate = useNavigate()
 
   const handleButtonClick = () => {
-    setShowModal(false)
     navigate(navigateRoute)
   }
 
   useEffect(() => {
-    const close = (e: any) => {
+    const close = (e: KeyboardEvent) => {
       if(e.key === 'Escape'){
-        setShowModal(false)
+        navigate(navigateRoute)
       }
     }
     window.addEventListener('keydown', close)
-  return () => window.removeEventListener('keydown', close)
-  },[])
+    return () => window.removeEventListener('keydown', close)
+  },[navigate, navigateRoute])
 
   return (
-    <div className={style.wrapper}>
-      <div className='center-wrapper'>
-        <div className={style['box-container-modal']}>
-          <div className={style['large-title-modal']}>{title}</div>
-            <button className='full-button' onClick={handleButtonClick}>Close</button>
+      <main>
+        <div className={style['wrapper-modal']}>
+          <div className='wrapper center'>
+            <div className={style['box-container-modal']}>
+              <p className={style['text-modal']} role="alert">{text}</p>
+              <button className='button-primary' onClick={handleButtonClick}>Close</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </main>
   )
 }
 
