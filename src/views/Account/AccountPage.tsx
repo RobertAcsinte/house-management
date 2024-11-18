@@ -2,15 +2,17 @@ import Navbar from '../../components/Navbar/Navbar'
 import { useAuthContext } from '../../context/AuthContext';
 import style from "./AccountPage.module.css"
 import Modal from '../../components/ModalEdit/ModalEdit';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Edit } from '@mui/icons-material';
 import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
-import { updateProfile } from 'firebase/auth';
 import { ClipLoader } from 'react-spinners';
 import ModalChangePhoto from '../../components/ModalChangePhoto/ModalChangePhoto';
+import {useAppDispatch} from "../../withTypes.ts";
+import {logoutUser} from "../../features/users/usersSlice.ts";
 
 function AccountPage() {
   const context = useAuthContext();
+  const dispatch = useAppDispatch()
   
   const { currentUserDataDb } = context;
   const [showModal, setShowModal] = useState(false)
@@ -47,11 +49,11 @@ function AccountPage() {
 
   const onLogoutButton = async () => {
     setShowModal(true)
-    modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={context.logout}></ModalConfirm>
+    modal.current = <ModalConfirm title='Are you sure you want to logout?' setShowModal={setShowModal} updateFunction={() => dispatch(logoutUser())}></ModalConfirm>
   }
 
 
-  var photoURL: string = context.currentUser!.photoURL!
+  const photoURL: string = context.currentUser!.photoURL!
 
   function handleLoad () {
     setImgLoading(false)

@@ -35,6 +35,13 @@ export const loginUser = createAppAsyncThunk(
     }
 )
 
+export const logoutUser = createAppAsyncThunk(
+    'user/logout',
+    async() => {
+        return signOut(auth)
+    }
+)
+
 const usersSlice = createSlice({
     name: 'users',
     initialState,
@@ -55,6 +62,16 @@ const usersSlice = createSlice({
                 state.status = 'pending'
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.error = action.error.message ?? 'Unknown Error'
+            })
+
+            .addCase(logoutUser.fulfilled, state => {
+                state.user = null
+            })
+            .addCase(logoutUser.pending, state => {
+                state.status = 'pending'
+            })
+            .addCase(logoutUser.rejected, (state, action) => {
                 state.error = action.error.message ?? 'Unknown Error'
             })
     }
