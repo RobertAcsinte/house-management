@@ -1,7 +1,7 @@
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "../../withTypes.ts";
 import {
-    browserLocalPersistence, browserSessionPersistence,
+    browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail,
     setPersistence,
     signInWithEmailAndPassword, signOut
 } from "firebase/auth";
@@ -50,6 +50,13 @@ export const logoutUser = createAppAsyncThunk(
     }
 )
 
+export const resetPasswordUser = createAppAsyncThunk(
+    'user/resetPassword',
+    async(email: string) => {
+        return sendPasswordResetEmail(auth, email)
+    }
+)
+
 const usersSlice = createSlice({
     name: 'users',
     initialState,
@@ -72,13 +79,13 @@ const usersSlice = createSlice({
                 return initialState
             })
             .addMatcher(
-                isAnyOf(loginUser.pending, logoutUser.pending),
+                isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending),
                 (state) => {
                     state.status = 'pending'
                 }
             )
             .addMatcher(
-                isAnyOf(loginUser.rejected, logoutUser.rejected),
+                isAnyOf(loginUser.rejected, logoutUser.rejected, resetPasswordUser.rejected),
                 (state, action) => {
                     state.error = mapErrorMessages(action.error.code ?? 'Unknown Error')
                     state.status = 'rejected'
