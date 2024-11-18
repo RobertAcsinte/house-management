@@ -7,13 +7,21 @@ import Logo from '../../../assets/logo.svg';
 import {FormProvider, useForm} from "react-hook-form";
 import Input from "../../../components/Input/Input.tsx";
 import {email_validation, password_validation} from "../../../utils/validations.tsx";
-import {useAppSelector} from "../../../withTypes.ts";
+import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
+import {loginUser, resetPasswordUser} from "../usersSlice.ts";
 
+type Input = {
+  email: string
+}
 
 function ResetPassword() {
-  const methods = useForm<{email: string}>()
-
+  const dispatch = useAppDispatch()
+  const methods = useForm<Input>()
   const {error, status} = useAppSelector(state => state.user)
+
+  const onSubmit = methods.handleSubmit(async (data: Input) => {
+    dispatch(resetPasswordUser(data.email))
+  })
 
   // const context = useAuthContext()
   // const [loading, setLoading] = useState<boolean>(false)

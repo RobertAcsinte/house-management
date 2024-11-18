@@ -78,6 +78,10 @@ const usersSlice = createSlice({
             .addCase(logoutUser.fulfilled, () => {
                 return initialState
             })
+            .addCase(resetPasswordUser.fulfilled, (state) => {
+                state.status = 'fulfilled'
+                state.error = null
+            })
             .addMatcher(
                 isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending),
                 (state) => {
