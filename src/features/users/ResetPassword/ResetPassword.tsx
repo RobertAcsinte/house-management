@@ -1,14 +1,11 @@
 import { ClipLoader } from 'react-spinners';
-import { useState } from 'react';
-import { useAuthContext } from '../../../context/AuthContext.tsx';
-import mapErrorMessages from '../../../mapErrorMessages.tsx';
 import Modal from '../../../components/ModalInfo/ModalInfo.tsx';
 import Logo from '../../../assets/logo.svg';
 import {FormProvider, useForm} from "react-hook-form";
 import Input from "../../../components/Input/Input.tsx";
-import {email_validation, password_validation} from "../../../utils/validations.tsx";
+import {email_validation} from "../../../utils/validations.tsx";
 import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
-import {loginUser, resetPasswordUser} from "../usersSlice.ts";
+import {resetPasswordUser} from "../usersSlice.ts";
 
 type Input = {
   email: string
@@ -22,35 +19,6 @@ function ResetPassword() {
   const onSubmit = methods.handleSubmit(async (data: Input) => {
     dispatch(resetPasswordUser(data.email))
   })
-
-  // const context = useAuthContext()
-  // const [loading, setLoading] = useState<boolean>(false)
-  // const [error, setError] = useState<string | null>(null)
-  // const [showModal, setShowModal] = useState(false)
-
-  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-
-  //   const formData = new FormData(e.currentTarget)
-  //   const email = formData.get("email") as string
-  //
-  //   if(!email) {
-  //     setError("Please fill out the email field.")
-  //     return
-  //   }
-  //   setLoading(true)
-  //
-  //   try {
-  //     await context.resetPassword(email)
-  //     setLoading(false)
-  //     setShowModal(true)
-  //   } catch(error) {
-  //     setLoading(false)
-  //     if(typeof error === "string") {
-  //       setError(mapErrorMessages(error))
-  //     }
-  //   }
-  // }
 
   return (
       <main>
@@ -73,6 +41,7 @@ function ResetPassword() {
             {status === "rejected" && <p className='error-text' role="alert">{error}</p>}
           </div>
         </section>
+        {status === "fulfilled" && <Modal navigateRoute={'/'} title={'Confirmation sent, please check your email.'}></Modal>}
       </main>
   )
 }
