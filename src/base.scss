@@ -1,10 +1,11 @@
 @use 'colors';
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
-$font-stack: "Inter", sans-serif;
+$font-stack: "Roboto Condensed", sans-serif;
 $box-padding: 20px;
-$shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+$shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+$shadow-buttons: 0px 0px 30px #0000004d;
 $border-radius: 50px;
 
 @mixin phone {
@@ -123,11 +124,11 @@ input, textarea, button {
   border: none;
   padding: 17px;
   border-radius: $border-radius;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
   transition: background-color .3s ease-in-out;
-  box-shadow: $shadow;
+  box-shadow: $shadow-buttons;
 
   &:hover {
     background-color: colors.$secondary-color;

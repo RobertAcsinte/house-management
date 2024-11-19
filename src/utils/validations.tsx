@@ -2,7 +2,7 @@ export const email_validation = {
     name: 'email',
     type: 'text',
     id: 'email',
-    placeholder: 'email',
+    placeholder: 'Email',
     validation: {
       required: {
         value: true,
@@ -19,7 +19,7 @@ export const email_validation = {
     name: 'password',
     type: 'password',
     id: 'password',
-    placeholder: 'password',
+    placeholder: 'Password',
     validation: {
       required: {
         value: true,

@@ -9,6 +9,7 @@
     box-sizing: border-box;
     padding: 10px;
     color: colors.$primary-color;
+    box-shadow: base.$shadow;
 
     &:nth-child(2n) {
         background-color: colors.$secondary-color;
