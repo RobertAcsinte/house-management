@@ -12,7 +12,8 @@ import MyHouse from './views/MyHouse/MyHouse.tsx'
 import { AppointmentType } from './AppointmentType.tsx'
 import AppointmentsPage from './views/Appointments/AppointmentsPage.tsx'
 import NotesPage from './views/Notes/NotesPage.tsx'
-import LandingPage from './views/Landing/LandingPage.tsx'
+import LandingPage from "./features/landing/LandingPage.tsx";
+
 
 
 function App() {
