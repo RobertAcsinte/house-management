@@ -1,6 +1,6 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import RegisterPage from './views/Register/RegisterPage.tsx'
+import RegisterPage from './features/users/Register/RegisterPage.tsx'
 import LoginPage from './features/users/Login/LoginPage.tsx'
 import HomePage from './views/Home/HomePage.tsx'
 import ResetPassword from './features/users/ResetPassword/ResetPassword.tsx'
