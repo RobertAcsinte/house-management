@@ -3,7 +3,7 @@
 
 .input-container {
   &:first-of-type {
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   &:last-of-type{
@@ -11,7 +11,7 @@
   }
 
   &:only-of-type {
-    margin: 10px 0;
+    margin-bottom: 10px;
   }
 
   .input-field {
