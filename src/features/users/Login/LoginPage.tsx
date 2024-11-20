@@ -4,7 +4,7 @@ import { ClipLoader } from 'react-spinners';
 import Logo from '../../../assets/logo.svg';
 import Input from '../../../components/Input/Input.tsx';
 import { FormProvider, useForm } from 'react-hook-form';
-import { email_validation, password_validation } from '../../../utils/validations.tsx';
+import {emailValidation, fieldNotEmpty} from '../../../utils/validations.tsx';
 import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
 import {loginUser} from "../usersSlice.ts";
 
@@ -32,8 +32,8 @@ function LoginPage() {
                     <img className='logo' src={Logo} alt="WeShare logo"/>
                     <FormProvider {...methods}>
                         <form onSubmit={onSubmit}>
-                            <Input {...email_validation} />
-                            <Input {...password_validation} />
+                            <Input {...emailValidation} />
+                            <Input {...fieldNotEmpty("password", "password", "Password")} />
                             <div className={style['actions-container']}>
                                 <Input type='checkbox' id='checkbox-remember' name='checkboxRemember' label='Remember me'/>
                                 <button type='button' className='text-button' onClick={() => navigate("/resetpassword")}>Reset password</button>
