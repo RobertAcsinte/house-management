@@ -4,7 +4,8 @@
 
 .actions-container {
   display: flex;
-  margin: 20px 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
   justify-content: space-between;
 
   .checkbox-container {
@@ -14,7 +15,7 @@
 }
 
 #register-button {
-  margin-top: 10px;
+  margin-top: 20px;
   font-weight: 700;
   text-decoration: none;
 
