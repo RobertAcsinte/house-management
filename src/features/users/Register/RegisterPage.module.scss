@@ -1,0 +1,26 @@
+@use '../../../base';
+@use '../../../colors';
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.custom-select-file-label {
+  border: none;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: colors.$secondary-color;
+  color: colors.$background;
+  box-shadow: base.$shadow-buttons;
+  transition: background-color .3s ease-in-out;
+}
+
+.custom-select-file-label:hover{
+  background-color: colors.$primary-color;
+}

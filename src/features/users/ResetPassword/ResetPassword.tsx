@@ -3,7 +3,7 @@ import Modal from '../../../components/ModalInfo/ModalInfo.tsx';
 import Logo from '../../../assets/logo.svg';
 import {FormProvider, useForm} from "react-hook-form";
 import Input from "../../../components/Input/Input.tsx";
-import {email_validation} from "../../../utils/validations.tsx";
+import {emailValidation} from "../../../utils/validations.tsx";
 import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
 import {resetPasswordUser} from "../usersSlice.ts";
 
@@ -28,7 +28,7 @@ function ResetPassword() {
             <img className='logo' src={Logo} alt="WeShare logo"/>
             <FormProvider {...methods}>
               <form onSubmit={onSubmit}>
-                <Input {...email_validation} />
+                <Input {...emailValidation} />
                 {status === "pending" ? (
                     <div className='spinner-container'>
                       <ClipLoader color="var(--secondary)" size="50px"/>

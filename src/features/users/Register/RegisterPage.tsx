@@ -4,14 +4,30 @@ import mapErrorMessages from '../../../mapErrorMessages.tsx';
 import { useAuthContext } from '../../../context/AuthContext.tsx';
 import Logo from '../../../assets/logo.svg';
 import { updateProfile } from 'firebase/auth';
-import style from './RegisterPage.module.css'
+import style from './RegisterPage.module.scss'
+import {FormProvider, useForm} from "react-hook-form";
+import Input from "../../../components/Input/Input.tsx";
+import {emailValidation, fieldNotEmpty, passwordValidation} from "../../../utils/validations.tsx";
+import {useNavigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../withTypes.ts";
 
+
+type Inputs = {
+  email: string,
+  displayName:string,
+  password: string,
+  repeatPassword: string
+}
 
 function RegisterPage() {
+  const navigate = useNavigate()
+  const methods = useForm<Inputs>()
+  const dispatch = useAppDispatch()
+  const {error, status} = useAppSelector(state => state.user)
 
   const context = useAuthContext()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  // const [loading, setLoading] = useState<boolean>(false)
+  // const [error, setError] = useState<string | null>(null)
   const [imgLoading, setImgLoading] = useState(true)
   const [photoURL, setPhotoURL] = useState<string>()
   const [file, setFile] = useState<Blob | Uint8Array | ArrayBuffer>()
@@ -83,7 +99,7 @@ function RegisterPage() {
 
   useEffect(() => {
     const getDefaultPhoto = async () => {
-      const defaultPhoto = await context.getAvatarURL("default.png").catch(setError)
+      const defaultPhoto = await context.getAvatarURL("default.png")
       if(defaultPhoto) {
         setPhotoURL(defaultPhoto)
       }
@@ -91,31 +107,61 @@ function RegisterPage() {
     getDefaultPhoto()
   }, [])
 
+  console.log(photoURL)
+
   return (
-    <>
-      <div className='center-wrapper-nonav'>
-        <div className='box-container'>
-          <div style={{display: imgLoading ? "block" : "none"}}>
-            <div className='spinner-button'>
-              <ClipLoader color="var(--secondary)" size="50px" />
-            </div>
+      <main>
+        <h1 className="visually-hidden">WeShare Register Page</h1>
+        <section className='wrapper center'>
+          <div className='box'>
+            <img className={style.avatar} src={photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+            <label className={style['custom-select-file-label']}>
+              <input type="file" onChange={loadFile} accept="image/*"/>
+              Select photo
+            </label>
+            <FormProvider {...methods}>
+              <form onSubmit={onSubmit}>
+                <Input {...emailValidation} />
+                <Input {...fieldNotEmpty("name", "text", "Name")} />
+                <Input {...passwordValidation()} />
+                <Input {...passwordValidation(true)} />
+                {status === "pending" ? (
+                    <div className='spinner-container'>
+                      <ClipLoader color="var(--secondary)" size="50px"/>
+                    </div>
+                ) : (
+                    <button type="submit" value="Register" className='button-primary'>Register</button>
+                )}
+              </form>
+            </FormProvider>
+            {status === "rejected" && <p className='error-text' role="alert">{error}</p>}
           </div>
-          <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
-          <label className={style.custom}>
-          <input type="file" onChange={loadFile} accept="image/*"/>
-          Select photo
-          </label>
-          <form onSubmit={event => onSubmit(event)}>
-            <input type="text" placeholder='Email' name='email' />
-            <input type="text" placeholder='Name' name='name' />
-            <input type="password" placeholder='Password' name='password' />
-            <input type="password" placeholder='Repeat Password' name='repeatPassword' />
-            {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--secondary)" size="50px" /> </div> : <button type="submit" className='full-button'>Register</button>}
-          </form>
-          <div className='error-text'>{error}</div>
-        </div>
-      </div>
-    </>
+        </section>
+      </main>
+      // <>
+      //   <div className='center-wrapper-nonav'>
+      //     <div className='box-container'>
+      //       <div style={{display: imgLoading ? "block" : "none"}}>
+      //         <div className='spinner-button'>
+      //           <ClipLoader color="var(--secondary)" size="50px" />
+      //         </div>
+      //       </div>
+      //       <img className={style.avatar} src= {photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+      //       <label className={style.custom}>
+      //       <input type="file" onChange={loadFile} accept="image/*"/>
+      //       Select photo
+      //       </label>
+      //       <form onSubmit={event => onSubmit(event)}>
+      //         <input type="text" placeholder='Email' name='email' />
+      //         <input type="text" placeholder='Name' name='name' />
+      //         <input type="password" placeholder='Password' name='password' />
+      //         <input type="password" placeholder='Repeat Password' name='repeatPassword' />
+      //         {loading ? <div className='spinner-button' style={{marginTop:"65px"}}><ClipLoader color="var(--secondary)" size="50px" /> </div> : <button type="submit" className='full-button'>Register</button>}
+      //       </form>
+      //       <div className='error-text'>{error}</div>
+      //     </div>
+      //   </div>
+      // </>
   )
 }
 
