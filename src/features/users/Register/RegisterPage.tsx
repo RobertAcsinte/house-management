@@ -3,6 +3,7 @@ import { ClipLoader } from 'react-spinners';
 import mapErrorMessages from '../../../mapErrorMessages.tsx';
 import { useAuthContext } from '../../../context/AuthContext.tsx';
 import Logo from '../../../assets/logo.svg';
+import Avatar from '../../../assets/default.png'
 import { updateProfile } from 'firebase/auth';
 import style from './RegisterPage.module.scss'
 import {FormProvider, useForm} from "react-hook-form";
@@ -97,24 +98,14 @@ function RegisterPage() {
     }
   }
 
-  useEffect(() => {
-    const getDefaultPhoto = async () => {
-      const defaultPhoto = await context.getAvatarURL("default.png")
-      if(defaultPhoto) {
-        setPhotoURL(defaultPhoto)
-      }
-    }
-    getDefaultPhoto()
-  }, [])
 
-  console.log(photoURL)
 
   return (
       <main>
         <h1 className="visually-hidden">WeShare Register Page</h1>
         <section className='wrapper center'>
           <div className='box'>
-            <img className={style.avatar} src={photoURL} onLoad={handleLoad} style={{display: imgLoading ? "none" : "block"}}/>
+            <img className={style.avatar} src={Avatar} onLoad={handleLoad}/>
             <label className={style['custom-select-file-label']}>
               <input type="file" onChange={loadFile} accept="image/*"/>
               Select photo
