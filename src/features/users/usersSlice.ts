@@ -5,8 +5,9 @@ import {
     setPersistence,
     signInWithEmailAndPassword, signOut
 } from "firebase/auth";
-import {auth} from "../../firebaseConfig.tsx";
+import {auth, storageFirebase} from "../../firebaseConfig.tsx";
 import mapErrorMessages from "../../mapErrorMessages.tsx";
+import {getDownloadURL, ref as ref_storage} from "firebase/storage";
 
 
 export interface User {
@@ -57,6 +58,16 @@ export const resetPasswordUser = createAppAsyncThunk(
     }
 )
 
+export const getAvatarUrl = createAppAsyncThunk(
+    'user/getAvatarUrl',
+    async({filename, user}: {filename: string, user: string}) => {
+        const path = user !== `default` ? `/user/${filename}` : `default/${filename}`
+        const storageRef = ref_storage(storageFirebase)
+        const pathReference = ref_storage(storageRef, path)
+        return getDownloadURL(pathReference)
+    }
+)
+
 const usersSlice = createSlice({
     name: 'users',
     initialState,
@@ -78,21 +89,24 @@ const usersSlice = createSlice({
             .addCase(logoutUser.fulfilled, () => {
                 return initialState
             })
-            .addCase(resetPasswordUser.fulfilled, (state) => {
-                state.status = 'fulfilled'
-                state.error = null
-            })
             .addMatcher(
-                isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending),
+                isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending, getAvatarUrl.pending),
                 (state) => {
                     state.status = 'pending'
                 }
             )
             .addMatcher(
-                isAnyOf(loginUser.rejected, logoutUser.rejected, resetPasswordUser.rejected),
+                isAnyOf(loginUser.rejected, logoutUser.rejected, resetPasswordUser.rejected, getAvatarUrl.rejected),
                 (state, action) => {
                     state.error = mapErrorMessages(action.error.code ?? 'Unknown Error')
                     state.status = 'rejected'
+                }
+            )
+            .addMatcher(
+                isAnyOf(resetPasswordUser.fulfilled, getAvatarUrl.fulfilled),
+                (state) => {
+                    state.status = 'fulfilled'
+                    state.error = null
                 }
             )
     }
