@@ -10,10 +10,10 @@ function mapErrorMessages(authCode: string): string {
       return "The provided email doesn't have a valid format."
 
     case "auth/user-not-found":
-      return "No user found."
+      return "Invalid user or password."
 
     case "auth/wrong-password":
-      return "Incorrect password."
+      return "Invalid user or password."
 
     case "auth/too-many-requests":
       return "Too many requests, please try again later."
