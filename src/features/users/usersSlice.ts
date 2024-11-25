@@ -9,6 +9,7 @@ import {auth, db, storageFirebase} from "../../firebaseConfig.tsx";
 import mapErrorMessages from "../../mapErrorMessages.tsx";
 import {getDownloadURL, ref as ref_storage, uploadBytes} from "firebase/storage";
 import {ref, remove, set} from "firebase/database";
+import firebase from "firebase/compat";
 
 
 
