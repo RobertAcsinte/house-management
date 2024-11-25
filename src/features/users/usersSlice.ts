@@ -59,7 +59,7 @@ export const resetPasswordUser = createAppAsyncThunk(
 //here errors are thrown again so they can be caught in user/register/rejected; if you just catch them and dispatch(error), user/register/fulfilled will still be called
 export const registerUser = createAppAsyncThunk(
     'user/register',
-    async({email, displayName, password, repeatPassword, avatar}: User & {email: string, password: string, repeatPassword: string, avatar: Blob | Uint8Array | ArrayBuffer}) => {
+    async({email, displayName, password, repeatPassword, avatar}: Omit<User, "uid" | "photoURL"> & {email: string, password: string, repeatPassword: string, avatar: Blob | Uint8Array | ArrayBuffer | undefined}) => {
         if(password !== repeatPassword) {
             throw new Error("auth/error-passwords-match")
         } else {
@@ -67,10 +67,13 @@ export const registerUser = createAppAsyncThunk(
                 const userData = await createUserWithEmailAndPassword(auth, email, password)
                 try {
                     await set(ref(db, 'users/' + userData.user.uid), {email: email, displayName: displayName});
+                    let photoURL = null
                     try {
-                        const imgRef = ref_storage(storageFirebase, userData.user.uid);
-                        await uploadBytes(imgRef, avatar)
-                        const photoURL = await getDownloadURL(imgRef)
+                        if(avatar) {
+                            const imgRef = ref_storage(storageFirebase, userData.user.uid);
+                            await uploadBytes(imgRef, avatar)
+                            photoURL = await getDownloadURL(imgRef)
+                        }
                         await updateProfile(userData.user, {photoURL, displayName})
                         const user: User = {
                             uid: userData.user.uid,
@@ -127,7 +130,7 @@ const usersSlice = createSlice({
 
             })
             .addMatcher(
-                isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending),
+                isAnyOf(loginUser.pending, logoutUser.pending, resetPasswordUser.pending, registerUser.pending),
                 (state) => {
                     state.status = 'pending'
                 }
