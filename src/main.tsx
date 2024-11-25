@@ -12,7 +12,7 @@ import { NotesProvider } from './context/NotesContext.tsx'
 import { Provider } from 'react-redux'
 import store from './store.ts'
 import {auth} from "./firebaseConfig.tsx";
-import {loadUserCached, User} from "./features/users/usersSlice.ts";
+import {userGlobalStateChanged, User} from "./features/users/usersSlice.ts";
 
 
  auth.onAuthStateChanged(user => {
@@ -20,9 +20,10 @@ import {loadUserCached, User} from "./features/users/usersSlice.ts";
          const userData: User = {
              uid: user.uid,
              displayName: user.displayName,
-             email: user.email
+             email: user.email,
+             photoURL: user.photoURL
          }
-         user && store.dispatch(loadUserCached(userData))
+         user && store.dispatch(userGlobalStateChanged(userData))
      }
 })
 
