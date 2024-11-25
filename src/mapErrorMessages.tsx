@@ -24,6 +24,9 @@ function mapErrorMessages(authCode: string): string {
     case "WEAK_PASSWORD : Password should be at least 6 characters":
       return "Password should be at least 6 characters."
 
+    case "auth/error-passwords-match":
+      return "Passwords don't match."
+
     case "empty":
       return "It's empty here..."
 
