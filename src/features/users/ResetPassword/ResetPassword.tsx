@@ -34,7 +34,7 @@ function ResetPassword() {
                       <ClipLoader color="var(--secondary)" size="50px"/>
                     </div>
                 ) : (
-                    <button type="submit" value="Login" className='button-primary'>Reset Password</button>
+                    <button type="submit" value="reset" className='button-primary'>Reset Password</button>
                 )}
               </form>
             </FormProvider>
