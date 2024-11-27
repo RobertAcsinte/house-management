@@ -1,4 +1,4 @@
-import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
+import {Action, combineReducers, configureStore, ThunkAction} from '@reduxjs/toolkit'
 import usersSlice from "./features/users/usersSlice.ts";
 
 
@@ -7,6 +7,17 @@ export const store = configureStore({
         user: usersSlice
     }
 })
+
+const rootReducer = combineReducers({
+    user: usersSlice
+})
+
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+    return configureStore({
+        reducer: rootReducer,
+        preloadedState
+    })
+}
 
 export type AppStore = typeof store
 export type AppDispatch = typeof store.dispatch
