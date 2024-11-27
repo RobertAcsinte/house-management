@@ -27,6 +27,7 @@ exports[`Snapshot Login Page 1`] = `
                 class="_input-container_859b20"
               >
                 <input
+                  aria-label="email"
                   class="_input-field_859b20"
                   id="email"
                   name="email"
@@ -38,6 +39,7 @@ exports[`Snapshot Login Page 1`] = `
                 class="_input-container_859b20"
               >
                 <input
+                  aria-label="password"
                   class="_input-field_859b20"
                   id="password"
                   name="password"
@@ -52,6 +54,7 @@ exports[`Snapshot Login Page 1`] = `
                   class="_checkbox-container_859b20"
                 >
                   <input
+                    aria-label="checkboxRemember"
                     class="_checkbox_859b20"
                     id="checkbox-remember"
                     name="checkboxRemember"
@@ -116,6 +119,7 @@ exports[`Snapshot Login Page 1`] = `
               class="_input-container_859b20"
             >
               <input
+                aria-label="email"
                 class="_input-field_859b20"
                 id="email"
                 name="email"
@@ -127,6 +131,7 @@ exports[`Snapshot Login Page 1`] = `
               class="_input-container_859b20"
             >
               <input
+                aria-label="password"
                 class="_input-field_859b20"
                 id="password"
                 name="password"
@@ -141,6 +146,7 @@ exports[`Snapshot Login Page 1`] = `
                 class="_checkbox-container_859b20"
               >
                 <input
+                  aria-label="checkboxRemember"
                   class="_checkbox_859b20"
                   id="checkbox-remember"
                   name="checkboxRemember"
