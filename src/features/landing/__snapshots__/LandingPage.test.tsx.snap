@@ -1,0 +1,344 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot LandingPage 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main>
+        <h1
+          class="visually-hidden"
+        >
+          WeShare
+        </h1>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              Effortless communication and coordination among housemates.
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. Say goodbye to misunderstandings and hello to seamless housemate harmony!
+            </p>
+          </div>
+        </section>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              Join a house
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              You can create a new house, join an existing house by its id or get invited to one by an already existing user!
+            </p>
+            <img
+              alt="Description of the feature"
+              class="_image_b0a91f"
+              src="/src/assets/nohouse.png"
+            />
+          </div>
+        </section>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              See what's going on today
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              On the today page, you will always see the pinned notes of the house and the appointments that were made for the current day for the house facilities
+            </p>
+            <img
+              alt="Description of the feature"
+              class="_image_b0a91f"
+              src="/src/assets/today.png"
+            />
+          </div>
+        </section>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              Create notes for everyone
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              Do you have a package to receive and you want to let others know? Or is there an important announce to be made? Just create a note and it will be available for everyone. The pinned ones will always be on top and on Today page
+            </p>
+            <img
+              alt="Description of the feature"
+              class="_image_b0a91f"
+              src="/src/assets/notes.png"
+            />
+          </div>
+        </section>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              Make a reservation
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              Do you have classes in the morning and you do not know when to wake up to shower so you do not have to wait for others and be late? Or do you want to be sure that when you arrive home you will have time to cook? Book a timeslot. This way everyone can sync in using the shared facilities of the house!
+            </p>
+            <img
+              alt="Description of the feature"
+              class="_image_b0a91f"
+              src="/src/assets/appointments.png"
+            />
+          </div>
+        </section>
+        <section
+          class="_featureCardSection_b0a91f"
+        >
+          <div
+            class="_wrapperSection_b0a91f"
+          >
+            <h1
+              class="_title_b0a91f"
+            >
+              Manage your house
+            </h1>
+            <p
+              class="_description_b0a91f"
+            >
+              You can always manage the house that you are part of. You can change the name of it, add members and see the pending invitations!
+            </p>
+            <img
+              alt="Description of the feature"
+              class="_image_b0a91f"
+              src="/src/assets/myhouse.png"
+            />
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main>
+      <h1
+        class="visually-hidden"
+      >
+        WeShare
+      </h1>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            Effortless communication and coordination among housemates.
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            Experience hassle-free student living everywhere in the world with House Sharing! Our platform brings together housemates, making it a breeze to share notes and coordinate schedules for communal spaces. Say goodbye to misunderstandings and hello to seamless housemate harmony!
+          </p>
+        </div>
+      </section>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            Join a house
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            You can create a new house, join an existing house by its id or get invited to one by an already existing user!
+          </p>
+          <img
+            alt="Description of the feature"
+            class="_image_b0a91f"
+            src="/src/assets/nohouse.png"
+          />
+        </div>
+      </section>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            See what's going on today
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            On the today page, you will always see the pinned notes of the house and the appointments that were made for the current day for the house facilities
+          </p>
+          <img
+            alt="Description of the feature"
+            class="_image_b0a91f"
+            src="/src/assets/today.png"
+          />
+        </div>
+      </section>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            Create notes for everyone
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            Do you have a package to receive and you want to let others know? Or is there an important announce to be made? Just create a note and it will be available for everyone. The pinned ones will always be on top and on Today page
+          </p>
+          <img
+            alt="Description of the feature"
+            class="_image_b0a91f"
+            src="/src/assets/notes.png"
+          />
+        </div>
+      </section>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            Make a reservation
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            Do you have classes in the morning and you do not know when to wake up to shower so you do not have to wait for others and be late? Or do you want to be sure that when you arrive home you will have time to cook? Book a timeslot. This way everyone can sync in using the shared facilities of the house!
+          </p>
+          <img
+            alt="Description of the feature"
+            class="_image_b0a91f"
+            src="/src/assets/appointments.png"
+          />
+        </div>
+      </section>
+      <section
+        class="_featureCardSection_b0a91f"
+      >
+        <div
+          class="_wrapperSection_b0a91f"
+        >
+          <h1
+            class="_title_b0a91f"
+          >
+            Manage your house
+          </h1>
+          <p
+            class="_description_b0a91f"
+          >
+            You can always manage the house that you are part of. You can change the name of it, add members and see the pending invitations!
+          </p>
+          <img
+            alt="Description of the feature"
+            class="_image_b0a91f"
+            src="/src/assets/myhouse.png"
+          />
+        </div>
+      </section>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

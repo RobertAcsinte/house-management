@@ -1,0 +1,45 @@
+@use '../../base';
+@use '../../colors';
+
+.input-container {
+  &:first-of-type {
+    margin-top: 10px;
+  }
+
+  &:last-of-type{
+    margin-bottom: 10px;
+  }
+
+  &:only-of-type {
+    margin-bottom: 10px;
+  }
+
+  .input-field {
+    display: block;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 10px 0;
+    padding: 15px;
+    border: 2px solid rgb(224, 224, 224);
+    border-radius: base.$border-radius;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none !important;
+      border: 2px solid colors.$secondary-color;
+    }
+  }
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.error {
+  display: inline-block;
+  color: colors.$primary-color;
+  font-weight: 500;
+  padding: 0 15px;
+}

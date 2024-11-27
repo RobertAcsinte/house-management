@@ -1,0 +1,25 @@
+@use '../../../colors';
+@use '../../../base';
+
+
+.actions-container {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+}
+
+#register-button {
+  margin-top: 20px;
+  font-weight: 700;
+  text-decoration: none;
+
+  span {
+    text-decoration: underline;
+  }
+}

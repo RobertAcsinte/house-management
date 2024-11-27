@@ -1,7 +1,12 @@
 @use 'colors';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+
 $font-stack: "Roboto Condensed", sans-serif;
+$box-padding: 20px;
+$shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+$shadow-buttons: 0px 0px 30px #0000004d;
+$border-radius: 50px;
 
 @mixin phone {
   @media (max-width: 599px) { @content; }
@@ -18,14 +23,116 @@ $font-stack: "Roboto Condensed", sans-serif;
 
 body {
   font: 100% $font-stack;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
   color: colors.$primary-color;
   margin: 0;
   background-color: colors.$background;
 }
 
-  /* ---Layouts --- */
+input, textarea, button {
+  font-family: inherit;
+  font-weight: 400;
+  color: colors.$primary-color;
+}
+
 
 .wrapper {
-  margin: 0 10%;
+  margin: 0 5%;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  max-width: 100%;
+  padding: $box-padding;
+  background-color: colors.$background;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  
+
+  .logo {
+    width: 180px;
+    max-width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    max-width: 100%;
+  }
+
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: colors.$secondary-color;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+}
+
+.text-button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 1rem;
+  transition: color .3s ease-in-out;
+  text-align: end;
+  flex: 1;
+  
+  &:hover {
+    color: colors.$secondary-color;
+    cursor: pointer;
+  }
+}
+
+.button-primary {
+  background-color: colors.$primary-color;
+  color: colors.$background;
+  border: none;
+  padding: 17px;
+  border-radius: $border-radius;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  box-shadow: $shadow-buttons;
+
+  &:hover {
+    background-color: colors.$secondary-color;
+  }
+}
+
 

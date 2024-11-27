@@ -1,9 +1,9 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import RegisterPage from './views/Register/RegisterPage.tsx'
-import LoginPage from './views/Login/LoginPage.tsx'
+import RegisterPage from './features/users/Register/RegisterPage.tsx'
+import LoginPage from './features/users/Login/LoginPage.tsx'
 import HomePage from './views/Home/HomePage.tsx'
-import ResetPassword from './views/ResetPassword/ResetPassword.tsx'
+import ResetPassword from './features/users/ResetPassword/ResetPassword.tsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx'
 import { ProtectedRouteProps } from './components/ProtectedRoute/ProtectedRoute.tsx'
 import AccountPage from './views/Account/AccountPage.tsx'
@@ -12,7 +12,8 @@ import MyHouse from './views/MyHouse/MyHouse.tsx'
 import { AppointmentType } from './AppointmentType.tsx'
 import AppointmentsPage from './views/Appointments/AppointmentsPage.tsx'
 import NotesPage from './views/Notes/NotesPage.tsx'
-import LandingPage from './views/Landing/LandingPage.tsx'
+import LandingPage from "./features/landing/LandingPage.tsx";
+
 
 
 function App() {

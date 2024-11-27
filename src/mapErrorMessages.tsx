@@ -1,4 +1,4 @@
-function mapErrorMessages(authCode: string) {
+function mapErrorMessages(authCode: string): string {
   switch (authCode) {
     case "auth/weak-password":
       return "The password must be at least 6 characters long."
@@ -10,10 +10,10 @@ function mapErrorMessages(authCode: string) {
       return "The provided email doesn't have a valid format."
 
     case "auth/user-not-found":
-      return "No user found."
+      return "Invalid user or password."
 
     case "auth/wrong-password":
-      return "Incorrect password."
+      return "Invalid user or password."
 
     case "auth/too-many-requests":
       return "Too many requests, please try again later."
@@ -23,6 +23,9 @@ function mapErrorMessages(authCode: string) {
 
     case "WEAK_PASSWORD : Password should be at least 6 characters":
       return "Password should be at least 6 characters."
+
+    case "auth/error-passwords-match":
+      return "Passwords don't match."
 
     case "empty":
       return "It's empty here..."
