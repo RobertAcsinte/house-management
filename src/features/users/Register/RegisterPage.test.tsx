@@ -17,3 +17,28 @@ it("Show errors for fields when you try to submit and they are empty", async () 
     fireEvent.click(screen.getByRole("button", {name: /register/i}))
     expect(await screen.findAllByRole("alert")).toHaveLength(4)
 })
+
+it("Show error if email field is not with the correct format", async () => {
+    renderWithProviders(<RegisterPage/>)
+    fireEvent.input(screen.getByRole("textbox", {name: /email/i}), {
+        target: {
+            value: "test"
+        }
+    })
+    fireEvent.input(screen.getByRole("textbox", {name: /name/i}), {
+        target: {
+            value: "My name"
+        }
+    })
+    fireEvent.input(screen.getByLabelText(/^password$/i), {
+        target: { value: "123456" }
+    });
+
+    fireEvent.input(screen.getByLabelText(/^repeatpassword$/i), {
+        target: { value: "123456" }
+    });
+
+    fireEvent.submit(screen.getByRole("button", {name: /register/i}))
+
+    expect(await screen.findAllByRole("alert")).toHaveLength(1)
+})
