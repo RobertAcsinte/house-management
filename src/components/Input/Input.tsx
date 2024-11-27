@@ -47,6 +47,7 @@ export const Input = ({ type, id, placeholder, validation, name, label }: InputP
                 className={style[type !== 'checkbox' ? 'input-field' : 'checkbox']}
                 type={type}
                 placeholder={placeholder}
+                aria-label={name}
                 {...register(name, validation)}
             />
             {type === 'checkbox' && <label htmlFor={id}>{label}</label>}
