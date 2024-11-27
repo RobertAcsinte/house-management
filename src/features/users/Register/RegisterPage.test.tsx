@@ -11,3 +11,9 @@ it("Snapshot Register page", () => {
     const snapshot = renderWithProviders(<RegisterPage />)
     expect(snapshot).toMatchSnapshot()
 })
+
+it("Show errors for fields when you try to submit and they are empty", async () => {
+    renderWithProviders(<RegisterPage/>)
+    fireEvent.click(screen.getByRole("button", {name: /register/i}))
+    expect(await screen.findAllByRole("alert")).toHaveLength(4)
+})
